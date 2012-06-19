@@ -1,0 +1,5 @@
+C:\Projects\Paralect\Brod\source\Brod\bin\Debug\Brod.pdb
+C:\Projects\Paralect\Brod\source\Brod\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Paralect\Brod\source\Brod\obj\Debug\Brod.pdb
+C:\Projects\Paralect\Brod\source\Brod\bin\Debug\Brod.exe
+C:\Projects\Paralect\Brod\source\Brod\obj\Debug\Brod.exe
