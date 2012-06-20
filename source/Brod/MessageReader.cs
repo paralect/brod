@@ -28,7 +28,6 @@ namespace Brod
 
                 message.Magic = reader.ReadByte();
                 message.Crc = reader.ReadBytes(4);
-                
                 message.Payload = reader.ReadBytes(message.Length + 1 + 4);
 
                 return message;

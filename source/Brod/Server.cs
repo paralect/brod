@@ -9,7 +9,8 @@ namespace Brod
         public void Start()
         {
             var engine = new Host(
-                new RequestHandlerTask("tcp://*:5567")
+                new RequestHandlerTask("tcp://*:5567"),
+                new HistoryHandlerTask("tcp://*:5568")
             );
 
             using (var token = new CancellationTokenSource())
