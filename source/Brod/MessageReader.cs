@@ -22,9 +22,14 @@ namespace Brod
                 var message = new Message();
 
                 message.Length = reader.ReadInt32();
+
+                if (message.Length == 0)
+                    return null;
+
                 message.Magic = reader.ReadByte();
                 message.Crc = reader.ReadBytes(4);
-                message.Payload = reader.ReadBytes(message.Length - 1 - 4);
+                
+                message.Payload = reader.ReadBytes(message.Length + 1 + 4);
 
                 return message;
             }

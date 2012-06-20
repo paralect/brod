@@ -10,6 +10,11 @@ namespace Brod
     {
         public static void Main(string[] args)
         {
+            var server = new Server();
+            server.Start();
+
+            return;
+
             var dir = @"c:\tmp\brod";
             var topic = "test";
             var partitions = 3;

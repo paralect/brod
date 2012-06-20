@@ -9,7 +9,13 @@ namespace Producer
     {
         public static void Main(string[] args)
         {
+            var producer = new Brod.Producers.Producer("tcp://localhost:5567", new ZMQ.Context(1));
 
+            while (true)
+            {
+                String input = Console.ReadLine();
+                producer.Send(Encoding.UTF8.GetBytes(input));
+            }
         }
     }
 }

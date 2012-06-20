@@ -5,30 +5,33 @@ using Brod.Sockets;
 
 namespace Brod.Producers
 {
-    public class Producer
+    public class Producer : IDisposable
     {
         private readonly string _address;
-        private ZMQ.Context _zeromqContext;
+        private readonly ZMQ.Context _zeromqContext;
+        private readonly Socket _pushSocket;
 
-        public Producer(String address)
+        public Producer(String address, ZMQ.Context zeromqContext)
         {
             _address = address;
-            _zeromqContext = new ZMQ.Context(2);
+            _zeromqContext = zeromqContext;
+            _pushSocket = CreateSocket(ZMQ.SocketType.PUSH);
+
+            // Bind to socket
+            _pushSocket.Connect(_address, CancellationToken.None);                
         }
 
         public void Send(byte[] payload)
         {
-            using (Socket pushSocket = CreateSocket(ZMQ.SocketType.PUSH))
+            using(var stream = new MemoryStream())
+            using(var writer = new MessageWriter(stream))
             {
-                // Bind to socket
-                pushSocket.Connect(_address, CancellationToken.None);
+                writer.WriteMessage(payload);
 
-                using(var stream = new MemoryStream())
-                using(var writer = new MessageWriter(stream))
-                {
-                    writer.WriteMessage(payload);
-                    pushSocket.Send(stream.GetBuffer());
-                }
+                var data = stream.ToArray();
+
+                Console.WriteLine("Sending {0} bytes", data.Length);
+                _pushSocket.Send(data);
             }
         }
 
@@ -37,6 +40,12 @@ namespace Brod.Producers
             var zmqsocket = _zeromqContext.Socket(socketType);
             var socket = new Socket(zmqsocket);
             return socket;
+        }
+
+        public void Dispose()
+        {
+            if (_pushSocket != null)
+                _pushSocket.Dispose();
         }
     }
 }

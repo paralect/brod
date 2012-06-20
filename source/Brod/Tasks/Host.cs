@@ -33,11 +33,11 @@ namespace Brod.Tasks
         /// </summary>
         public Host(ICollection<ITask> tasks)
         {
+            _tasks = tasks;
+
             // At least one process should be registered
             if (_tasks.Count == 0)
                 throw new InvalidOperationException(String.Format("There were no instances of '{0}' registered", typeof(ITask).Name));
-
-            _tasks = tasks;
 
             // Build list of tasks names
             _taskNames = _tasks

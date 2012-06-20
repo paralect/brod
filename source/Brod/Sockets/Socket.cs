@@ -104,6 +104,11 @@ namespace Brod.Sockets
             return _zmqSocket.Send(parts.Dequeue());
         }*/
 
+        public byte[] Recv()
+        {
+            return _zmqSocket.Recv();
+        }
+
         public byte[] Recv(Int32 timeout)
         {
             return _zmqSocket.Recv(timeout);

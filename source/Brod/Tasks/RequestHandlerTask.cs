@@ -44,7 +44,7 @@ namespace Brod.Tasks
 
         public void Init()
         {
-            _zeromqContext = new ZMQ.Context(2);
+            _zeromqContext = new ZMQ.Context(1);
         }
 
         public void Dispose()

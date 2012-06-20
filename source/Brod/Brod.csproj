@@ -34,11 +34,13 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="clrzmq">
-      <HintPath>..\..\libs\clrzmq\x86\clrzmq.dll</HintPath>
+    <Reference Include="clrzmq, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\clrzmq\x64\clrzmq.dll</HintPath>
     </Reference>
-    <Reference Include="clrzmq-ext">
-      <HintPath>..\..\libs\clrzmq\x86\clrzmq-ext.dll</HintPath>
+    <Reference Include="clrzmq-ext, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\clrzmq\x64\clrzmq-ext.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
