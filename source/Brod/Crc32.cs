@@ -3,6 +3,10 @@
     using System;
     using System.Security.Cryptography;
 
+    /// <summary>
+    /// (C) Damien Guard
+    /// http://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
+    /// </summary>
     public class Crc32 : HashAlgorithm
     {
         public const UInt32 DefaultPolynomial = 0xedb88320;

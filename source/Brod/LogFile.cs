@@ -15,14 +15,12 @@ namespace Brod
 
         public IEnumerable<Message> ReadRecords(long offset)
         {
+            // If file not exists, try to Refresh state of file
             if (!_data.Exists)
             {
-                // file could've been created since the last check
                 _data.Refresh();
                 if (!_data.Exists)
-                {
                     yield break;
-                }
             }
 
             using (var file = OpenForRead())
@@ -50,7 +48,7 @@ namespace Brod
 
             message.Length = reader.ReadInt32();
             message.Magic = reader.ReadByte();
-            message.Crc = reader.ReadInt32();
+            message.Crc = reader.ReadBytes(4);
             message.Payload = reader.ReadBytes(message.Length - 1 - 4);
 
             return message;
@@ -62,7 +60,7 @@ namespace Brod
                 throw new ArgumentNullException("data");
 
             if (data.Length == 0)
-                throw new ArgumentException("Buffer must contain at least one byte.");
+                throw new ArgumentException("Empty byte array not allowed.");
 
             using (var fileStream = OpenForWrite())
             {
@@ -72,8 +70,8 @@ namespace Brod
                 using (var writer = new BinaryWriter(fileStream))
                 using (var crc32 = new Crc32())
                 {
-                    writer.Write(data.Length + 1 + 4);
-                    writer.Write((byte) 0); // "magic" number
+                    writer.Write(data.Length + 1 + 4);  // 4 bytes signed integer value
+                    writer.Write((byte) 1); // 1 byte "magic" number. Currently it is always '1'.
                     writer.Write(crc32.ComputeHash(data));  // 4 bytes CRC32 hash
                     writer.Write(data);
 

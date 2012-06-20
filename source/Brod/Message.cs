@@ -15,9 +15,9 @@ namespace Brod
         public Byte Magic { get; set; }
 
         /// <summary>
-        /// SHA1 hashing
+        /// SHA1 hashing (4 bytes)
         /// </summary>
-        public Int32 Crc { get; set; }
+        public byte[] Crc { get; set; }
 
         /// <summary>
         /// Message body
