@@ -44,14 +44,16 @@ namespace Brod
             if (stream.Position == stream.Length)
                 return null;
 
-            var message = new Message();
+            return null;
 
-            message.Length = reader.ReadInt32();
+/*            var message = new Message();
+
+            message.MessageLength = reader.ReadInt32();
             message.Magic = reader.ReadByte();
             message.Crc = reader.ReadBytes(4);
-            message.Payload = reader.ReadBytes(message.Length - 1 - 4);
+            message.Payload = reader.ReadBytes(message.MessageLength - 1 - 4);
 
-            return message;
+            return message;*/
         }
 
         public void Append(byte[] data)
@@ -67,12 +69,8 @@ namespace Brod
                 fileStream.Seek(0, SeekOrigin.End);
 
                 using (var memoryStream = new MemoryStream())
-                using (var writer = new BinaryWriter(fileStream))
-                using (var crc32 = new Crc32())
+                using (var writer = new BinaryWriter(memoryStream))
                 {
-                    writer.Write(data.Length + 1 + 4);  // 4 bytes signed integer value
-                    writer.Write((byte) 1); // 1 byte "magic" number. Currently it is always '1'.
-                    writer.Write(crc32.ComputeHash(data));  // 4 bytes CRC32 hash
                     writer.Write(data);
 
                     memoryStream.Seek(0, SeekOrigin.Begin);
@@ -81,14 +79,14 @@ namespace Brod
             }
         }
 
-        FileStream OpenForWrite()
+        public FileStream OpenForWrite()
         {
             // we allow concurrent reading
             // no more writers are allowed
             return _data.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
         }
 
-        FileStream OpenForRead()
+        public FileStream OpenForRead()
         {
             // we allow concurrent writing or reading
             return _data.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

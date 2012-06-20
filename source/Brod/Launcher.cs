@@ -10,8 +10,26 @@ namespace Brod
     {
         public static void Main(string[] args)
         {
-            var server = new Broker(new BrokerConfiguration());
-            server.Start();
+            //var server = new Broker(new BrokerConfiguration());
+            //server.Start();
+
+            var message = Encoding.UTF8.GetBytes("Hello, world!");
+
+            var storage = new Storage(new BrokerConfiguration() { StorageDirectory = @"c:\tmp\brod" });
+            storage.Initialize("test");
+
+            storage.Append("test", 0, message);
+            storage.Append("test", 0, message);
+            storage.Append("test", 0, message);
+            storage.Append("test", 0, message);
+
+            var messages = storage.ReadMessages("test", 0, 0, 67);
+
+            foreach (var message1 in messages)
+            {
+                Console.WriteLine(Encoding.UTF8.GetString(message1.Payload));
+            }
+
 
             return;
 

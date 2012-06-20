@@ -5,11 +5,13 @@ namespace Brod
 {
     public class MessageReader : IDisposable
     {
-        private BinaryReader reader;
+        private readonly Stream _stream;
+        private readonly BinaryReader _reader;
 
-        public MessageReader(Stream input)
+        public MessageReader(Stream stream)
         {
-            reader = new BinaryReader(input);
+            _stream = stream;
+            _reader = new BinaryReader(stream);
         }
 
         /// <summary>
@@ -19,16 +21,30 @@ namespace Brod
         {
             try
             {
-                var message = new Message();
-
-                message.Length = reader.ReadInt32();
-
-                if (message.Length == 0)
+                // If this is the end of stream, return null
+                if (_stream.Position == _stream.Length)
                     return null;
 
-                message.Magic = reader.ReadByte();
-                message.Crc = reader.ReadBytes(4);
-                message.Payload = reader.ReadBytes(message.Length + 1 + 4);
+                // Can we read 4 bytes?
+                if (_stream.Position + 4 /* size of message length field */ > _stream.Length)
+                    return null;
+
+                // Read 4 bytes that contains message length 
+                var messageLength = _reader.ReadInt32();
+                if (messageLength == 0)
+                    return null;
+
+                // Can we read (messageLength - 4) bytes?
+                if (_stream.Position + messageLength - 4 > _stream.Length)
+                    return null;
+
+                var message = new Message();
+                message.Magic = _reader.ReadByte();
+                message.Crc = _reader.ReadBytes(4);
+                message.Payload = _reader.ReadBytes(Message.CalculatePayloadSize(messageLength));
+
+                // Validate message content
+                message.Validate();
 
                 return message;
             }
@@ -40,8 +56,8 @@ namespace Brod
 
         public void Dispose()
         {
-            if (reader != null)
-                reader.Dispose();
+            if (_reader != null)
+                _reader.Dispose();
         }
     }
 }

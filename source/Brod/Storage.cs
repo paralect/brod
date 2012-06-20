@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -33,23 +34,43 @@ namespace Brod
             }
         }
 
-        public void Append(String topic, Int32 partition)
+        public void Append(String topic, Int32 partition, byte[] payload)
         {
-            var filePath = GetLogFilePath(topic, partition, 0);
+            var logFilePath = GetLogFilePath(topic, partition, 0);
+            var logFile = new LogFile(logFilePath);
 
-            var stream = new LogFile(filePath);
-
-            stream.Append(Encoding.UTF8.GetBytes("Long life Brod!"));
-
-            var messages = stream.ReadRecords(0).ToList();
-
-            foreach (var message in messages)
+            using (var memoryStream = new MemoryStream())
+            using (var messageWriter = new MessageWriter(memoryStream))
+            using (var fileStream = logFile.OpenForWrite())
             {
-                Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
+                messageWriter.WriteMessage(payload);
+
+                fileStream.Seek(0, SeekOrigin.End);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.CopyTo(fileStream);
             }
+        }
 
-            Console.ReadKey();
+        public MessagesBlock ReadMessagesBlock(String topic, Int32 partition, Int32 offset, Int32 blockSize)
+        {
+            var logFilePath = GetLogFilePath(topic, partition, 0);
+            var logFile = new LogFile(logFilePath);
 
+            using (var fileStream = logFile.OpenForRead())
+            {
+                var block = new MessagesBlock();
+                block.Data = new byte[blockSize];
+                block.Length = fileStream.Read(block.Data, offset, blockSize);
+                return block;
+            }
+        }
+
+        public IEnumerable<Message> ReadMessages(String topic, Int32 partition, Int32 offset, Int32 blockSize)
+        {
+            var block = ReadMessagesBlock(topic, partition, offset, blockSize);
+            
+            foreach (var message in block.ReadMessages())
+                yield return message;
         }
 
         private Int32 GetNumberOfPartitionsForTopic(String topic)

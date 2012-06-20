@@ -47,6 +47,7 @@ namespace Brod
             ConsumerPort = 5568;
             StorageDirectory = Path.Combine(Path.GetTempPath(), "brod");
             NumberOfPartitions = 1;
+            NumberOfPartitionsPerTopic = new Dictionary<string, int>();
         }
     }
 }
