@@ -10,7 +10,7 @@ namespace Brod
     {
         public static void Main(string[] args)
         {
-            var server = new Server();
+            var server = new Broker(new BrokerConfiguration());
             server.Start();
 
             return;

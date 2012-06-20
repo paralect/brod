@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace Brod.Sockets
 {
+    /// <summary>
+    /// Wrapper around ZeroMQ Socket
+    /// </summary>
     public class Socket : IDisposable
     {
 //        private MachineContext _context;

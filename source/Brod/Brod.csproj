@@ -56,6 +56,8 @@
     <Compile Include="MessageReader.cs" />
     <Compile Include="MessageWriter.cs" />
     <Compile Include="Producers\Producer.cs" />
+    <Compile Include="Storage.cs" />
+    <Compile Include="BrokerConfiguration.cs" />
     <Compile Include="Tasks\HistoryHandlerTask.cs" />
     <Compile Include="Tasks\Host.cs" />
     <Compile Include="Tasks\Abstract\ITask.cs" />
@@ -63,7 +65,7 @@
     <Compile Include="Launcher.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="Broker.cs" />
     <Compile Include="LogFile.cs" />
     <Compile Include="Sockets\Socket.cs" />
     <Compile Include="SystemInformer.cs" />

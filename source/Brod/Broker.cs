@@ -4,13 +4,20 @@ using Brod.Tasks;
 
 namespace Brod
 {
-    public class Server
+    public class Broker
     {
+        private readonly BrokerConfiguration _configuration;
+
+        public Broker(BrokerConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void Start()
         {
             var engine = new Host(
-                new RequestHandlerTask("tcp://*:5567"),
-                new HistoryHandlerTask("tcp://*:5568")
+                new RequestHandlerTask(String.Format("tcp://*:{0}", _configuration.ProducerPort)),
+                new HistoryHandlerTask(String.Format("tcp://*:{0}", _configuration.ConsumerPort))
             );
 
             using (var token = new CancellationTokenSource())
