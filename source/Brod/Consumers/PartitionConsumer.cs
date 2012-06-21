@@ -25,7 +25,7 @@ namespace Brod.Consumers
             Initialize(configuration, zeromqContext);
         }
 
-        public void Initialize(ConsumerConfiguration configuration, ZMQ.Context zeromqContext)
+        private void Initialize(ConsumerConfiguration configuration, ZMQ.Context zeromqContext)
         {
             _configuration = configuration;
             _zeromqContext = zeromqContext;
@@ -49,7 +49,7 @@ namespace Brod.Consumers
                 request.WriteToStream(stream, writer);
 
                 var data = stream.ToArray();
-                Console.WriteLine("Sending {0} bytes", data.Length);
+                //Console.WriteLine("Sending {0} bytes", data.Length);
                 _reqSocket.Send(data);
             }
 
@@ -69,7 +69,7 @@ namespace Brod.Consumers
 
         }
 
-        public Socket CreateSocket(ZMQ.SocketType socketType)
+        private Socket CreateSocket(ZMQ.SocketType socketType)
         {
             var zmqsocket = _zeromqContext.Socket(socketType);
             var socket = new Socket(zmqsocket);

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consumers\ConsumerConnector.cs" />
+    <Compile Include="Consumers\MessageStream.cs" />
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Crc32.cs" />

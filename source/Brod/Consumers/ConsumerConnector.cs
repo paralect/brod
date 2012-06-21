@@ -42,7 +42,7 @@ namespace Brod.Consumers
                 if (startingFrom + count > partitionsNumber)
                     count = partitionsNumber - startingFrom;
 
-                var messageStream = new MessageStream();
+                var messageStream = new MessageStream(_configuration, _context);
                 messageStream.Topic = topic;
                 messageStream.Partitions = GetPartitions(i*step, count);
                 list.Add(messageStream);
@@ -91,17 +91,6 @@ namespace Brod.Consumers
                 partitions = _configuration.NumberOfPartitions;
 
             return partitions;
-        }
-    }
-
-    public class MessageStream
-    {
-        public String Topic { get; set; }
-        public List<Int32> Partitions { get; set; }
-
-        public IEnumerable<Message> NextMessage()
-        {
-            return null;
         }
     }
 }

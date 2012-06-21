@@ -49,7 +49,7 @@ namespace Brod.Tasks
                         var block = _storage.ReadMessagesBlock(request.Topic, request.Partition, request.Offset, request.BlockSize);
 
                         var response = new AvailableMessagesResponse();
-                        response.Data = block.Data;
+                        response.Data = (block.Length == 0) ? new byte[0] : block.Data;
 
                         using (var stream2 = new MemoryStream())
                         using (var writer = new AvailableMessagesResponseWriter(stream2))
