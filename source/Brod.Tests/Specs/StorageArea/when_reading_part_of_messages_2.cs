@@ -9,7 +9,7 @@ namespace Brod.Tests.Specs.StorageArea
     {
         Because of = () =>
         {
-            var bytesToRead = Message.CalculateMessageSize(messageBytes.Length) * 4 + 1;
+            var bytesToRead = Message.CalculateOnDiskMessageLength(messageBytes.Length) * 4 + 1;
 
             messages = storage
                 .ReadMessages("test", 0, 0,  bytesToRead)

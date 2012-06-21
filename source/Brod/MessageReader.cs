@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Brod.Exceptions;
 
@@ -37,14 +38,14 @@ namespace Brod
                 if (messageLength == 0)
                     return null;
 
-                // Can we read (messageLength - 4) bytes?
-                if (_stream.Position + messageLength - 4 > _stream.Length)
+                // Can we read messageLength bytes?
+                if (_stream.Position + messageLength > _stream.Length)
                     return null;
 
                 var message = new Message();
                 message.Magic = _reader.ReadByte();
                 message.Crc = _reader.ReadBytes(4);
-                message.Payload = _reader.ReadBytes(Message.CalculatePayloadSize(messageLength));
+                message.Payload = _reader.ReadBytes(Message.CalculatePayloadLength(messageLength));
 
                 // Validate message content
                 message.Validate();
@@ -55,6 +56,16 @@ namespace Brod
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Read all messages from this message stream
+        /// </summary>
+        public IEnumerable<Message> ReadAllMessages()
+        {
+            Message message;
+            while ((message = ReadMessage()) != null)
+                yield return message;
         }
 
         public void Dispose()

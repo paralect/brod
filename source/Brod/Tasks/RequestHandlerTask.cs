@@ -2,18 +2,23 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using Brod.Requests;
 using Brod.Sockets;
 
 namespace Brod.Tasks
 {
     public class RequestHandlerTask : ITask
     {
+        private readonly BrokerConfiguration _configuration;
+        private readonly Storage _storage;
         private readonly string _pullAddress;
         private ZMQ.Context _zeromqContext;
 
-        public RequestHandlerTask(String pullAddress)
+        public RequestHandlerTask(BrokerConfiguration configuration, Storage storage)
         {
-            _pullAddress = pullAddress;
+            _configuration = configuration;
+            _storage = storage;
+            _pullAddress = String.Format("tcp://*:{0}", configuration.ProducerPort);
         }
 
         public void Run(CancellationToken token)
@@ -27,16 +32,35 @@ namespace Brod.Tasks
                 while (!token.IsCancellationRequested)
                 {
                     // Waits for messages
-                    var data = processPullSocket.Recv(200);
+                    var data = processPullSocket.Recv();
                     if (data == null) continue;
 
-                    using (var reader = new MessageReader(new MemoryStream(data)))
+                    using (var reader = new AppendMessagesRequestReader(new MemoryStream(data)))
                     {
-                        Message message;
-                        while ((message = reader.ReadMessage()) != null)
+                        var request = reader.ReadRequest();
+
+                        var partitionsCount = _storage.GetNumberOfPartitionsForTopic(request.Topic);
+
+                        if (request.Partition >= partitionsCount)
                         {
-                            Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
+                            Console.WriteLine("Invalid request received for Topic: {0} and Partition: {1}. " +
+                                "For topic {0} only {2} partitions available on server.",
+                                request.Topic, request.Partition, partitionsCount);
+
+                            continue;
                         }
+
+
+                        _storage.Insure(request.Topic);
+
+                        for (int i = 0; i < request.Messages.Count; i++)
+                        {
+                            var message = request.Messages[i];
+                            _storage.Append(request.Topic, request.Partition, message.Payload);
+                        }
+
+                        Console.WriteLine("Request received for Topic: {0} and Partition: {1}. {2} message(s) saved.",
+                            request.Topic, request.Partition, request.Messages.Count);
                     }
                 }
             }            

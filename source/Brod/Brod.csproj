@@ -59,6 +59,8 @@
     <Compile Include="MessagesBlock.cs" />
     <Compile Include="MessageWriter.cs" />
     <Compile Include="Producers\Producer.cs" />
+    <Compile Include="Requests\AppendMessagesRequest.cs" />
+    <Compile Include="Requests\RequestTypes.cs" />
     <Compile Include="Storage.cs" />
     <Compile Include="BrokerConfiguration.cs" />
     <Compile Include="Tasks\HistoryHandlerTask.cs" />

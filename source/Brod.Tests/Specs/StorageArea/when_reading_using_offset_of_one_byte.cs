@@ -11,7 +11,7 @@ namespace Brod.Tests.Specs.StorageArea
     {
         Because of = () =>
         {
-            var bytesToRead = Message.CalculateMessageSize(messageBytes.Length) * 4 - 1;
+            var bytesToRead = Message.CalculateOnDiskMessageLength(messageBytes.Length) * 4 - 1;
 
             exception = Catch.Exception(() =>
                 messages = storage

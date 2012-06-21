@@ -22,17 +22,16 @@ namespace Brod
         public byte[] Payload { get; set; }
 
         /// <summary>
-        /// Message length (autocalculated)
+        /// Message length (readonly)
         /// </summary>
         public Int32 MessageLength
         {
             get 
-            { 
-                return 
+            {
+                return
                   Payload.Length /* size of payload */ +
-                  1 /* "magic" byte */ + 
-                  4 /* CRC32 hash size */ + 
-                  4 /* message length int size */; 
+                  1 /* "magic" byte */ +
+                  4 /* CRC32 hash size */ ;
             }
         }
 
@@ -70,17 +69,26 @@ namespace Brod
         /// <summary>
         /// Calculate payload length based on message length
         /// </summary>
-        public static Int32 CalculatePayloadSize(Int32 messageLength)
+        public static Int32 CalculatePayloadLength(Int32 messageLength)
         {
-            return messageLength - 1 - 4 - 4;
+            return messageLength - 1 - 4;
         }
 
         /// <summary>
         /// Calculate message length based on payload length
         /// </summary>
-        public static Int32 CalculateMessageSize(Int32 payloadLength)
+        public static Int32 CalculateMessageLength(Int32 payloadLength)
         {
-            return payloadLength + 1 + 4 + 4;
+            return payloadLength + 1 + 4;
+        }
+
+        /// <summary>
+        /// Calculate "on-disk" message length based on payload length.
+        /// It differ from CalculateMessageLengh by additional 4 bytes that occupied by message lengh Int32 value
+        /// </summary>
+        public static Int32 CalculateOnDiskMessageLength(Int32 payloadLength)
+        {
+            return payloadLength + 1 + 4 + 4; // additional 4 bytes for message lengh
         }
 
         /// <summary>

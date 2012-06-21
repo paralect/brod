@@ -8,12 +8,14 @@ namespace Brod.Tasks
 {
     public class HistoryHandlerTask : ITask
     {
+        private readonly BrokerConfiguration _configuration;
         private readonly string _repAddress;
         private ZMQ.Context _zeromqContext;
 
-        public HistoryHandlerTask(String repAddress)
+        public HistoryHandlerTask(BrokerConfiguration configuration)
         {
-            _repAddress = repAddress;
+            _configuration = configuration;
+            _repAddress = String.Format("tcp://*:{0}", configuration.ConsumerPort);
         }
 
         public void Run(CancellationToken token)

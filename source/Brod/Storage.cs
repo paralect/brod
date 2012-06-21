@@ -22,7 +22,7 @@ namespace Brod
         /// <summary>
         /// Initialize storage for specified topic
         /// </summary>
-        public void Initialize(String topic)
+        public void Insure(String topic)
         {
             // Get number of partitions for specified topic
             Int32 partitions = GetNumberOfPartitionsForTopic(topic);
@@ -75,7 +75,7 @@ namespace Brod
                 yield return message;
         }
 
-        private Int32 GetNumberOfPartitionsForTopic(String topic)
+        public Int32 GetNumberOfPartitionsForTopic(String topic)
         {
             // Get number of partitions for specified topic
             Int32 partitions;
@@ -91,10 +91,14 @@ namespace Brod
         private void InitializePartitionDirectory(String topic, Int32 partition)
         {
             var partitionDirectoryPath = GetPartitionDirectoryPath(topic, partition);
-            Directory.CreateDirectory(partitionDirectoryPath);
+
+            if (!Directory.Exists(partitionDirectoryPath))
+                Directory.CreateDirectory(partitionDirectoryPath);
 
             var logFilePath = GetLogFilePath(topic, partition, 0);
-            CreateEmptyFile(logFilePath);
+
+            if (!File.Exists(logFilePath))
+                CreateEmptyFile(logFilePath);
         }
 
         /// <summary>
@@ -110,7 +114,11 @@ namespace Brod
 
         public String GetPartitionDirectoryPath(String topic, Int32 partition)
         {
-            return Path.Combine(_configuration.StorageDirectory, topic + "-" + partition);
+            var partitionText = partition
+                .ToString(CultureInfo.InvariantCulture)
+                .PadLeft(4, '0');
+
+            return Path.Combine(_configuration.StorageDirectory, topic, "partition-" + partitionText);
         }
 
         public String GetLogFilePath(String topic, Int32 partition, Int64 offset)

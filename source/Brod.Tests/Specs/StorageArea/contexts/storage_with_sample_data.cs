@@ -14,7 +14,7 @@ namespace Brod.Tests.Specs.StorageArea.contexts
             messageBytes = Encoding.UTF8.GetBytes(messageString);
 
             storage = new Storage(new BrokerConfiguration() { StorageDirectory = temporaryDirectory });
-            storage.Initialize("test");
+            storage.Insure("test");
 
             storage.Append("test", 0, messageBytes);
             storage.Append("test", 0, messageBytes);

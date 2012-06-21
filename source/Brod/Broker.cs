@@ -15,9 +15,11 @@ namespace Brod
 
         public void Start()
         {
+            var storage = new Storage(_configuration);
+
             var engine = new Host(
-                new RequestHandlerTask(String.Format("tcp://*:{0}", _configuration.ProducerPort)),
-                new HistoryHandlerTask(String.Format("tcp://*:{0}", _configuration.ConsumerPort))
+                new RequestHandlerTask(_configuration, storage),
+                new HistoryHandlerTask(_configuration)
             );
 
             using (var token = new CancellationTokenSource())

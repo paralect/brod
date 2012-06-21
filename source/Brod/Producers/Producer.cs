@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Threading;
+using Brod.Requests;
 using Brod.Sockets;
 
 namespace Brod.Producers
@@ -21,21 +23,41 @@ namespace Brod.Producers
             _pushSocket.Connect(_address, CancellationToken.None);                
         }
 
-        public void Send(byte[] payload)
+        /// <summary>
+        /// Send message with specified encoding
+        /// </summary>
+        public void Send(String topic, Int32 partition, String message, Encoding encoding)
         {
+            Send(topic, partition, encoding.GetBytes(message));
+        }
+
+        /// <summary>
+        /// Send message with default UTF-8 encoding
+        /// </summary>
+        public void Send(String topic, Int32 partition, String message)
+        {
+            Send(topic, partition, message, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Send binary message
+        /// </summary>
+        public void Send(String topic, Int32 partition, byte[] payload)
+        {
+            var request = new AppendMessagesRequest(topic, partition, Message.CreateMessage(payload));
+
             using(var stream = new MemoryStream())
-            using(var writer = new MessageWriter(stream))
+            using (var writer = new AppendMessagesRequestWriter(stream))
             {
-                writer.WriteMessage(payload);
+                writer.WriteRequest(request);
 
                 var data = stream.ToArray();
-
                 Console.WriteLine("Sending {0} bytes", data.Length);
                 _pushSocket.Send(data);
             }
         }
 
-        public Socket CreateSocket(ZMQ.SocketType socketType)
+        private Socket CreateSocket(ZMQ.SocketType socketType)
         {
             var zmqsocket = _zeromqContext.Socket(socketType);
             var socket = new Socket(zmqsocket);

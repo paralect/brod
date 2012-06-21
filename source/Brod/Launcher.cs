@@ -10,13 +10,15 @@ namespace Brod
     {
         public static void Main(string[] args)
         {
-            //var server = new Broker(new BrokerConfiguration());
-            //server.Start();
+            var server = new Broker(new BrokerConfiguration() { StorageDirectory = @"c:\tmp\brod", NumberOfPartitions = 5 });
+            server.Start();
+
+            return;
 
             var message = Encoding.UTF8.GetBytes("Hello, world!");
 
             var storage = new Storage(new BrokerConfiguration() { StorageDirectory = @"c:\tmp\brod" });
-            storage.Initialize("test");
+            storage.Insure("test");
 
             storage.Append("test", 0, message);
             storage.Append("test", 0, message);

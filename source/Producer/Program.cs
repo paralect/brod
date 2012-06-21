@@ -14,7 +14,7 @@ namespace Producer
             while (true)
             {
                 String input = Console.ReadLine();
-                producer.Send(Encoding.UTF8.GetBytes(input));
+                producer.Send("new-topic", 0, input);
             }
         }
     }

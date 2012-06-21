@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Brod
@@ -15,6 +16,12 @@ namespace Brod
         public void WriteMessage(byte[] payload)
         {
             WriteMessage(Message.CreateMessage(payload));
+        }
+
+        public void WriteMessage(List<Message> messages)
+        {
+            foreach (var message in messages)
+                WriteMessage(message);
         }
 
         public void WriteMessage(Message message)
