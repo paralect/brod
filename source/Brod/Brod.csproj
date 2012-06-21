@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Consumers\Consumer.cs" />
+    <Compile Include="Consumers\ConsumerConnector.cs" />
+    <Compile Include="Consumers\PartitionConsumer.cs" />
+    <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Crc32.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="LogFileWriter.cs" />

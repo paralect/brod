@@ -10,7 +10,7 @@ namespace BrodConsumer
     {
         public static void Main(string[] args)
         {
-            var consumer = new Brod.Consumers.Consumer("tcp://localhost:5568", new ZMQ.Context(1));
+            var consumer = new Brod.Consumers.PartitionConsumer("tcp://localhost:5568", new ZMQ.Context(1));
 
             int offset = 0;
             while (true)

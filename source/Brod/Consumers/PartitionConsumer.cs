@@ -8,20 +8,31 @@ using Brod.Sockets;
 
 namespace Brod.Consumers
 {
-    public class Consumer : IDisposable
+    public class PartitionConsumer : IDisposable
     {
-        private readonly string _address;
-        private readonly ZMQ.Context _zeromqContext;
-        private readonly Socket _reqSocket;
+        private ConsumerConfiguration _configuration;
+        private ZMQ.Context _zeromqContext;
+        private Socket _reqSocket;
 
-        public Consumer(String address, ZMQ.Context zeromqContext)
+        public PartitionConsumer(String address, ZMQ.Context zeromqContext)
         {
-            _address = address;
+            var configuration = new ConsumerConfiguration { Address = address };
+            Initialize(configuration, zeromqContext);
+        }
+
+        public PartitionConsumer(ConsumerConfiguration configuration, ZMQ.Context zeromqContext)
+        {
+            Initialize(configuration, zeromqContext);
+        }
+
+        public void Initialize(ConsumerConfiguration configuration, ZMQ.Context zeromqContext)
+        {
+            _configuration = configuration;
             _zeromqContext = zeromqContext;
             _reqSocket = CreateSocket(ZMQ.SocketType.REQ);
 
             // Bind to socket
-            _reqSocket.Connect(_address, CancellationToken.None);                
+            _reqSocket.Connect(configuration.Address, CancellationToken.None);            
         }
 
         public IEnumerable<Message> Load(String topic, Int32 partition, Int32 offset, Int32 blockSize)

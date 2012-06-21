@@ -31,6 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="clrzmq, Version=2.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\clrzmq\x64\clrzmq.dll</HintPath>
+    </Reference>
+    <Reference Include="clrzmq-ext">
+      <HintPath>..\..\libs\clrzmq\x64\clrzmq-ext.dll</HintPath>
+    </Reference>
     <Reference Include="Machine.Specifications">
       <HintPath>..\..\libs\MSpec\Machine.Specifications.dll</HintPath>
     </Reference>
@@ -44,6 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specs\Consumer\when_creating_one_stream.cs" />
+    <Compile Include="Specs\Consumer\when_creating_two_streams_for_three_partitions.cs" />
+    <Compile Include="Specs\Consumer\when_creating_two_streams_for_two_partitions.cs" />
+    <Compile Include="Specs\Consumer\when_creating_zero_streams.cs" />
+    <Compile Include="Specs\Consumer\_consumer_connector_context.cs" />
     <Compile Include="Specs\StorageArea\contexts\storage_with_sample_data.cs" />
     <Compile Include="Specs\StorageArea\when_reading_exact_number_of_bytes.cs" />
     <Compile Include="Specs\StorageArea\when_reading_more_than_exists.cs" />
