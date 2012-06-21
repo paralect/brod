@@ -1,4 +1,5 @@
 ﻿using System;
+using Brod.Exceptions;
 
 namespace Brod
 {
@@ -46,7 +47,7 @@ namespace Brod
                 var crc = crc32.ComputeHash(Payload);
 
                 if (!ByteArraysEqual(crc, Crc))
-                    throw new Exception("Possibly corrupted message.");
+                    throw new CorruptedMessageException();
             }            
         }
 

@@ -58,9 +58,11 @@ namespace Brod
 
             using (var fileStream = logFile.OpenForRead())
             {
+                fileStream.Seek(offset, SeekOrigin.Begin);
+
                 var block = new MessagesBlock();
                 block.Data = new byte[blockSize];
-                block.Length = fileStream.Read(block.Data, offset, blockSize);
+                block.Length = fileStream.Read(block.Data, 0, blockSize);
                 return block;
             }
         }

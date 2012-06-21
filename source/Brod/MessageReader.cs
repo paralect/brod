@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Brod.Exceptions;
 
 namespace Brod
 {
@@ -31,6 +32,8 @@ namespace Brod
 
                 // Read 4 bytes that contains message length 
                 var messageLength = _reader.ReadInt32();
+
+                // If message length is zero - we probably read all messages
                 if (messageLength == 0)
                     return null;
 

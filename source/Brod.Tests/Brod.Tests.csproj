@@ -46,8 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specs\StorageArea\contexts\storage_with_sample_data.cs" />
     <Compile Include="Specs\StorageArea\when_reading_exact_number_of_bytes.cs" />
+    <Compile Include="Specs\StorageArea\when_reading_more_than_exists.cs" />
     <Compile Include="Specs\StorageArea\when_reading_part_of_messages.cs" />
     <Compile Include="Specs\StorageArea\when_reading_part_of_messages_2.cs" />
+    <Compile Include="Specs\StorageArea\when_reading_using_offset_of_one_byte.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brod\Brod.csproj">

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Consumers\Consumer.cs" />
     <Compile Include="Crc32.cs" />
+    <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="LogFileWriter.cs" />
     <Compile Include="MessageReader.cs" />
     <Compile Include="MessagesBlock.cs" />
