@@ -23,61 +23,25 @@ namespace Brod.Requests
             Partition = partition;
             Messages = new List<Message>(1) { message };
         }
-    }
 
-    public class AppendMessagesRequestReader : IDisposable
-    {
-        private readonly Stream _stream;
-        private readonly BinaryReader _reader;
-
-        public AppendMessagesRequestReader(Stream stream)
-        {
-            _stream = stream;
-            _reader = new BinaryReader(stream);
-        }
-
-        public AppendMessagesRequest ReadRequest()
+        public static AppendMessagesRequest ReadFromStream(Stream stream, BinaryReader reader)
         {
             var request = new AppendMessagesRequest();
-            request.Topic = _reader.ReadString();
-            request.Partition = _reader.ReadInt32();
+            request.Topic = reader.ReadString();
+            request.Partition = reader.ReadInt32();
 
-            var messageReader = new MessageReader(_stream);
+            var messageReader = new MessageReader(stream);
             request.Messages = messageReader.ReadAllMessages().ToList();
             return request;
         }
 
-        public void Dispose()
+        public void WriteToStream(Stream stream, BinaryWriter writer)
         {
-            if (_reader != null)
-                _reader.Dispose();
-        }
-    }
+            writer.Write(Topic);
+            writer.Write(Partition);
 
-    public class AppendMessagesRequestWriter : IDisposable
-    {
-        private readonly Stream _output;
-        private readonly BinaryWriter _writer;
-
-        public AppendMessagesRequestWriter(Stream output)
-        {
-            _output = output;
-            _writer = new BinaryWriter(output, Encoding.UTF8);
-        }
-
-        public void WriteRequest(AppendMessagesRequest request)
-        {
-            _writer.Write(request.Topic);
-            _writer.Write(request.Partition);
-
-            var messageWriter = new MessageWriter(_output);
-            messageWriter.WriteMessage(request.Messages);
-        }
-
-        public void Dispose()
-        {
-            if (_writer != null)
-                _writer.Dispose();
+            var messageWriter = new MessageWriter(stream);
+            messageWriter.WriteMessage(Messages);
         }
     }
 }

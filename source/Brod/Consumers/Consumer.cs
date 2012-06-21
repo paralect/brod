@@ -33,9 +33,9 @@ namespace Brod.Consumers
             request.BlockSize = blockSize;
 
             using (var stream = new MemoryStream())
-            using (var writer = new LoadMessagesRequestWriter(stream))
+            using (var writer = new BinaryWriter(stream))
             {
-                writer.WriteRequest(request);
+                request.WriteToStream(stream, writer);
 
                 var data = stream.ToArray();
                 Console.WriteLine("Sending {0} bytes", data.Length);

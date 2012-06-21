@@ -35,9 +35,10 @@ namespace Brod.Tasks
                     var data = processPullSocket.Recv();
                     if (data == null) continue;
 
-                    using (var reader = new AppendMessagesRequestReader(new MemoryStream(data)))
+                    using (var stream1 = new MemoryStream(data))
+                    using (var reader = new BinaryReader(stream1))
                     {
-                        var request = reader.ReadRequest();
+                        var request = AppendMessagesRequest.ReadFromStream(stream1, reader);
 
                         if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;

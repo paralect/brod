@@ -36,9 +36,10 @@ namespace Brod.Tasks
                     var data = repSocket.Recv();
                     if (data == null) continue;
 
-                    using (var reader = new LoadMessagesRequestReader((new MemoryStream(data))))
+                    using (var stream = new MemoryStream(data))
+                    using (var reader = new BinaryReader(stream))
                     {
-                        var request = reader.ReadRequest();
+                        var request = LoadMessagesRequest.ReadFromStream(stream, reader);
 
                         if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;
@@ -50,12 +51,12 @@ namespace Brod.Tasks
                         var response = new AvailableMessagesResponse();
                         response.Data = block.Data;
 
-                        using (var stream = new MemoryStream())
-                        using (var writer = new AvailableMessagesResponseWriter(stream))
+                        using (var stream2 = new MemoryStream())
+                        using (var writer = new AvailableMessagesResponseWriter(stream2))
                         {
                             writer.WriteRequest(response);
 
-                            var binary = stream.ToArray();
+                            var binary = stream2.ToArray();
                             repSocket.Send(binary);
                         }
                     }

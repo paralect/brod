@@ -47,9 +47,9 @@ namespace Brod.Producers
             var request = new AppendMessagesRequest(topic, partition, Message.CreateMessage(payload));
 
             using(var stream = new MemoryStream())
-            using (var writer = new AppendMessagesRequestWriter(stream))
+            using (var writer = new BinaryWriter(stream))
             {
-                writer.WriteRequest(request);
+                request.WriteToStream(stream, writer);
 
                 var data = stream.ToArray();
                 Console.WriteLine("Sending {0} bytes", data.Length);
