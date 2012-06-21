@@ -14,7 +14,7 @@ namespace Producer
             while (true)
             {
                 String input = Console.ReadLine();
-                producer.Send("new-topic", 0, input);
+                producer.Send("test", 0, input);
             }
         }
     }

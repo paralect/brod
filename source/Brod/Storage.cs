@@ -110,6 +110,24 @@ namespace Brod
                 using (File.Create(filePath)) { }
         }
 
+        /// <summary>
+        /// Returns true of partition number is valid for current broker configuration
+        /// </summary>
+        public bool ValidatePartitionNumber(String topic, Int32 partition)
+        {
+            var partitionsCount = GetNumberOfPartitionsForTopic(topic);
+            if (partition >= partitionsCount)
+            {
+                Console.WriteLine("Invalid request received for Topic: {0} and Partition: {1}. " +
+                    "For topic {0} only {2} partitions available on server.",
+                    topic, partition, partitionsCount);
+
+                return false;
+            }
+
+            return true;
+        }
+
         #region Path utils
 
         public String GetPartitionDirectoryPath(String topic, Int32 partition)

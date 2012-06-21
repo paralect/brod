@@ -39,17 +39,8 @@ namespace Brod.Tasks
                     {
                         var request = reader.ReadRequest();
 
-                        var partitionsCount = _storage.GetNumberOfPartitionsForTopic(request.Topic);
-
-                        if (request.Partition >= partitionsCount)
-                        {
-                            Console.WriteLine("Invalid request received for Topic: {0} and Partition: {1}. " +
-                                "For topic {0} only {2} partitions available on server.",
-                                request.Topic, request.Partition, partitionsCount);
-
+                        if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;
-                        }
-
 
                         _storage.Insure(request.Topic);
 

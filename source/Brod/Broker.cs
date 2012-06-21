@@ -19,7 +19,7 @@ namespace Brod
 
             var engine = new Host(
                 new RequestHandlerTask(_configuration, storage),
-                new HistoryHandlerTask(_configuration)
+                new HistoryHandlerTask(_configuration, storage)
             );
 
             using (var token = new CancellationTokenSource())
