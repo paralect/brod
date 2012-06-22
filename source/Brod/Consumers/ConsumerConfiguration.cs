@@ -17,6 +17,11 @@ namespace Brod.Consumers
         public Int32 NumberOfPartitions { get; set; }
 
         /// <summary>
+        /// Directory where Consumer state will be stored
+        /// </summary>
+        public String StorageDirectory { get; set; }
+
+        /// <summary>
         /// Number of partitions per topic name
         /// </summary>
         public Dictionary<String, Int32> NumberOfPartitionsPerTopic { get; set; }

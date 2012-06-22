@@ -11,8 +11,10 @@ namespace Brod.Consumers
     {
         private readonly ConsumerConfiguration _configuration;
         private readonly Context _context;
-        // TODO: just for testing...
-        private Int32 offset = 0;
+        private Object _lock = new object();
+
+        private StreamState _streamState = null;
+        private ConsumerStateStorage _stateStorage = null;
 
         public String Topic { get; set; }
         public List<Int32> Partitions { get; set; }
@@ -27,9 +29,13 @@ namespace Brod.Consumers
 
         public void Start()
         {
+            _stateStorage = new ConsumerStateStorage(_configuration);
+            _streamState = _stateStorage.ReadStreamState(Topic, "test-group", Partitions);
+
             var task = Task.Factory.StartNew(() =>
             {
                 var consumer = new PartitionConsumer(_configuration.Address, _context);
+                var offset = _streamState.OffsetByPartition[0];
 
                 while(true)
                 {
@@ -39,13 +45,18 @@ namespace Brod.Consumers
 
                     var result = consumer.Load(Topic, Partitions[0], offset, 300);
 
+                    var messageCount = 0;
                     foreach (var message in result)
                     {
-                        offset += Message.CalculateOnDiskMessageLength(message.Payload.Length);
                         Messages.Enqueue(message);
+                        offset += Message.CalculateOnDiskMessageLength(message.Payload.Length);
+                        messageCount++;
                     }
 
-                    Thread.Sleep(200);
+                    // Wait for 700 msecond, if there is no new messages
+                    // This value should be configurable
+                    if (messageCount == 0)
+                        Thread.Sleep(700);
                 }
             });
         }
@@ -62,6 +73,9 @@ namespace Brod.Consumers
                 }
 
                 yield return result;
+
+                _streamState.OffsetByPartition[0] += Message.CalculateOnDiskMessageLength(result.Payload.Length);
+                _stateStorage.WriteStreamState(_streamState, 0);
             }
         }
     }

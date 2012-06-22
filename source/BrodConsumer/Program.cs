@@ -28,7 +28,7 @@ namespace BrodConsumer
                 }
             }*/
 
-            var connector = new ConsumerConnector(new ConsumerConfiguration() { Address = "tcp://localhost:5568" }, new ZMQ.Context(1));
+            var connector = new ConsumerConnector(new ConsumerConfiguration() { Address = "tcp://localhost:5568", StorageDirectory = @"c:\tmp\state" }, new ZMQ.Context(1));
 
             var streams = connector.CreateMessageStreams(new Dictionary<string, int> { { "test", 1 } });
 
