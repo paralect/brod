@@ -59,6 +59,9 @@ namespace Brod.Tasks
                             }
 
                             _storage.Append(request.Topic, request.Partition, message.Payload);
+
+                            // Flushing to OS cashe
+                            _storage.Flush();
                         }
 
 /*                        Console.WriteLine("Request received for Topic: {0} and Partition: {1}. {2} message(s) saved.",

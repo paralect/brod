@@ -15,7 +15,7 @@ namespace MassiveProducer
             var producer = new Producer("tcp://localhost:5567", new ZMQ.Context(1));
 
             var totalBytesSend = 0;
-            const int messageSize = 1024;
+            const int messageSize = 200;
 
             var watch = Stopwatch.StartNew();
 

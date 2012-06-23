@@ -80,13 +80,32 @@ namespace Brod
             }
         }
 
+        /// <summary>
+        /// Flush to OS page cache (data will be visible for consumers)
+        /// </summary>
         public void Flush()
+        {
+            InternalFlush(false);
+        }
+
+        /// <summary>
+        /// Flush on disk to store data permanently
+        /// </summary>
+        public void FlushOnDisk()
+        {
+            InternalFlush(true);
+        }
+
+        /// <summary>
+        /// Flush streams to page cache or disk, depending on <param name="flushToDisk"/> param.
+        /// </summary>
+        private void InternalFlush(Boolean flushToDisk)
         {
             lock (_openedStreamsPerPath)
             {
                 foreach (var openStreamPair in _openedStreamsPerPath)
                 {
-                    openStreamPair.Value.Flush();
+                    openStreamPair.Value.Flush(flushToDisk);
                 }
             }
         }

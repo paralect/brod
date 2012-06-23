@@ -17,14 +17,15 @@ namespace Brod
         {
             using(var storage = new Storage(_configuration))
             {
-                var engine = new Host(
+                var host = new Host(
                     new RequestHandlerTask(_configuration, storage),
-                    new HistoryHandlerTask(_configuration, storage)
+                    new HistoryHandlerTask(_configuration, storage),
+                    new FlusherTask(_configuration, storage)
                 );
 
                 using (var token = new CancellationTokenSource())
                 {
-                    var task1 = engine.Start(token.Token, Timeout.Infinite);
+                    var task1 = host.Start(token.Token, Timeout.Infinite);
 
                     if (task1.Wait(Timeout.Infinite))
                         Console.WriteLine("Done without forced cancelation"); // This line shouldn't be reached

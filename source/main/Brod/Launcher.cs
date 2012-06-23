@@ -40,29 +40,7 @@ namespace Brod
 
             Initialize(dir, topic, partitions);
 
-            AppendMessage(dir, topic, 0);
-//            AppendMessage(dir, topic, 1);
-//            AppendMessage(dir, topic, 1);
-
             Console.WriteLine("Hello");
-        }
-
-        public static void AppendMessage(String dir, String topic, Int32 partition)
-        {
-            var filePath = CreateLogPath(dir, topic, partition, 0);
-
-            var stream = new LogFile(filePath);
-            stream.Append(Encoding.UTF8.GetBytes("Long life Brod!"));
-
-            var messages = stream.ReadRecords(0).ToList();
-
-            foreach (var message in messages)
-            {
-                Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
-            }
-
-            Console.ReadKey();
-
         }
 
 

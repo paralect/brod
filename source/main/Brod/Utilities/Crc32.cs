@@ -1,8 +1,8 @@
-﻿namespace Brod
-{
-    using System;
-    using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
+namespace Brod.Utilities
+{
     /// <summary>
     /// (C) Damien Guard
     /// http://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
