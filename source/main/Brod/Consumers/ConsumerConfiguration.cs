@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Brod.Consumers
 {
@@ -19,7 +20,7 @@ namespace Brod.Consumers
         /// <summary>
         /// Directory where Consumer state will be stored
         /// </summary>
-        public String StorageDirectory { get; set; }
+        public String StateStorageDirectory { get; set; }
 
         /// <summary>
         /// Number of partitions per topic name
@@ -33,6 +34,7 @@ namespace Brod.Consumers
         {
             NumberOfPartitions = 1;
             NumberOfPartitionsPerTopic = new Dictionary<string, int>();
+            StateStorageDirectory = Path.Combine(Path.GetTempPath(), "brod-consumer-state");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Brod.Producers;
 
 namespace SampleProducer
 {
@@ -6,12 +7,13 @@ namespace SampleProducer
     {
         public static void Main(string[] args)
         {
-            var producer = new Brod.Producers.Producer("tcp://localhost:5567", new ZMQ.Context(1));
+            var context = new ProducerContext();
+            var producer = context.CreateProducer("localhost:5567");
 
             while (true)
             {
                 String input = Console.ReadLine();
-                producer.Send("test", 0, input);
+                producer.Send("sample-topic", 0, input);
             }
         }
     }

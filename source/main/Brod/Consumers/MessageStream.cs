@@ -12,6 +12,7 @@ namespace Brod.Consumers
         private readonly ConsumerConfiguration _configuration;
         private readonly Context _context;
         private Object _lock = new object();
+        private Boolean _started = false;
 
         private StreamState _streamState = null;
         private ConsumerStateStorage _stateStorage = null;
@@ -27,8 +28,9 @@ namespace Brod.Consumers
             Messages = new ConcurrentQueue<Message>();
         }
 
-        public void Start()
+        private void Start()
         {
+            _started = true;
             _stateStorage = new ConsumerStateStorage(_configuration);
             _streamState = _stateStorage.ReadStreamState(Topic, "test-group", Partitions);
 
@@ -63,6 +65,9 @@ namespace Brod.Consumers
 
         public IEnumerable<Message> NextMessage()
         {
+            if (!_started)
+                Start();
+
             while(true)
             {
                 Message result;

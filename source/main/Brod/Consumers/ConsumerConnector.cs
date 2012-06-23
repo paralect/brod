@@ -26,6 +26,13 @@ namespace Brod.Consumers
             return result;
         }
 
+        public List<MessageStream> CreateMessageStreams(String topic, Int32 numberOfStreams)
+        {
+            ValidateStreamNumber(topic, numberOfStreams);
+
+            return BuildStreamsForTopic(topic, numberOfStreams);
+        }
+
         private List<MessageStream> BuildStreamsForTopic(String topic, Int32 numberOfStreams)
         {
             var list = new List<MessageStream>();

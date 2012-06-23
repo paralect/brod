@@ -26,7 +26,20 @@ namespace SampleConsumer
                 }
             }*/
 
-            var connector = new ConsumerConnector(new ConsumerConfiguration() { Address = "tcp://localhost:5568", StorageDirectory = @"c:\tmp\state" }, new ZMQ.Context(1));
+            var context = new ConsumerContext();
+            var consumer = context.CreateConsumer("localhost:5568");
+
+            var stream = consumer.CreateMessageStream("sample-topic");
+
+            foreach (var message in stream.NextMessage())
+            {
+                Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
+            }
+
+
+
+            /*
+            var connector = new ConsumerConnector(new ConsumerConfiguration() { Address = "tcp://localhost:5568", StateStorageDirectory = @"c:\tmp\state" }, new ZMQ.Context(1));
 
             var streams = connector.CreateMessageStreams(new Dictionary<string, int> { { "test", 1 } });
 
@@ -38,6 +51,7 @@ namespace SampleConsumer
             {
                 Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
             }
+             * */
         }
     }
 }
