@@ -52,7 +52,7 @@ namespace Brod.Producers
                 request.WriteToStream(stream, writer);
 
                 var data = stream.ToArray();
-                Console.WriteLine("Sending {0} bytes", data.Length);
+                //Console.WriteLine("Sending {0} bytes", data.Length);
                 _pushSocket.Send(data);
             }
         }

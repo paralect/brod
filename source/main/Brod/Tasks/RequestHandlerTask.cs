@@ -33,7 +33,11 @@ namespace Brod.Tasks
                 {
                     // Waits for messages
                     var data = processPullSocket.Recv();
-                    if (data == null) continue;
+                    if (data == null)
+                    {
+                        Console.WriteLine("Idle");
+                        continue;
+                    }
 
                     using (var stream1 = new MemoryStream(data))
                     using (var reader = new BinaryReader(stream1))
@@ -48,11 +52,19 @@ namespace Brod.Tasks
                         for (int i = 0; i < request.Messages.Count; i++)
                         {
                             var message = request.Messages[i];
+
+                            if (message.Payload.Length < 20)
+                            {
+                                var text = Encoding.UTF8.GetString(message.Payload);
+                                if (text == "end!//")
+                                    Console.WriteLine("Done!!!");
+                            }
+
                             _storage.Append(request.Topic, request.Partition, message.Payload);
                         }
 
-                        Console.WriteLine("Request received for Topic: {0} and Partition: {1}. {2} message(s) saved.",
-                            request.Topic, request.Partition, request.Messages.Count);
+/*                        Console.WriteLine("Request received for Topic: {0} and Partition: {1}. {2} message(s) saved.",
+                            request.Topic, request.Partition, request.Messages.Count);*/
                     }
                 }
             }            

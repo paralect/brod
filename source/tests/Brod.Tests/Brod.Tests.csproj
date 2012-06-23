@@ -41,6 +41,9 @@
     <Reference Include="Machine.Specifications">
       <HintPath>..\..\libs\MSpec\Machine.Specifications.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\libs\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,9 +65,10 @@
     <Compile Include="Specs\StorageArea\when_reading_part_of_messages.cs" />
     <Compile Include="Specs\StorageArea\when_reading_part_of_messages_2.cs" />
     <Compile Include="Specs\StorageArea\when_reading_using_offset_of_one_byte.cs" />
+    <Compile Include="Tests\ProducerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Brod\Brod.csproj">
+    <ProjectReference Include="..\..\main\Brod\Brod.csproj">
       <Project>{541842C3-EDD6-4055-8C2D-D77F19B9C936}</Project>
       <Name>Brod</Name>
     </ProjectReference>

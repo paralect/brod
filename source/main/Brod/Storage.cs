@@ -40,14 +40,14 @@ namespace Brod
             var logFile = new LogFile(logFilePath);
 
             using (var memoryStream = new MemoryStream())
-            using (var messageWriter = new MessageWriter(memoryStream))
             using (var fileStream = logFile.OpenForWrite())
+            using (var messageWriter = new MessageWriter(fileStream))
             {
-                messageWriter.WriteMessage(payload);
-
                 fileStream.Seek(0, SeekOrigin.End);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                memoryStream.CopyTo(fileStream);
+                messageWriter.WriteMessage(payload);
+                
+//                memoryStream.Seek(0, SeekOrigin.Begin);
+//                memoryStream.CopyTo(fileStream);
             }
         }
 
