@@ -47,8 +47,6 @@ namespace Brod.Tasks
                         if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;
 
-                        _storage.Insure(request.Topic);
-
                         for (int i = 0; i < request.Messages.Count; i++)
                         {
                             var message = request.Messages[i];

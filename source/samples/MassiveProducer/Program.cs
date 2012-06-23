@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Brod;
+using Brod.Producers;
 
 namespace MassiveProducer
 {
@@ -11,7 +12,7 @@ namespace MassiveProducer
     {
         public static void Main(string[] args)
         {
-            var producer = new Brod.Producers.Producer("tcp://localhost:5567", new ZMQ.Context(1));
+            var producer = new Producer("tcp://localhost:5567", new ZMQ.Context(1));
 
             var totalBytesSend = 0;
             const int messageSize = 1024;

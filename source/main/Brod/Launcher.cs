@@ -18,7 +18,6 @@ namespace Brod
             var message = Encoding.UTF8.GetBytes("Hello, world!");
 
             var storage = new Storage(new BrokerConfiguration() { StorageDirectory = @"c:\tmp\brod" });
-            storage.Insure("test");
 
             storage.Append("test", 0, message);
             storage.Append("test", 0, message);

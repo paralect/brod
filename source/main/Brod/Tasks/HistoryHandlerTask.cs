@@ -44,8 +44,6 @@ namespace Brod.Tasks
                         if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;
 
-                        _storage.Insure(request.Topic);
-
                         var block = _storage.ReadMessagesBlock(request.Topic, request.Partition, request.Offset, request.BlockSize);
 
                         var response = new AvailableMessagesResponse();

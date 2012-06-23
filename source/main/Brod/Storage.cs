@@ -13,40 +13,64 @@ namespace Brod
     /// </summary>
     public class Storage : IDisposable
     {
+        /// <summary>
+        /// Topics, currently serving by this storage.
+        /// We are cashing them to prevent filesystem access.
+        /// </summary>
         private readonly List<String> _topics = new List<string>();
+
+        /// <summary>
+        /// Opened filestreams for partition log files.
+        /// </summary>
         private readonly Dictionary<String, FileStream> _openedStreamsPerPath = new Dictionary<string, FileStream>();
+
+        /// <summary>
+        /// LogFileDescriptor -> LogFilePath map, to cache log file path construction
+        /// </summary>
         private readonly HybridDictionary _logFilePathByDescriptor = new HybridDictionary();
+
+        /// <summary>
+        /// Broker configuration
+        /// </summary>
         private readonly BrokerConfiguration _configuration;
 
+        /// <summary>
+        /// Constructs Storage with specified BrokerConfiguration
+        /// </summary>
         public Storage(BrokerConfiguration configuration)
         {
             _configuration = configuration;
             Init();
         }
 
+        /// <summary>
+        /// Builds internal cache of topics, that this storage contains
+        /// </summary>
         private void Init()
         {
+            if (!Directory.Exists(_configuration.StorageDirectory))
+                Directory.CreateDirectory(_configuration.StorageDirectory);
+
             var topics = Directory.GetDirectories(_configuration.StorageDirectory);
 
             foreach (var topic in topics)
             {
                 var info = new DirectoryInfo(topic);
                 var topicName = info.Name;
-                Insure(topicName);
+                InsureTopicOnDisk(topicName);
             }
         }
 
         /// <summary>
         /// Initialize storage for specified topic
         /// </summary>
-        public void Insure(String topic)
+        private void InsureTopicOnDisk(String topic)
         {
             if (_topics.Contains(topic))
                 return;
 
             _topics.Add(topic);
 
-            // Get number of partitions for specified topic
             Int32 partitions = GetNumberOfPartitionsForTopic(topic);
 
             // Create each partition
@@ -56,25 +80,51 @@ namespace Brod
             }
         }
 
+        public void Flush()
+        {
+            lock (_openedStreamsPerPath)
+            {
+                foreach (var openStreamPair in _openedStreamsPerPath)
+                {
+                    openStreamPair.Value.Flush();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Append payload to specified topic and partition
+        /// </summary>
         public void Append(String topic, Int32 partition, byte[] payload)
         {
+            InsureTopicOnDisk(topic);
+
             var logFilePath = GetLogFilePath(topic, partition, 0);
 
             FileStream fileStream;
-            if (!_openedStreamsPerPath.TryGetValue(logFilePath, out fileStream))
+
+            lock (_openedStreamsPerPath)
             {
-                var logFile = new LogFile(logFilePath);
-                fileStream = logFile.OpenForWrite();
-                fileStream.Seek(0, SeekOrigin.End);
-                _openedStreamsPerPath[logFilePath] = fileStream;
+                if (!_openedStreamsPerPath.TryGetValue(logFilePath, out fileStream))
+                {
+                    var logFile = new LogFile(logFilePath);
+                    fileStream = logFile.OpenForWrite();
+                    fileStream.Seek(0, SeekOrigin.End);
+                    _openedStreamsPerPath[logFilePath] = fileStream;
+                }
             }
 
             var messageWriter = new MessageWriter(fileStream);
             messageWriter.WriteMessage(payload);
         }
 
-        public MessagesBlock ReadMessagesBlock(String topic, Int32 partition, Int32 offset, Int32 blockSize)
+        /// <summary>
+        /// Read <param name="blockLength" /> bytes, starting from  <param name="offset" /> byte from 
+        /// specified <param name="topic"/> and <param name="partition" />
+        /// </summary>
+        public MessagesBlock ReadMessagesBlock(String topic, Int32 partition, Int32 offset, Int32 blockLength)
         {
+            InsureTopicOnDisk(topic);
+
             var logFilePath = GetLogFilePath(topic, partition, 0);
             var logFile = new LogFile(logFilePath);
 
@@ -83,15 +133,19 @@ namespace Brod
                 fileStream.Seek(offset, SeekOrigin.Begin);
 
                 var block = new MessagesBlock();
-                block.Data = new byte[blockSize];
-                block.Length = fileStream.Read(block.Data, 0, blockSize);
+                block.Data = new byte[blockLength];
+                block.Length = fileStream.Read(block.Data, 0, blockLength);
                 return block;
             }
         }
 
-        public IEnumerable<Message> ReadMessages(String topic, Int32 partition, Int32 offset, Int32 blockSize)
+        /// <summary>
+        /// Read and parse all message that can be found in <param name="blockLength" /> bytes, starting from 
+        /// <param name="offset" /> byte from specified <param name="topic"/> and <param name="partition" />
+        /// </summary>
+        public IEnumerable<Message> ReadMessages(String topic, Int32 partition, Int32 offset, Int32 blockLength)
         {
-            var block = ReadMessagesBlock(topic, partition, offset, blockSize);
+            var block = ReadMessagesBlock(topic, partition, offset, blockLength);
             
             foreach (var message in block.ReadMessages())
                 yield return message;
