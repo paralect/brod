@@ -15,25 +15,25 @@ namespace Brod
 
         public void Start()
         {
-            var storage = new Storage(_configuration);
-
-            var engine = new Host(
-                new RequestHandlerTask(_configuration, storage),
-                new HistoryHandlerTask(_configuration, storage)
-            );
-
-            using (var token = new CancellationTokenSource())
+            using(var storage = new Storage(_configuration))
             {
-                var task1 = engine.Start(token.Token, Timeout.Infinite);
+                var engine = new Host(
+                    new RequestHandlerTask(_configuration, storage),
+                    new HistoryHandlerTask(_configuration, storage)
+                );
 
-                if (task1.Wait(Timeout.Infinite))
-                    Console.WriteLine("Done without forced cancelation"); // This line shouldn't be reached
-                else
-                    Console.WriteLine("\r\nRequesting to cancel...");
+                using (var token = new CancellationTokenSource())
+                {
+                    var task1 = engine.Start(token.Token, Timeout.Infinite);
 
-                token.Cancel();
+                    if (task1.Wait(Timeout.Infinite))
+                        Console.WriteLine("Done without forced cancelation"); // This line shouldn't be reached
+                    else
+                        Console.WriteLine("\r\nRequesting to cancel...");
+
+                    token.Cancel();
+                }
             }
-
         }
     }
 }
