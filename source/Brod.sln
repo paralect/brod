@@ -5,9 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brod", "main\Brod\Brod.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brod.Tests", "tests\Brod.Tests\Brod.Tests.csproj", "{6FAE9536-A943-4EB9-98B5-88097E68159C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrodConsumer", "samples\BrodConsumer\BrodConsumer.csproj", "{3F8044F5-E7AD-4486-B848-51BB5A11BED9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleConsumer", "samples\SampleConsumer\SampleConsumer.csproj", "{3F8044F5-E7AD-4486-B848-51BB5A11BED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "samples\Producer\Producer.csproj", "{1C92DBDA-3A25-483E-8399-7B22E15D7BD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProducer", "samples\SampleProducer\SampleProducer.csproj", "{1C92DBDA-3A25-483E-8399-7B22E15D7BD3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D97AEDC6-3C20-4EEE-8555-D611D159207C}"
 EndProject

@@ -8,8 +8,8 @@
     <ProjectGuid>{3F8044F5-E7AD-4486-B848-51BB5A11BED9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BrodConsumer</RootNamespace>
-    <AssemblyName>BrodConsumer</AssemblyName>
+    <RootNamespace>SampleConsumer</RootNamespace>
+    <AssemblyName>SampleConsumer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

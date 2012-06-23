@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Brod;
 using Brod.Consumers;
 
-namespace BrodConsumer
+namespace SampleConsumer
 {
     public class Program
     {

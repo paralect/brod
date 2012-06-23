@@ -8,8 +8,8 @@
     <ProjectGuid>{1C92DBDA-3A25-483E-8399-7B22E15D7BD3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Producer</RootNamespace>
-    <AssemblyName>Producer</AssemblyName>
+    <RootNamespace>SampleProducer</RootNamespace>
+    <AssemblyName>SampleProducer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
