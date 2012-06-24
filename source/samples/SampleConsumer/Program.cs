@@ -28,12 +28,11 @@ namespace SampleConsumer
 
             var context = new ConsumerContext();
             var consumer = context.CreateConsumer("localhost:5568");
-
             var stream = consumer.CreateMessageStream("sample-topic");
 
-            foreach (var message in stream.NextMessage())
+            foreach (var message in stream.NextString())
             {
-                Console.WriteLine(Encoding.UTF8.GetString(message.Payload));
+                Console.WriteLine(message);
             }
 
 

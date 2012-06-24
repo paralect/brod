@@ -8,6 +8,7 @@ namespace SampleProducer
         public static void Main(string[] args)
         {
             var context = new ProducerContext();
+            
             var producer = context.CreateProducer("localhost:5567");
 
             while (true)

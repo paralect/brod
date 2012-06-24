@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ZMQ;
@@ -20,6 +21,11 @@ namespace Brod.Consumers
         public String Topic { get; set; }
         public List<Int32> Partitions { get; set; }
         public ConcurrentQueue<Message> Messages { get; set; }
+
+        public StreamState StreamState
+        {
+            get { return _streamState; }
+        }
 
         public MessageStream(ConsumerConfiguration configuration, ZMQ.Context context)
         {
@@ -83,6 +89,23 @@ namespace Brod.Consumers
                 _stateStorage.WriteStreamState(_streamState, 0);
             }
         }
+
+        public IEnumerable<String> NextString(Encoding encoding)
+        {
+            if (encoding == null)
+                throw new ArgumentNullException("encoding");
+
+            foreach (var message in NextMessage())
+                yield return encoding.GetString(message.Payload);
+        }
+
+        public IEnumerable<String> NextString()
+        {
+            foreach (var stringValue in NextString(Encoding.UTF8))
+                yield return stringValue;
+        }
+
+
     }
 
 
