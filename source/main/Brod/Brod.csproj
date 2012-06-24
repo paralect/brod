@@ -34,13 +34,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="clrzmq, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\libs\clrzmq\x64\clrzmq.dll</HintPath>
+    <Reference Include="clrzmq">
+      <HintPath>..\..\..\libs\clrzmq\x64\clrzmq.dll</HintPath>
     </Reference>
-    <Reference Include="clrzmq-ext, Version=2.2.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\libs\clrzmq\x64\clrzmq-ext.dll</HintPath>
+    <Reference Include="clrzmq-ext">
+      <HintPath>..\..\..\libs\clrzmq\x64\clrzmq-ext.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -99,7 +97,6 @@
   <Target Name="AfterBuild">
     <!-- Copy ZeroMQ native lib to target directory -->
     <Copy SourceFiles="$(SolutionDir)..\libs\clrzmq\x64\libzmq.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
-    
     <Copy SourceFiles="$(TargetDir)Brod.exe" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
     <Copy SourceFiles="$(TargetDir)Brod.exe.config" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
     <Copy SourceFiles="$(TargetDir)Brod.exe.config" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
@@ -107,7 +104,6 @@
     <Copy SourceFiles="$(TargetDir)clrzmq-ext.dll" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
     <Copy SourceFiles="$(TargetDir)libzmq.dll" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
   </Target>
-  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
