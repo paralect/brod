@@ -1,7 +1,11 @@
 Brod
 ====
 
-High-throughput .NET messaging system for real-time and offline processing, havely inspirited by Apache Kafka project, that was originally developed at LinkedIn.
+High-throughput, distributed .NET messaging system for real-time and offline processing, havely 
+inspirited by Apache Kafka project, that was originally developed at LinkedIn.
+
+Brod is designed to be able to keep messages persistent on disk without performance degradation, regardless of the 
+volume of messages.
 
 Usage
 -----
