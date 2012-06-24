@@ -12,3 +12,4 @@ EFExtensions/EFExtensions.xml
 _ReSharper.*/
 *.user
 *.nupkg
+/target/

@@ -39,10 +39,10 @@ namespace Brod.Tasks
                         continue;
                     }
 
-                    using (var stream1 = new MemoryStream(data))
-                    using (var reader = new BinaryReader(stream1))
+                    using (var stream = new MemoryStream(data))
+                    using (var reader = new BinaryReader(stream))
                     {
-                        var request = AppendMessagesRequest.ReadFromStream(stream1, reader);
+                        var request = AppendMessagesRequest.ReadFromStream(stream, reader);
 
                         if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                             continue;
@@ -51,6 +51,7 @@ namespace Brod.Tasks
                         {
                             var message = request.Messages[i];
 
+                            //For testing purpose only
                             if (message.Payload.Length < 20)
                             {
                                 var text = Encoding.UTF8.GetString(message.Payload);

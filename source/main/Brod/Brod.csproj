@@ -43,6 +43,7 @@
       <HintPath>..\..\libs\clrzmq\x64\clrzmq-ext.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\BrokerConfigurationSection.cs" />
     <Compile Include="Consumers\Consumer.cs" />
     <Compile Include="Consumers\ConsumerConnector.cs" />
     <Compile Include="Consumers\ConsumerContext.cs" />
@@ -90,13 +92,22 @@
     <Compile Include="Tasks\Events\EngineStopped.cs" />
     <Compile Include="Tasks\RequestHandlerTask.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
   <Target Name="AfterBuild">
     <!-- Copy ZeroMQ native lib to target directory -->
     <Copy SourceFiles="$(SolutionDir)..\libs\clrzmq\x64\libzmq.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    
+    <Copy SourceFiles="$(TargetDir)Brod.exe" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)Brod.exe.config" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)Brod.exe.config" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)clrzmq.dll" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)clrzmq-ext.dll" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)libzmq.dll" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
   </Target>
-
+  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

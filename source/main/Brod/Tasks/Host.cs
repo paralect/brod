@@ -9,12 +9,12 @@ using Brod.Tasks.Events;
 namespace Brod.Tasks
 {
     /// <summary>
-    /// Engine host that starts, waits or cancells execution of Nodes
+    /// Host that starts, waits or cancells execution of Tasks
     /// </summary>
     public class Host : IDisposable
     {
         /// <summary>
-        /// Tasks that are managed by engine
+        /// Tasks that are managed by host
         /// </summary>
         private readonly ICollection<ITask> _tasks;
 
@@ -129,7 +129,7 @@ namespace Brod.Tasks
                 catch
                 {
                     // Suppressing all exceptions because we unable 
-                    // to handle them correctly when engine is shutdowning  
+                    // to handle them correctly when host is shutdowning  
                 }
             }            
         }

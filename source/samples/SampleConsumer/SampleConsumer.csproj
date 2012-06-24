@@ -75,6 +75,8 @@
   <Target Name="AfterBuild">
     <!-- Copy ZeroMQ native lib to target directory -->
     <Copy SourceFiles="$(SolutionDir)..\libs\clrzmq\x64\libzmq.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+
+    <Copy SourceFiles="$(TargetDir)SampleConsumer.exe" DestinationFolder="$(SolutionDir)..\target\" SkipUnchangedFiles="true" />
   </Target>
 
 

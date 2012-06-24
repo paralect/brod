@@ -39,7 +39,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String message, Encoding encoding, Int32 partition)
         {
-            Send(encoding.GetBytes(message));
+            Send(encoding.GetBytes(message), partition);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String message, Int32 partition)
         {
-            Send(message, Encoding.UTF8);
+            Send(message, Encoding.UTF8, partition);
         }
 
         /// <summary>

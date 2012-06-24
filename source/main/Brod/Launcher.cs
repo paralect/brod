@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Brod.Configuration;
 
 namespace Brod
 {
@@ -10,12 +13,8 @@ namespace Brod
     {
         public static void Main(string[] args)
         {
-            var server = new Broker(new BrokerConfiguration()
-            {
-                StorageDirectory = @"c:\tmp\brod", 
-                NumberOfPartitions = 5
-            });
-
+            var section = (BrokerConfigurationSection) ConfigurationManager.GetSection("brodBroker");
+            var server = new Broker(BrokerConfiguration.FromConfigurationSection(section));
             server.Start();
         }
     }
