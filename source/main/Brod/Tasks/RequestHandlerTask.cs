@@ -57,7 +57,7 @@ namespace Brod.Tasks
                             {
                                 var text = Encoding.UTF8.GetString(message.Payload);
                                 if (text == "end!//")
-                                    Console.WriteLine("Done!!!");
+                                    Console.WriteLine("Done!");
                             }
 
                             _storage.Append(request.Topic, request.Partition, message.Payload);

@@ -20,8 +20,6 @@ namespace Brod
             Console.WriteLine("-----------------------");
             Console.WriteLine("  Storage Directory: {0}", configuration.StorageDirectory);
             Console.WriteLine("  Default number of partitions: {0}", configuration.NumberOfPartitions);
-            Console.WriteLine();
-
 
             var server = new Broker(configuration);
             server.Start();
