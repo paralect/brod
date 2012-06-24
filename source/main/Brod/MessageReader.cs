@@ -51,7 +51,7 @@ namespace Brod
 
                 return message;
             }
-            catch (EndOfStreamException exception)
+            catch (EndOfStreamException)
             {
                 return null;
             }
