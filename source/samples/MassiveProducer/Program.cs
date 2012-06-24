@@ -12,7 +12,9 @@ namespace MassiveProducer
     {
         public static void Main(string[] args)
         {
-            var producer = new Producer("tcp://localhost:5567", new ZMQ.Context(1));
+            var context = new ProducerContext();
+            var producer = context.CreateProducer("localhost:5567");
+            var stream = producer.OpenMessageStream("test");
 
             var totalBytesSend = 0;
             const int messageSize = 200;
@@ -25,11 +27,11 @@ namespace MassiveProducer
                     Console.WriteLine("{0})", i);
 
                 var data = new byte[messageSize];
-                producer.Send("test", 0, data);
+                stream.Send(data);
                 totalBytesSend += Message.CalculateOnDiskMessageLength(data.Length);
             }
 
-            producer.Send("test", 0, "end!//");
+            stream.Send("end!//");
 
             watch.Stop();
             Console.WriteLine("Done in {0} msec. {1} bytes sent.", watch.ElapsedMilliseconds, totalBytesSend);

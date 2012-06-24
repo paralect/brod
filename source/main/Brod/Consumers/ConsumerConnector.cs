@@ -14,11 +14,11 @@ namespace Brod.Consumers
             _context = context;
         }
 
-        public Dictionary<String, List<MessageStream>> CreateMessageStreams(Dictionary<String, Int32> topicToStreamCount)
+        public Dictionary<String, List<ConsumerMessageStream>> CreateMessageStreams(Dictionary<String, Int32> topicToStreamCount)
         {
             ValidateTopicToStreamDictionary(topicToStreamCount);
 
-            var result = new Dictionary<String, List<MessageStream>>();
+            var result = new Dictionary<String, List<ConsumerMessageStream>>();
 
             foreach (var pair in topicToStreamCount)
                 result[pair.Key] = BuildStreamsForTopic(pair.Key, pair.Value);
@@ -26,16 +26,16 @@ namespace Brod.Consumers
             return result;
         }
 
-        public List<MessageStream> CreateMessageStreams(String topic, Int32 numberOfStreams)
+        public List<ConsumerMessageStream> CreateMessageStreams(String topic, Int32 numberOfStreams)
         {
             ValidateStreamNumber(topic, numberOfStreams);
 
             return BuildStreamsForTopic(topic, numberOfStreams);
         }
 
-        private List<MessageStream> BuildStreamsForTopic(String topic, Int32 numberOfStreams)
+        private List<ConsumerMessageStream> BuildStreamsForTopic(String topic, Int32 numberOfStreams)
         {
-            var list = new List<MessageStream>();
+            var list = new List<ConsumerMessageStream>();
             var partitionsNumber = GetNumberOfPartitionsForTopic(topic);
 
             var additional = ((partitionsNumber % numberOfStreams) == 0) ? 0 : 1;
@@ -49,7 +49,7 @@ namespace Brod.Consumers
                 if (startingFrom + count > partitionsNumber)
                     count = partitionsNumber - startingFrom;
 
-                var messageStream = new MessageStream(_configuration, _context);
+                var messageStream = new ConsumerMessageStream(_configuration, _context);
                 messageStream.Topic = topic;
                 messageStream.Partitions = GetPartitions(i*step, count);
                 list.Add(messageStream);

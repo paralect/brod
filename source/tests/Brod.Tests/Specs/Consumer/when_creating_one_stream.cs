@@ -26,6 +26,6 @@ namespace Brod.Tests.Specs.Consumer
         It should_has_correct_value_of_partition = () =>
             streams["test"][0].Partitions[0].ShouldEqual(0);
 
-        private static Dictionary<string, List<MessageStream>> streams;
+        private static Dictionary<string, List<ConsumerMessageStream>> streams;
     }
 }

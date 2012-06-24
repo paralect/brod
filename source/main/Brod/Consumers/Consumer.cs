@@ -51,14 +51,14 @@ namespace Brod.Consumers
             _configuration.Address = brokerAddress;
         }
 
-        public MessageStream CreateMessageStream(String topic)
+        public ConsumerMessageStream OpenMessageStream(String topic)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
             var streams = connector.CreateMessageStreams(topic, 1);
             return streams[0];
         }
 
-        public List<MessageStream> CreateMessageStreams(String topic, Int32 numberOfStreams)
+        public List<ConsumerMessageStream> OpenMessageStream(String topic, Int32 numberOfStreams)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
             var streams = connector.CreateMessageStreams(topic, numberOfStreams);

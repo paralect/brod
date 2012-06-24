@@ -8,13 +8,15 @@ namespace SampleProducer
         public static void Main(string[] args)
         {
             var context = new ProducerContext();
-            
             var producer = context.CreateProducer("localhost:5567");
-
-            while (true)
+            
+            using(var stream = producer.OpenMessageStream("sample-topic"))
             {
-                String input = Console.ReadLine();
-                producer.Send("sample-topic", 0, input);
+                while (true)
+                {
+                    String input = Console.ReadLine();
+                    stream.Send(input);
+                }
             }
         }
     }

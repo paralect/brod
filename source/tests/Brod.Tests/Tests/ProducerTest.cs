@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Brod.Producers;
 using NUnit.Framework;
 
 namespace Brod.Tests.Tests
@@ -10,10 +11,12 @@ namespace Brod.Tests.Tests
         [Test]
         public void DoIt()
         {
-            var producer = new Brod.Producers.Producer("tcp://localhost:5567", new ZMQ.Context(1));
+            var context = new ProducerContext();
+            var producer = context.CreateProducer("localhost:5567");
+            var stream = producer.OpenMessageStream("test");
 
-            var totalBytesSend = 0;
-            var messageSize = 200;
+            var totalBytesSent = 0;
+            const int messageSize = 200;
 
             var watch = Stopwatch.StartNew();
 
@@ -23,14 +26,14 @@ namespace Brod.Tests.Tests
                     Console.WriteLine("{0})", i);
 
                 var data = new byte[messageSize];
-                producer.Send("test", 0, data);
-                totalBytesSend += Message.CalculateOnDiskMessageLength(data.Length);
+                stream.Send(data);
+                totalBytesSent += Message.CalculateOnDiskMessageLength(data.Length);
             }
 
-            producer.Send("test", 0, "end!//");
+            stream.Send("end!//");
 
             watch.Stop();
-            Console.WriteLine("Done in {0} msec. {1} bytes sent.", watch.ElapsedMilliseconds, totalBytesSend);
+            Console.WriteLine("Done in {0} msec. {1} bytes sent.", watch.ElapsedMilliseconds, totalBytesSent);
         }
     }
 }

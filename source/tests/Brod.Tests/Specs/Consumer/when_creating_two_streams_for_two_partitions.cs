@@ -34,6 +34,6 @@ namespace Brod.Tests.Specs.Consumer
             streams["test"][1].Partitions[0].ShouldEqual(1);
         };
 
-        private static Dictionary<string, List<MessageStream>> streams;
+        private static Dictionary<string, List<ConsumerMessageStream>> streams;
     }
 }

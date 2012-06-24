@@ -8,7 +8,7 @@ using ZMQ;
 
 namespace Brod.Consumers
 {
-    public class MessageStream
+    public class ConsumerMessageStream : IDisposable
     {
         private readonly ConsumerConfiguration _configuration;
         private readonly Context _context;
@@ -27,7 +27,7 @@ namespace Brod.Consumers
             get { return _streamState; }
         }
 
-        public MessageStream(ConsumerConfiguration configuration, ZMQ.Context context)
+        public ConsumerMessageStream(ConsumerConfiguration configuration, ZMQ.Context context)
         {
             _configuration = configuration;
             _context = context;
@@ -106,6 +106,10 @@ namespace Brod.Consumers
         }
 
 
+        public void Dispose()
+        {
+            // 
+        }
     }
 
 

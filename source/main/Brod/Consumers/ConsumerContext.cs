@@ -32,6 +32,6 @@ namespace Brod.Consumers
             return new Consumer("tcp://" + brokerAddress, this);
         }
 
-        //public MessageStream CreateMessageStream(String topic, )
+        //public ConsumerMessageStream OpenMessageStream(String topic, )
     }
 }
