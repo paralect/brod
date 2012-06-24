@@ -24,14 +24,13 @@ namespace Brod.Consumers
 
         public PartitionConsumer CreatePartitionConsumer(ConsumerConfiguration consumerConfiguration)
         {
-            return new PartitionConsumer("tcp://" + consumerConfiguration, _zeromqContext);
+            consumerConfiguration.Address = "tcp://" + consumerConfiguration.Address;
+            return new PartitionConsumer(consumerConfiguration, _zeromqContext);
         }
 
         public Consumer CreateConsumer(String brokerAddress)
         {
             return new Consumer("tcp://" + brokerAddress, this);
         }
-
-        //public ConsumerMessageStream OpenMessageStream(String topic, )
     }
 }

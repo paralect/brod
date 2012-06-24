@@ -28,6 +28,7 @@ namespace Brod.Tasks
             {
                 // Bind to socket
                 repSocket.Bind(_repAddress);
+                Console.WriteLine("  Listening for incoming connections from consumers on port {0}", _configuration.ConsumerPort);
 
                 // Process while canellation not requested
                 while (!token.IsCancellationRequested)

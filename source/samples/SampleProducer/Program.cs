@@ -12,6 +12,12 @@ namespace SampleProducer
             
             using(var stream = producer.OpenMessageStream("sample-topic"))
             {
+                Console.WriteLine("SampleProducer.");
+                Console.WriteLine("---------------");
+                Console.WriteLine("  Type some text, and press Enter. Doing this you are sending ");
+                Console.WriteLine("  messages to broker.");
+                Console.WriteLine();
+
                 while (true)
                 {
                     String input = Console.ReadLine();

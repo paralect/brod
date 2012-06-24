@@ -92,7 +92,7 @@ namespace Brod.Consumers
                 .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0');
 
-            return Path.Combine(_configuration.StateStorageDirectory, "topic-" + topic, "group-" + group, "partition-" + partitionText);
+            return Path.Combine(_configuration.StateStorageDirectory, topic, group, "partition-" + partitionText);
         }
 
         public String GetPartitionStateFilePath(String topic, String group, Int32 partition)

@@ -8,7 +8,7 @@ namespace Brod.Tests.Tests
     [TestFixture]
     public class ProducerTest
     {
-        [Test]
+        [Ignore("Performance test")]
         public void DoIt()
         {
             var context = new ProducerContext();

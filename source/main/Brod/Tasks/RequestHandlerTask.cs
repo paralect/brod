@@ -27,6 +27,7 @@ namespace Brod.Tasks
             {
                 // Bind to socket
                 processPullSocket.Bind(_pullAddress);
+                Console.WriteLine("  Listening for incoming connections from producers on port {0}", _configuration.ProducerPort);
 
                 // Process while canellation not requested
                 while (!token.IsCancellationRequested)

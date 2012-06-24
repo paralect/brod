@@ -38,7 +38,7 @@ namespace Brod.Consumers
         {
             _started = true;
             _stateStorage = new ConsumerStateStorage(_configuration);
-            _streamState = _stateStorage.ReadStreamState(Topic, "test-group", Partitions);
+            _streamState = _stateStorage.ReadStreamState(Topic, "default-group", Partitions);
 
             var task = Task.Factory.StartNew(() =>
             {
@@ -61,10 +61,10 @@ namespace Brod.Consumers
                         messageCount++;
                     }
 
-                    // Wait for 700 msecond, if there is no new messages
+                    // Wait for 500 msecond, if there is no new messages
                     // This value should be configurable
                     if (messageCount == 0)
-                        Thread.Sleep(700);
+                        Thread.Sleep(500);
                 }
             });
         }
