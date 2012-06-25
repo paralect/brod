@@ -10,7 +10,7 @@ volume of messages.
 Usage
 -----
 
-Your first producer:
+Your first Brod producer:
 
 ```csharp
 var context = new ProducerContext();
@@ -21,7 +21,7 @@ using(var stream = producer.OpenMessageStream("sample-topic"))
 }
 ```
 
-Your first consumer:
+Your first Brod consumer:
 
 ```csharp
 var context = new ConsumerContext();
