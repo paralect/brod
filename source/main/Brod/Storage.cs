@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
+using Brod.Utilities;
 
 namespace Brod
 {
@@ -300,14 +301,7 @@ namespace Brod
 
         public override int GetHashCode()
         {
-            // More about this here: http://stackoverflow.com/a/720282/407599
-            //             and here: http://www.pcreview.co.uk/forums/writing-own-gethashcode-function-t3182933.html
-
-            int hash = 27;
-            hash = (13 * hash) + Topic.GetHashCode();
-            hash = (13 * hash) + Partition.GetHashCode();
-            hash = (13 * hash) + Offset.GetHashCode();
-            return hash;
+            return HashCodeUtils.Compute(Topic, Partition, Offset);
         }
     }
 }

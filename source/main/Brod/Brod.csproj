@@ -89,6 +89,7 @@
     <Compile Include="Tasks\Events\EngineStarted.cs" />
     <Compile Include="Tasks\Events\EngineStopped.cs" />
     <Compile Include="Tasks\RequestHandlerTask.cs" />
+    <Compile Include="Utilities\HashCodeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
