@@ -6,12 +6,12 @@ namespace Brod.Tasks
     public class FlusherTask : ITask
     {
         private readonly BrokerConfiguration _configuration;
-        private readonly Storage _storage;
+        private readonly Store.Store _storage;
 
         private System.Timers.Timer _timer;
         private CancellationToken _cancellationToken;
 
-        public FlusherTask(BrokerConfiguration configuration, Storage storage)
+        public FlusherTask(BrokerConfiguration configuration, Store.Store storage)
         {
             _configuration = configuration;
             _storage = storage;

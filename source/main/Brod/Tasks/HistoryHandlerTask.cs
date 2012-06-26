@@ -11,11 +11,11 @@ namespace Brod.Tasks
     public class HistoryHandlerTask : ITask
     {
         private readonly BrokerConfiguration _configuration;
-        private readonly Storage _storage;
+        private readonly Store.Store _storage;
         private readonly string _repAddress;
         private ZMQ.Context _zeromqContext;
 
-        public HistoryHandlerTask(BrokerConfiguration configuration, Storage storage)
+        public HistoryHandlerTask(BrokerConfiguration configuration, Store.Store storage)
         {
             _configuration = configuration;
             _storage = storage;

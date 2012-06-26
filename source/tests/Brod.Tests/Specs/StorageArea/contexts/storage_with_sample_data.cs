@@ -13,7 +13,7 @@ namespace Brod.Tests.Specs.StorageArea.contexts
             messageString = "Hello, world!";
             messageBytes = Encoding.UTF8.GetBytes(messageString);
 
-            storage = new Storage(new BrokerConfiguration() { StorageDirectory = temporaryDirectory });
+            storage = new Store.Store(new BrokerConfiguration() { StorageDirectory = temporaryDirectory });
             storage.Append("test", 0, messageBytes);
             storage.Append("test", 0, messageBytes);
             storage.Append("test", 0, messageBytes);
@@ -25,7 +25,7 @@ namespace Brod.Tests.Specs.StorageArea.contexts
             Directory.Delete(temporaryDirectory);
 
         public static string temporaryDirectory;
-        public static Storage storage;
+        public static Store.Store storage;
         public static string messageString;
         public static byte[] messageBytes;
     }

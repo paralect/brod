@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Brod.Configuration;
+using Brod.Network;
 
 namespace Brod
 {
@@ -20,6 +21,9 @@ namespace Brod
             Console.WriteLine("-----------------------");
             Console.WriteLine("  Storage Directory: {0}", configuration.StorageDirectory);
             Console.WriteLine("  Default number of partitions: {0}", configuration.NumberOfPartitions);
+
+            //var socketServer = new SocketServer(configuration.ConsumerPort, configuration.ProducerPort, 1);
+            //socketServer.Startup();
 
             var server = new Broker(configuration);
             server.Start();

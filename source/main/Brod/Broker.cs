@@ -15,12 +15,12 @@ namespace Brod
 
         public void Start()
         {
-            using(var storage = new Storage(_configuration))
+            using(var store = new Store.Store(_configuration))
             {
                 var host = new Host(
-                    new RequestHandlerTask(_configuration, storage),
-                    new HistoryHandlerTask(_configuration, storage),
-                    new FlusherTask(_configuration, storage)
+                    new RequestHandlerTask(_configuration, store),
+                    new HistoryHandlerTask(_configuration, store),
+                    new FlusherTask(_configuration, store)
                 );
 
                 using (var token = new CancellationTokenSource())

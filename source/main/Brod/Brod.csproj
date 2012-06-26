@@ -58,8 +58,17 @@
     <Compile Include="Consumers\ConsumerMessageStream.cs" />
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogDescriptor.cs" />
+    <Compile Include="Log\LogManager.cs" />
+    <Compile Include="Log\LogSegment.cs" />
+    <Compile Include="Network\SocketServer.cs" />
     <Compile Include="Producers\ProducerContext.cs" />
     <Compile Include="Producers\ProducerMessageStream.cs" />
+    <Compile Include="Store\Log.cs" />
+    <Compile Include="Store\Segment.cs" />
+    <Compile Include="Store\Store.cs" />
+    <Compile Include="Store\Topic.cs" />
     <Compile Include="Utilities\Crc32.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="MessageReader.cs" />

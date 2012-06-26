@@ -10,11 +10,11 @@ namespace Brod.Tasks
     public class RequestHandlerTask : ITask
     {
         private readonly BrokerConfiguration _configuration;
-        private readonly Storage _storage;
+        private readonly Store.Store _storage;
         private readonly string _pullAddress;
         private ZMQ.Context _zeromqContext;
 
-        public RequestHandlerTask(BrokerConfiguration configuration, Storage storage)
+        public RequestHandlerTask(BrokerConfiguration configuration, Store.Store storage)
         {
             _configuration = configuration;
             _storage = storage;
