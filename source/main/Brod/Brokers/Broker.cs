@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Brod.Network;
 using Brod.Storage;
 using Brod.Tasks;
 
@@ -18,11 +19,19 @@ namespace Brod.Brokers
         {
             using(var store = new Store(_configuration))
             {
+                /*
                 var host = new Host(
                     new RequestHandlerTask(_configuration, store),
                     new HistoryHandlerTask(_configuration, store),
                     new FlusherTask(_configuration, store)
-                );
+                );*/
+
+                var handlers = new RequestHandlers(_configuration, store);
+
+                var host = new Host(
+                    new SocketListener(ZMQ.SocketType.PULL, _configuration.ProducerPort, handlers.Handle),
+                    new SocketListener(ZMQ.SocketType.REP, _configuration.ConsumerPort, handlers.Handle),
+                    new FlusherTask(_configuration, store));
 
                 using (var token = new CancellationTokenSource())
                 using (host)

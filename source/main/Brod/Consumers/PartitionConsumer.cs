@@ -56,18 +56,17 @@ namespace Brod.Consumers
 
             var result = _reqSocket.Recv();
 
-            using (var reader = new AvailableMessagesResponseReader((new MemoryStream(result))))
+            using (var responseStream = new MemoryStream(result))
+            using (var responseReader = new BinaryReader(responseStream))
             {
-                var response = reader.ReadRequest();
+                var response = AvailableMessagesResponse.ReadFromStream(responseStream, responseReader);
 
                 using (var messageReader = new MessageReader(new MemoryStream(response.Data)))
                 {
                     foreach (var message in messageReader.ReadAllMessages())
                         yield return message;
                 }
-                
             }
-
         }
 
         private Socket CreateSocket(ZMQ.SocketType socketType)

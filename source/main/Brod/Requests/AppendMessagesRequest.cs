@@ -38,6 +38,7 @@ namespace Brod.Requests
 
         public void WriteToStream(Stream stream, BinaryWriter writer)
         {
+            writer.Write((short) RequestType.AppendMessages);
             writer.Write(Topic);
             writer.Write(Partition);
 

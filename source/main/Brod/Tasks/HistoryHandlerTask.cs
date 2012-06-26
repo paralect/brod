@@ -54,9 +54,9 @@ namespace Brod.Tasks
                         response.Data = (block.Length == 0) ? new byte[0] : block.Data;
 
                         using (var stream2 = new MemoryStream())
-                        using (var writer = new AvailableMessagesResponseWriter(stream2))
+                        using (var writer = new BinaryWriter(stream2))
                         {
-                            writer.WriteRequest(response);
+                            response.WriteToStream(stream2, writer);
 
                             var binary = stream2.ToArray();
                             repSocket.Send(binary);
