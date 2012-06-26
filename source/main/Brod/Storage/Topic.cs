@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Brod.Store
+namespace Brod.Storage
 {
     public class Topic : IDisposable
     {

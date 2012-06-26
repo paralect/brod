@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace Brod
+namespace Brod.Tasks.Abstract
 {
     public interface ITask : IDisposable
     {

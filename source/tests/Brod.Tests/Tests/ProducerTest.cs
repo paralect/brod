@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Brod.Messages;
 using Brod.Producers;
 using NUnit.Framework;
 

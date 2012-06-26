@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Brod.Configuration;
 
-namespace Brod
+namespace Brod.Brokers
 {
     /// <summary>
     /// Storage configuration

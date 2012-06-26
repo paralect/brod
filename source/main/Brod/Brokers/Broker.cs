@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
+using Brod.Storage;
 using Brod.Tasks;
 
-namespace Brod
+namespace Brod.Brokers
 {
     public class Broker
     {
@@ -15,7 +16,7 @@ namespace Brod
 
         public void Start()
         {
-            using(var store = new Store.Store(_configuration))
+            using(var store = new Store(_configuration))
             {
                 var host = new Host(
                     new RequestHandlerTask(_configuration, store),

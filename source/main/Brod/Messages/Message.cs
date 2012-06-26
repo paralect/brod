@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Brod.Exceptions;
 using Brod.Utilities;
 
-namespace Brod
+namespace Brod.Messages
 {
     public class Message
     {

@@ -74,14 +74,14 @@ namespace Brod.Network
             }
         }
 
-        void pullPollItem_PollInHandler(Socket socket, IOMultiPlex revents)
+        public void pullPollItem_PollInHandler(ZMQ.Socket socket, IOMultiPlex revents)
         {
             Console.WriteLine("TreadId: {0}", Thread.CurrentThread.ManagedThreadId);
             byte[] bytesRecv = socket.Recv();
             Console.WriteLine("Pull derg!");
         }
 
-        void repPollItem_PollInHandler(Socket socket, IOMultiPlex revents)
+        public void repPollItem_PollInHandler(ZMQ.Socket socket, IOMultiPlex revents)
         {
             Console.WriteLine("TreadId: {0}", Thread.CurrentThread.ManagedThreadId);
             byte[] bytesRecv = socket.Recv();

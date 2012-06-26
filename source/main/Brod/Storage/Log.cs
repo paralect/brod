@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using Brod.Messages;
 
-namespace Brod.Store
+namespace Brod.Storage
 {
     public class Log : IDisposable
     {
@@ -20,7 +21,6 @@ namespace Brod.Store
         {
             _partition = partition;
             _logDirectory = GetLogDirectoryPath(topicDirectory);
-
             Init();
         }
 

@@ -1,4 +1,4 @@
-namespace Brod
+namespace Brod.Common
 {
     /// <summary>
     /// System event representing something that happened within the infrastructure

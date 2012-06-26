@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Brod.Messages;
 
-namespace Brod.Store
+namespace Brod.Storage
 {
     public class Segment : IDisposable
     {

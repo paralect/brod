@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Brod
+namespace Brod.Common
 {
     public class SystemInformer
     {

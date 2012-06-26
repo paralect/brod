@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Brod.Exceptions;
+using Brod.Messages;
 using Brod.Tests.Specs.StorageArea.contexts;
 using Machine.Specifications;
 

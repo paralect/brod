@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Brod.Brokers;
+using Brod.Messages;
 
-namespace Brod.Store
+namespace Brod.Storage
 {
     /// <summary>
     /// Brod storage

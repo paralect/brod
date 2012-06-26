@@ -2,19 +2,22 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using Brod.Brokers;
+using Brod.Network;
 using Brod.Requests;
-using Brod.Sockets;
+using Brod.Storage;
+using Brod.Tasks.Abstract;
 
 namespace Brod.Tasks
 {
     public class RequestHandlerTask : ITask
     {
         private readonly BrokerConfiguration _configuration;
-        private readonly Store.Store _storage;
+        private readonly Store _storage;
         private readonly string _pullAddress;
         private ZMQ.Context _zeromqContext;
 
-        public RequestHandlerTask(BrokerConfiguration configuration, Store.Store storage)
+        public RequestHandlerTask(BrokerConfiguration configuration, Store storage)
         {
             _configuration = configuration;
             _storage = storage;
