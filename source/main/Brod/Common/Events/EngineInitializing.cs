@@ -1,7 +1,6 @@
 using System;
-using Brod.Common;
 
-namespace Brod.Tasks.Events
+namespace Brod.Common.Events
 {
     [Serializable]
     public sealed class EngineInitializing : ISystemEvent

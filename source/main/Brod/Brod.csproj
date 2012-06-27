@@ -80,10 +80,9 @@
     <Compile Include="Contracts\Requests\RequestType.cs" />
     <Compile Include="Contracts\Responses\AvailableMessagesResponse.cs" />
     <Compile Include="Brokers\BrokerConfiguration.cs" />
-    <Compile Include="Tasks\FlusherTask.cs" />
-    <Compile Include="Tasks\HistoryHandlerTask.cs" />
-    <Compile Include="Tasks\Host.cs" />
-    <Compile Include="Tasks\Abstract\ITask.cs" />
+    <Compile Include="Brokers\Flusher.cs" />
+    <Compile Include="Common\Tasks\TaskEngine.cs" />
+    <Compile Include="Common\Tasks\ITask.cs" />
     <Compile Include="Common\ISystemEvent.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="Messages\Message.cs" />
@@ -91,16 +90,16 @@
     <Compile Include="Brokers\Broker.cs" />
     <Compile Include="Network\Socket.cs" />
     <Compile Include="Common\SystemInformer.cs" />
-    <Compile Include="Tasks\Events\EngineInitialized.cs" />
-    <Compile Include="Tasks\Events\EngineInitializing.cs" />
-    <Compile Include="Tasks\Events\EngineStarted.cs" />
-    <Compile Include="Tasks\Events\EngineStopped.cs" />
-    <Compile Include="Tasks\RequestHandlerTask.cs" />
+    <Compile Include="Common\Events\EngineInitialized.cs" />
+    <Compile Include="Common\Events\EngineInitializing.cs" />
+    <Compile Include="Common\Events\EngineStarted.cs" />
+    <Compile Include="Common\Events\EngineStopped.cs" />
     <Compile Include="Common\Utilities\HashCodeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <!-- Copy ZeroMQ native lib to target directory -->

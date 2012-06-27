@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using System.Timers;
-using Brod.Brokers;
+using Brod.Common.Tasks;
 using Brod.Storage;
-using Brod.Tasks.Abstract;
 
-namespace Brod.Tasks
+namespace Brod.Brokers
 {
-    public class FlusherTask : ITask
+    public class Flusher : ITask
     {
         private readonly BrokerConfiguration _configuration;
         private readonly Store _storage;
@@ -14,7 +13,7 @@ namespace Brod.Tasks
         private System.Timers.Timer _timer;
         private CancellationToken _cancellationToken;
 
-        public FlusherTask(BrokerConfiguration configuration, Store storage)
+        public Flusher(BrokerConfiguration configuration, Store storage)
         {
             _configuration = configuration;
             _storage = storage;

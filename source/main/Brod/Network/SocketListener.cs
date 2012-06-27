@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Threading;
+using Brod.Common.Tasks;
 using Brod.Contracts.Requests;
 using Brod.Contracts.Responses;
-using Brod.Tasks.Abstract;
 
 namespace Brod.Network
 {

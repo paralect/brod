@@ -4,16 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Brod.Common;
-using Brod.Tasks.Abstract;
-using Brod.Tasks.Events;
+using Brod.Common.Events;
 
-namespace Brod.Tasks
+namespace Brod.Common.Tasks
 {
     /// <summary>
-    /// Host that starts, waits or cancells execution of Tasks
+    /// TaskEngine that starts, waits or cancells execution of Tasks
     /// </summary>
-    public class Host : IDisposable
+    public class TaskEngine : IDisposable
     {
         /// <summary>
         /// Tasks that are managed by host
@@ -31,9 +29,9 @@ namespace Brod.Tasks
         private readonly String[] _taskNames;
 
         /// <summary>
-        /// Constructs Host with specified non-empty collection of tasks
+        /// Constructs TaskEngine with specified non-empty collection of tasks
         /// </summary>
-        public Host(ICollection<ITask> tasks)
+        public TaskEngine(ICollection<ITask> tasks)
         {
             _tasks = tasks;
 
@@ -57,7 +55,7 @@ namespace Brod.Tasks
         /// <summary>
         /// Constructor overload 
         /// </summary>
-        public Host(params ITask[] tasks) : this((ICollection<ITask>)tasks)
+        public TaskEngine(params ITask[] tasks) : this((ICollection<ITask>)tasks)
         {
             
         }
@@ -102,7 +100,7 @@ namespace Brod.Tasks
         }
 
         /// <summary>
-        /// Initialize Engine Host
+        /// Initialize Engine TaskEngine
         /// </summary>
         internal void Initialize()
         {
