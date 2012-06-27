@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Brod.Responses
+namespace Brod.Contracts.Responses
 {
     public abstract class Response
     {

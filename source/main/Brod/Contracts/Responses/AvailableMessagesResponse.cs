@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
-namespace Brod.Responses
+namespace Brod.Contracts.Responses
 {
     public class AvailableMessagesResponse : Response
     {

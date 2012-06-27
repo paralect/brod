@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Brod.Utilities
+namespace Brod.Common.Utilities
 {
     public class HashCodeUtils
     {

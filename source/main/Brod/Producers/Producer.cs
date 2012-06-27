@@ -2,14 +2,21 @@
 using System.IO;
 using System.Text;
 using System.Threading;
-using Brod.Requests;
 
 namespace Brod.Producers
 {
-    public class Producer
+    public class Producer : IDisposable
     {
+        private readonly static ProducerContext _context = new ProducerContext();
+
         private readonly string _address;
         private readonly ZMQ.Context _zeromqContext;
+
+        public Producer(String address)
+        {
+            _address = address;
+            _zeromqContext = _context.ZeromqContext;
+        }
 
         public Producer(String address, ZMQ.Context zeromqContext)
         {
@@ -20,6 +27,11 @@ namespace Brod.Producers
         public ProducerMessageStream OpenMessageStream(String topic)
         {
             return new ProducerMessageStream(_address, topic, _zeromqContext);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

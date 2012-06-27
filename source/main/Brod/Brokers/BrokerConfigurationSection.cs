@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Brod.Configuration
+namespace Brod.Brokers
 {
     public class BrokerConfigurationSection : ConfigurationSection
     {

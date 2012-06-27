@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Brod.Contracts.Requests;
+using Brod.Contracts.Responses;
 using Brod.Messages;
 using Brod.Network;
-using Brod.Requests;
-using Brod.Responses;
 
 namespace Brod.Consumers
 {

@@ -7,9 +7,7 @@ namespace SampleProducer
     {
         public static void Main(string[] args)
         {
-            var context = new ProducerContext();
-            var producer = context.CreateProducer("localhost:5567");
-            
+            using(var producer = new Producer("localhost:5567"))
             using(var stream = producer.OpenMessageStream("sample-topic"))
             {
                 Console.WriteLine("SampleProducer.");

@@ -7,7 +7,7 @@ using Brod.Messages;
 namespace Brod.Storage
 {
     /// <summary>
-    /// Brod storage
+    /// Brod persistent message store
     /// </summary>
     public class Store : IDisposable
     {

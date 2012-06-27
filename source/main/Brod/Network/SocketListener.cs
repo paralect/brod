@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Threading;
-using Brod.Requests;
-using Brod.Responses;
+using Brod.Contracts.Requests;
+using Brod.Contracts.Responses;
 using Brod.Tasks.Abstract;
 
 namespace Brod.Network

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Brod.Requests
+﻿namespace Brod.Contracts.Requests
 {
     public enum RequestType : short
     {

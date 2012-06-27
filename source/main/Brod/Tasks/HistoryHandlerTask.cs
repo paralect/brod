@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using Brod.Brokers;
+using Brod.Contracts.Requests;
+using Brod.Contracts.Responses;
 using Brod.Network;
-using Brod.Requests;
-using Brod.Responses;
 using Brod.Storage;
 using Brod.Tasks.Abstract;
 

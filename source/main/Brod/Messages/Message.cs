@@ -1,6 +1,6 @@
 ﻿using System;
+using Brod.Common.Utilities;
 using Brod.Exceptions;
-using Brod.Utilities;
 
 namespace Brod.Messages
 {

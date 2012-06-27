@@ -3,8 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using Brod.Brokers;
+using Brod.Contracts.Requests;
 using Brod.Network;
-using Brod.Requests;
 using Brod.Storage;
 using Brod.Tasks.Abstract;
 

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Brod.Brokers;
-using Brod.Configuration;
 using Brod.Network;
 
 namespace Brod

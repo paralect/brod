@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Brod.Utilities
+namespace Brod.Common.Utilities
 {
     /// <summary>
     /// (C) Damien Guard

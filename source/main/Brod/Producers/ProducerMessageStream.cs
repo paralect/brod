@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using Brod.Contracts.Requests;
 using Brod.Messages;
 using Brod.Network;
-using Brod.Requests;
 
 namespace Brod.Producers
 {

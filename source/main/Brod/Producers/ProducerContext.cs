@@ -1,4 +1,6 @@
-﻿namespace Brod.Producers
+﻿using ZMQ;
+
+namespace Brod.Producers
 {
     /// <summary>
     /// ProducerContext is thread safe and may be shared among as many application threads as necessary, 
@@ -7,6 +9,11 @@
     public class ProducerContext
     {
         private readonly ZMQ.Context _zeromqContext;
+
+        public Context ZeromqContext
+        {
+            get { return _zeromqContext; }
+        }
 
         public ProducerContext()
         {
