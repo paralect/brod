@@ -13,8 +13,8 @@ Usage
 Your first Brod producer:
 
 ```csharp
-var producer = new Producer("localhost:5567");
-using(var stream = producer.OpenMessageStream("sample-topic"))
+using(var producer = new Producer("localhost:5567"));
+using(var stream = producer.OpenStream("sample-topic"))
 {
     producer.Send("Hello world!");
 }
@@ -23,9 +23,9 @@ using(var stream = producer.OpenMessageStream("sample-topic"))
 Your first Brod consumer:
 
 ```csharp
-var context = new ConsumerContext();
-var consumer = context.CreateConsumer("localhost:5568");
-using(var stream = consumer.OpenMessageStream("sample-topic"))
+
+using(var consumer = new Consumer("localhost:5568"))
+using(var stream = consumer.OpenStream("sample-topic"))
 {
     foreach (var message in stream.NextString())
         Console.WriteLine(message);
