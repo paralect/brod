@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Brod.Common;
 using Brod.Contracts.Requests;
 using Brod.Contracts.Responses;
 using Brod.Storage;
@@ -20,25 +21,25 @@ namespace Brod.Brokers
 
         /// <summary>
         /// Map request to the handler function of the following signature:
-        /// Response SomeHandler(Stream, BinaryReader)
+        /// Response SomeHandler(BinaryStream)
         /// </summary>
-        public Func<Stream, BinaryReader, Response> MapHandlers(RequestType requestType, Stream stream, BinaryReader reader)
+        public Func<BinaryStream, Response> MapHandlers(RequestType requestType, BinaryStream buffer)
         {
             switch (requestType)
             {
-                case RequestType.AppendMessages:
+                case RequestType.AppendRequest:
                     return HandleAppendMessages;
 
-                case RequestType.LoadMessages:
+                case RequestType.FetchRequest:
                     return HandleLoadMessages;
             }
 
             return null;
         }
 
-        public Response HandleAppendMessages(Stream stream, BinaryReader reader)
+        public Response HandleAppendMessages(BinaryStream buffer)
         {
-            var request = AppendMessagesRequest.ReadFromStream(stream, reader);
+            var request = AppendRequest.ReadFromStream(buffer);
 
             if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                 return null;
@@ -64,9 +65,9 @@ namespace Brod.Brokers
             return null;
         }
 
-        public Response HandleLoadMessages(Stream stream, BinaryReader reader)
+        public Response HandleLoadMessages(BinaryStream buffer)
         {
-            var request = LoadMessagesRequest.ReadFromStream(stream, reader);
+            var request = FetchRequest.ReadFromStream(buffer);
 
             if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
                 return null;

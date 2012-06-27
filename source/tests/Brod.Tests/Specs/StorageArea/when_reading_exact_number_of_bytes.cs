@@ -15,6 +15,8 @@ namespace Brod.Tests.Specs.StorageArea
             messages = storage
                 .ReadMessages("test", 0, 0, bytesToRead)
                 .ToList();
+
+            int a = 90;
         };
 
         It should_has_four_messages = () =>

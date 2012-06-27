@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Brod.Common;
 
 namespace Brod.Messages
 {
     public class MessageReader : IDisposable
     {
+        private readonly BinaryStream _buffer;
         private readonly Stream _stream;
         private readonly BinaryReader _reader;
 
-        public MessageReader(Stream stream)
+        public MessageReader(BinaryStream buffer)
         {
-            _stream = stream;
-            _reader = new BinaryReader(stream);
+            _buffer = buffer;
+            _stream = buffer.Stream;
+            _reader = buffer.Reader;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Brod.Common;
 
 namespace Brod.Contracts.Responses
 {
@@ -6,18 +7,18 @@ namespace Brod.Contracts.Responses
     {
         public byte[] Data { get; set; }
 
-        public static AvailableMessagesResponse ReadFromStream(Stream stream, BinaryReader reader)
+        public static AvailableMessagesResponse ReadFromStream(BinaryStream stream)
         {
             var request = new AvailableMessagesResponse();
-            var length = reader.ReadInt32();
-            request.Data = reader.ReadBytes(length);
+            var length = stream.Reader.ReadInt32();
+            request.Data = stream.Reader.ReadBytes(length);
             return request;            
         }
 
-        public override void WriteToStream(Stream stream, BinaryWriter writer)
+        public override void WriteToStream(BinaryStream stream)
         {
-            writer.Write(Data.Length);
-            writer.Write(Data);
+            stream.Writer.Write(Data.Length);
+            stream.Writer.Write(Data);
         }
     }
 }

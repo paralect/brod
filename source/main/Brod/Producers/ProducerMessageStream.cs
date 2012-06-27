@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using Brod.Common;
 using Brod.Contracts.Requests;
 using Brod.Messages;
 using Brod.Network;
@@ -73,15 +74,12 @@ namespace Brod.Producers
         /// </summary>
         public void Send(byte[] payload, Int32 partition)
         {
-            var request = new AppendMessagesRequest(_topic, _partition, Message.CreateMessage(payload));
+            var request = new AppendRequest(_topic, _partition, Message.CreateMessage(payload));
 
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
+            using (var buffer = new BinaryMemoryStream())
             {
-                request.WriteToStream(stream, writer);
-
-                var data = stream.ToArray();
-                //Console.WriteLine("Sending {0} bytes", data.Length);
+                request.WriteToStream(buffer);
+                var data = buffer.ToArray();
                 _pushSocket.Send(data);
             }
         }

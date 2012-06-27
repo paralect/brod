@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Brod.Common;
 using Brod.Contracts.Requests;
 using Brod.Contracts.Responses;
 using Brod.Messages;
@@ -38,30 +39,27 @@ namespace Brod.Consumers
 
         public IEnumerable<Message> Load(String topic, Int32 partition, Int32 offset, Int32 blockSize)
         {
-            var request = new LoadMessagesRequest();
+            var request = new FetchRequest();
             request.Topic = topic;
             request.Partition = partition;
             request.Offset = offset;
             request.BlockSize = blockSize;
 
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
+            using (var buffer = new BinaryMemoryStream())
             {
-                request.WriteToStream(stream, writer);
+                request.WriteToStream(buffer);
 
-                var data = stream.ToArray();
-                //Console.WriteLine("Sending {0} bytes", data.Length);
+                var data = buffer.ToArray();
                 _reqSocket.Send(data);
             }
 
             var result = _reqSocket.Recv();
 
-            using (var responseStream = new MemoryStream(result))
-            using (var responseReader = new BinaryReader(responseStream))
+            using(var buffer = new BinaryMemoryStream(result))
             {
-                var response = AvailableMessagesResponse.ReadFromStream(responseStream, responseReader);
+                var response = AvailableMessagesResponse.ReadFromStream(buffer);
 
-                using (var messageReader = new MessageReader(new MemoryStream(response.Data)))
+                using (var messageReader = new MessageReader(new BinaryMemoryStream(response.Data)))
                 {
                     foreach (var message in messageReader.ReadAllMessages())
                         yield return message;

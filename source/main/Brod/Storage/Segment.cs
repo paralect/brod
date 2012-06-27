@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Brod.Common;
 using Brod.Messages;
 
 namespace Brod.Storage
@@ -39,7 +40,7 @@ namespace Brod.Storage
                 _writeStream.Seek(0, SeekOrigin.End);
             }
 
-            var messageWriter = new MessageWriter(_writeStream);
+            var messageWriter = new MessageWriter(new BinaryStream(_writeStream));
             messageWriter.WriteMessage(payload);
         }
 

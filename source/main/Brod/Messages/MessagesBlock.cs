@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Brod.Common;
 
 namespace Brod.Messages
 {
@@ -14,7 +15,7 @@ namespace Brod.Messages
         /// </summary>
         public IEnumerable<Message> ReadMessages()
         {
-            using (var reader = new MessageReader(new MemoryStream(Data)))
+            using (var reader = new MessageReader(new BinaryMemoryStream(Data)))
             {
                 Message message;
                 while ((message = reader.ReadMessage()) != null)

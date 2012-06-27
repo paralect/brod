@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using Brod.Common;
 using Brod.Common.Tasks;
 using Brod.Contracts.Requests;
 using Brod.Contracts.Responses;
@@ -10,12 +11,12 @@ namespace Brod.Network
     public class SocketListener : ITask
     {
         private readonly ZMQ.SocketType _socketType;
-        private readonly Func<RequestType, Stream, BinaryReader, Func<Stream, BinaryReader, Response>> _handlerMapping;
+        private readonly Func<RequestType, BinaryStream, Func<BinaryStream, Response>> _handlerMapping;
         private readonly String _address;
         private ZMQ.Context _zeromqContext;
 
         public SocketListener(ZMQ.SocketType socketType, Int32 port,
-            Func<RequestType, Stream, BinaryReader, Func<Stream, BinaryReader, Response>> handlerMapping)
+            Func<RequestType, BinaryStream, Func<BinaryStream, Response>> handlerMapping)
         {
             _socketType = socketType;
             _handlerMapping = handlerMapping;
@@ -38,23 +39,21 @@ namespace Brod.Network
 
                     Response response = null;
 
-                    using (var requestStream = new MemoryStream(data))
-                    using (var requestReader = new BinaryReader(requestStream))
+                    using (var buffer = new BinaryMemoryStream(data))
                     {
                         // by request type we can distinguish actual request
-                        var requestType = (RequestType) requestReader.ReadInt16();
-                        var handler = _handlerMapping(requestType, requestStream, requestReader);
+                        var requestType = (RequestType)buffer.Reader.ReadInt16();
+                        var handler = _handlerMapping(requestType, buffer);
 
-                        response = handler(requestStream, requestReader);
+                        response = handler(buffer);
                     }
 
                     if (response != null)
                     {
-                        using (var responseStream = new MemoryStream())
-                        using (var responseWriter = new BinaryWriter(responseStream))
+                        using (var buffer = new BinaryMemoryStream())
                         {
-                            response.WriteToStream(responseStream, responseWriter);
-                            socket.Send(responseStream.ToArray());
+                            response.WriteToStream(buffer);
+                            socket.Send(buffer.ToArray());
                         }
                     }
                 }

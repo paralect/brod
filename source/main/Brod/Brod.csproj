@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brokers\BrokerConfigurationSection.cs" />
+    <Compile Include="Common\BinaryStream.cs" />
     <Compile Include="Consumers\Consumer.cs" />
     <Compile Include="Consumers\ConsumerConnector.cs" />
     <Compile Include="Consumers\ConsumerContext.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Network\SocketListener.cs" />
-    <Compile Include="Network\SocketServer.cs" />
     <Compile Include="Producers\ProducerContext.cs" />
     <Compile Include="Producers\ProducerMessageStream.cs" />
     <Compile Include="Brokers\RequestHandlers.cs" />
@@ -75,9 +75,8 @@
     <Compile Include="Messages\MessagesBlock.cs" />
     <Compile Include="Messages\MessageWriter.cs" />
     <Compile Include="Producers\Producer.cs" />
-    <Compile Include="Contracts\Requests\AppendMessagesRequest.cs" />
-    <Compile Include="Contracts\Requests\LoadMessagesRequest.cs" />
-    <Compile Include="Contracts\Requests\RequestType.cs" />
+    <Compile Include="Contracts\Requests\AppendRequest.cs" />
+    <Compile Include="Contracts\Requests\FetchRequest.cs" />
     <Compile Include="Contracts\Responses\AvailableMessagesResponse.cs" />
     <Compile Include="Brokers\BrokerConfiguration.cs" />
     <Compile Include="Brokers\Flusher.cs" />

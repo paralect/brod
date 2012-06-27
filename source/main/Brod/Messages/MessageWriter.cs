@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Brod.Common;
 
 namespace Brod.Messages
 {
     public class MessageWriter : IDisposable
     {
+        private readonly BinaryStream _buffer;
         private readonly BinaryWriter _writer;
 
-        public MessageWriter(Stream output)
+        public MessageWriter(BinaryStream buffer)
         {
-            _writer = new BinaryWriter(output);
+            _buffer = buffer;
+            _writer = buffer.Writer;
         }
 
         public void WriteMessage(byte[] payload)
