@@ -15,7 +15,7 @@ namespace MassiveProducer
         {
             var context = new ProducerContext();
             var producer = context.CreateProducer("localhost:5567");
-            var stream = producer.OpenMessageStream("massive-topic");
+            var stream = producer.OpenStream("massive-topic");
 
             var totalBytesSend = 0;
             const int messageSize = 1024;

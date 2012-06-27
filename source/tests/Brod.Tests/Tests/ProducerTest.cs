@@ -14,7 +14,7 @@ namespace Brod.Tests.Tests
         {
             var context = new ProducerContext();
             var producer = context.CreateProducer("localhost:5567");
-            var stream = producer.OpenMessageStream("test");
+            var stream = producer.OpenStream("test");
 
             var totalBytesSent = 0;
             const int messageSize = 200;

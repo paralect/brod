@@ -8,7 +8,7 @@ namespace SampleProducer
         public static void Main(string[] args)
         {
             using(var producer = new Producer("localhost:5567"))
-            using(var stream = producer.OpenMessageStream("sample-topic"))
+            using(var stream = producer.OpenStream("sample-topic"))
             {
                 Console.WriteLine("SampleProducer.");
                 Console.WriteLine("---------------");

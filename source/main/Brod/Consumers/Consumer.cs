@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Brod.Consumers
 {
-    public class Consumer
+    public class Consumer : IDisposable
     {
+        private readonly static ConsumerContext _sharedContext = new ConsumerContext();
+
         private readonly ConsumerContext _context;
         private ConsumerConfiguration _configuration = new ConsumerConfiguration();
 
@@ -45,26 +47,35 @@ namespace Brod.Consumers
             set { _configuration.NumberOfPartitionsPerTopic = value; }
         }
 
+        public Consumer(String brokerAddress)
+        {
+            _context = _sharedContext;
+            _configuration.Address = "tcp://" + brokerAddress;
+        }
+
         public Consumer(String brokerAddress, ConsumerContext context)
         {
             _context = context;
-            _configuration.Address = brokerAddress;
+            _configuration.Address = "tcp://" + brokerAddress;
         }
 
-        public ConsumerMessageStream OpenMessageStream(String topic)
+        public ConsumerMessageStream OpenStream(String topic)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
             var streams = connector.CreateMessageStreams(topic, 1);
             return streams[0];
         }
 
-        public List<ConsumerMessageStream> OpenMessageStream(String topic, Int32 numberOfStreams)
+        public List<ConsumerMessageStream> OpenStream(String topic, Int32 numberOfStreams)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
             var streams = connector.CreateMessageStreams(topic, numberOfStreams);
             return streams;
         }
 
-
+        public void Dispose()
+        {
+            
+        }
     }
 }

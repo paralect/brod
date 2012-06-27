@@ -14,7 +14,7 @@ namespace Brod.Producers
 
         public Producer(String address)
         {
-            _address = address;
+            _address = "tcp://" + address;
             _zeromqContext = _context.ZeromqContext;
         }
 
@@ -24,7 +24,7 @@ namespace Brod.Producers
             _zeromqContext = zeromqContext;
         }
 
-        public ProducerMessageStream OpenMessageStream(String topic)
+        public ProducerMessageStream OpenStream(String topic)
         {
             return new ProducerMessageStream(_address, topic, _zeromqContext);
         }

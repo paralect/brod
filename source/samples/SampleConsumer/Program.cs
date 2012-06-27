@@ -9,11 +9,10 @@ namespace SampleConsumer
     {
         public static void Main(string[] args)
         {
-            var context = new ConsumerContext();
-            var consumer = context.CreateConsumer("localhost:5568");
+            var consumer = new Consumer("localhost:5568");
             consumer.StateStorageDirectory = @"c:\tmp\consumer-state";
             
-            using(var stream = consumer.OpenMessageStream("sample-topic"))
+            using(var stream = consumer.OpenStream("sample-topic"))
             {
                 Console.WriteLine("SampleConsumer.");
                 Console.WriteLine("---------------");
