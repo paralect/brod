@@ -13,8 +13,7 @@ Usage
 Your first Brod producer:
 
 ```csharp
-var context = new ProducerContext();
-var producer = context.CreateProducer("localhost:5567");
+var producer = new Producer("localhost:5567");
 using(var stream = producer.OpenMessageStream("sample-topic"))
 {
     producer.Send("Hello world!");
