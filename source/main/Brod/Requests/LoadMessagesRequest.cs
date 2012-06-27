@@ -5,12 +5,16 @@ using System.Text;
 
 namespace Brod.Requests
 {
-    public class LoadMessagesRequest
+    public class LoadMessagesRequest : Request
     {
         public String Topic { get; set; }
         public Int32 Partition { get; set; }
         public Int32 Offset { get; set; }
         public Int32 BlockSize { get; set; }
+
+        public LoadMessagesRequest() : base(RequestType.LoadMessages)
+        {
+        }
 
         public static LoadMessagesRequest ReadFromStream(Stream stream, BinaryReader reader)
         {

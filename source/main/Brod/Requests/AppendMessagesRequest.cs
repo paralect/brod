@@ -7,18 +7,18 @@ using Brod.Messages;
 
 namespace Brod.Requests
 {
-    public class AppendMessagesRequest
+    public class AppendMessagesRequest : Request
     {
         public String Topic { get; set; }
         public Int32 Partition { get; set; }
         public List<Message> Messages { get; set; }
 
-        public AppendMessagesRequest()
+        public AppendMessagesRequest() : base(RequestType.AppendMessages)
         {
             Messages = new List<Message>();
         }
 
-        public AppendMessagesRequest(String topic, Int32 partition, Message message)
+        public AppendMessagesRequest(String topic, Int32 partition, Message message) : base(RequestType.AppendMessages)
         {
             Topic = topic;
             Partition = partition;

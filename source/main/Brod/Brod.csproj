@@ -63,6 +63,7 @@
     <Compile Include="Producers\ProducerContext.cs" />
     <Compile Include="Producers\ProducerMessageStream.cs" />
     <Compile Include="Brokers\RequestHandlers.cs" />
+    <Compile Include="Requests\Request.cs" />
     <Compile Include="Responses\Response.cs" />
     <Compile Include="Storage\Log.cs" />
     <Compile Include="Storage\Segment.cs" />

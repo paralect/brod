@@ -18,34 +18,30 @@ namespace Brod.Brokers
             _storage = storage;
         }
 
-        public Response Handle(byte[] data)
+        /// <summary>
+        /// Map request to the handler function of the following signature:
+        /// Response SomeHandler(Stream, BinaryReader)
+        /// </summary>
+        public Func<Stream, BinaryReader, Response> MapHandlers(RequestType requestType, Stream stream, BinaryReader reader)
         {
-            using (var stream = new MemoryStream(data))
-            using (var reader = new BinaryReader(stream))
+            switch (requestType)
             {
-                var type = (RequestType) reader.ReadInt16();
+                case RequestType.AppendMessages:
+                    return HandleAppendMessages;
 
-                switch (type)
-                {
-                    case RequestType.AppendMessages:
-                        HandleAppendMessages(stream, reader);
-                        break;
-
-                    case RequestType.LoadMessages:
-                        return HandleLoadMessages(stream, reader);
-
-                }
+                case RequestType.LoadMessages:
+                    return HandleLoadMessages;
             }
 
             return null;
         }
 
-        public void HandleAppendMessages(Stream stream, BinaryReader reader)
+        public Response HandleAppendMessages(Stream stream, BinaryReader reader)
         {
             var request = AppendMessagesRequest.ReadFromStream(stream, reader);
 
             if (!_storage.ValidatePartitionNumber(request.Topic, request.Partition))
-                return;
+                return null;
 
             for (int i = 0; i < request.Messages.Count; i++)
             {
@@ -64,6 +60,8 @@ namespace Brod.Brokers
                 // Flushing to OS cashe
                 _storage.Flush();
             }
+
+            return null;
         }
 
         public Response HandleLoadMessages(Stream stream, BinaryReader reader)
