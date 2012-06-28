@@ -68,26 +68,69 @@ ProducerMessageStream API
 
 `ProducerMessageStream` allows to send messages.
 
-To send message, use one of the following signatures:
+To send single message, use one of the following signatures:
 ```csharp
 /// <summary>
-/// Send binary message
+/// Send binary message to partition #0
 /// </summary>
 public void Send(byte[] payload)
 
 /// <summary>
-/// Send message with default UTF-8 encoding to specified partition
+/// Send binary message to specified topic partition
+/// </summary>
+public void Send(byte[] payload, Int32 partition)
+
+/// <summary>
+/// Send text message with default UTF-8 encoding to partition #0
+/// </summary>
+public void Send(String message)
+
+/// <summary>
+/// Send text message with default UTF-8 encoding to specified partition
 /// </summary>
 public void Send(String message, Int32 partition);
 
 /// <summary>
-/// Send message with specified encoding
+/// Send text message with specified encoding to partition #0
 /// </summary>
 public void Send(String message, Encoding encoding)
 
 /// <summary>
-/// Send message with specified encoding to specified partition
+/// Send text message with specified encoding to specified partition
 /// </summary>
 public void Send(String message, Encoding encoding, Int32 partition)
 ```
 
+To send many message, use one of the following overloads:
+
+```csharp
+/// <summary>
+/// Send binary messages to partition #0
+/// </summary>
+public void Send(IEnumerable<byte[]> payloads)
+
+/// <summary>
+/// Send binary messages to specified partition
+/// </summary>
+public void Send(IEnumerable<byte[]> payloads, Int32 partition)
+
+/// <summary>
+/// Send text messages with default UTF-8 encoding to partition #0
+/// </summary>
+public void Send(IEnumerable<String> messages)
+
+/// <summary>
+/// Send text messages with default UTF-8 encoding to specified partition
+/// </summary>
+public void Send(IEnumerable<String> messages, Int32 partition)
+
+/// <summary>
+/// Send text messages with specified encoding to partition #0
+/// </summary>
+public void Send(IEnumerable<String> messages, Encoding encoding)
+
+/// <summary>
+/// Send text messages with specified encoding to specified partition
+/// </summary>
+public void Send(IEnumerable<String> messages, Encoding encoding, Int32 partition)
+```
