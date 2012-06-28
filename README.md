@@ -71,17 +71,17 @@ ProducerMessageStream API
 To send single message, use one of the following signatures:
 ```csharp
 /// <summary>
-/// Send binary message to partition #0
+/// Send binary message to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(byte[] payload)
 
 /// <summary>
-/// Send binary message to specified topic partition
+/// Send binary message to specified partition
 /// </summary>
 public void Send(byte[] payload, Int32 partition)
 
 /// <summary>
-/// Send text message with default UTF-8 encoding to partition #0
+/// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(String message)
 
@@ -91,7 +91,7 @@ public void Send(String message)
 public void Send(String message, Int32 partition);
 
 /// <summary>
-/// Send text message with specified encoding to partition #0
+/// Send text message with specified encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(String message, Encoding encoding)
 
@@ -105,7 +105,7 @@ To send many messages at once, use one of the following overloads:
 
 ```csharp
 /// <summary>
-/// Send binary messages to partition #0
+/// Send binary messages to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(IEnumerable<byte[]> payloads)
 
@@ -115,7 +115,7 @@ public void Send(IEnumerable<byte[]> payloads)
 public void Send(IEnumerable<byte[]> payloads, Int32 partition)
 
 /// <summary>
-/// Send text messages with default UTF-8 encoding to partition #0
+/// Send text messages with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(IEnumerable<String> messages)
 
@@ -125,7 +125,7 @@ public void Send(IEnumerable<String> messages)
 public void Send(IEnumerable<String> messages, Int32 partition)
 
 /// <summary>
-/// Send text messages with specified encoding to partition #0
+/// Send text messages with specified encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(IEnumerable<String> messages, Encoding encoding)
 
