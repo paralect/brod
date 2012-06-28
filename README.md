@@ -33,7 +33,7 @@ using(var stream = consumer.OpenStream("sample-topic"))
 ```
 
 Producer API
-------------
+============
 
 `Producer` represents logical connection to a single broker. 
 
@@ -45,7 +45,7 @@ To create `Producer` that will produce messages to a broker at `brokerAddress` c
 public Producer(String brokerAddress);
 ```
 
-To open message stream, use one of the following signatures:
+To start producing messages, open message stream, using one of the following signatures:
 ```csharp
 /// <summary>
 /// Open stream for specified topic that has one partition (#0)
@@ -133,4 +133,39 @@ public void Send(IEnumerable<String> messages, Encoding encoding)
 /// Send text messages with specified encoding to specified partition
 /// </summary>
 public void Send(IEnumerable<String> messages, Encoding encoding, Int32 partition)
+```
+
+Consumer API
+============
+
+`Consumer` represents logical connection to a single broker. 
+
+To create `Consumer` that will consume messages from the broker at `brokerAddress`, call the following constructor:
+```csharp
+public Consumer(String brokerAddress)
+```
+
+To start consuming messages, open message stream using one of the following signatures:
+```csharp
+/// <summary>
+/// Open stream for specified topic, that has one partition (#0)
+/// </summary>
+public ConsumerMessageStream OpenStream(String topic)
+
+/// <summary>
+/// Open stream for specified topic, that has numberOfPartitions partitions
+/// </summary>
+public ConsumerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+```
+
+You can create more than one stream for single topic. In this way you can use several threads to consume messages from
+this topic. Of course, number of topic partitions should be many more, than number of streams. 
+
+```csharp
+/// <summary>
+/// Open numberOfStreams streams for specified topic, that has numberofPartitions partitions.
+/// Paritions will be assigned to each stream in such a way, that each stream will consume
+/// roughly the same number of partitions.
+/// </summary>
+public List<ConsumerMessageStream> OpenStreams(String topic, Int32 numberOfPartitions, Int32 numberOfStreams)
 ```
