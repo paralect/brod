@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brokers\BrokerConfigurationSection.cs" />
+    <Compile Include="Common\BinaryMemoryStream.cs" />
     <Compile Include="Common\BinaryStream.cs" />
     <Compile Include="Consumers\Consumer.cs" />
     <Compile Include="Consumers\ConsumerConnector.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Network\SocketListener.cs" />
+    <Compile Include="Producers\DefaultPartitioner.cs" />
+    <Compile Include="Producers\IPartitioner.cs" />
     <Compile Include="Producers\ProducerContext.cs" />
     <Compile Include="Producers\ProducerMessageStream.cs" />
     <Compile Include="Brokers\RequestHandlers.cs" />
