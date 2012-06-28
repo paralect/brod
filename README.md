@@ -101,7 +101,7 @@ public void Send(String message, Encoding encoding)
 public void Send(String message, Encoding encoding, Int32 partition)
 ```
 
-To send many message, use one of the following overloads:
+To send many messages at once, use one of the following overloads:
 
 ```csharp
 /// <summary>
