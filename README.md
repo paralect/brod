@@ -71,6 +71,11 @@ ProducerMessageStream API
 To send message, use one of the following signatures:
 ```csharp
 /// <summary>
+/// Send binary message
+/// </summary>
+public void Send(byte[] payload)
+
+/// <summary>
 /// Send message with default UTF-8 encoding to specified partition
 /// </summary>
 public void Send(String message, Int32 partition);
@@ -84,10 +89,5 @@ public void Send(String message, Encoding encoding)
 /// Send message with specified encoding to specified partition
 /// </summary>
 public void Send(String message, Encoding encoding, Int32 partition)
-
-/// <summary>
-/// Send binary message
-/// </summary>
-public void Send(byte[] payload)
 ```
 
