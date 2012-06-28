@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -7,31 +9,116 @@ namespace Brod.Producers
 {
     public class Producer : IDisposable
     {
-        private readonly static ProducerContext _context = new ProducerContext();
+        /// <summary>
+        /// Shared ProducerContext among all Producers
+        /// </summary>
+        private readonly static ProducerContext _sharedContext = new ProducerContext();
 
-        private readonly string _address;
-        private readonly ZMQ.Context _zeromqContext;
+        /// <summary>
+        /// Producer context
+        /// </summary>
+        private readonly ProducerContext _context = _sharedContext;
 
-        public Producer(String address)
+        /// <summary>
+        /// Broker brokerAddress
+        /// </summary>
+        private readonly string _brokerAddress;
+
+        /// <summary>
+        /// Partitioner routes producer requests to selected partition
+        /// </summary>
+        private IPartitioner _partitioner = new DefaultPartitioner();
+
+        /// <summary>
+        /// Default number of partitions for topics that doesn't registered in NumberOfPartitionsPerTopic.
+        /// </summary>
+        private Int32 _numberOfPartitions = 1;
+
+        /// <summary>
+        /// Number of partitions per topic name
+        /// </summary>
+        private Dictionary<String, Int32> _numberOfPartitionsPerTopic = new Dictionary<string, int>();
+
+        /// <summary>
+        /// Partitioner routes producer requests to selected partition.
+        /// Default is DefaultPartitioner
+        /// </summary>
+        public IPartitioner Partitioner
         {
-            _address = "tcp://" + address;
-            _zeromqContext = _context.ZeromqContext;
+            get { return _partitioner; }
+            set { _partitioner = value; }
         }
 
-        public Producer(String address, ZMQ.Context zeromqContext)
+        /// <summary>
+        /// Default number of partitions for topics
+        /// Default is 1
+        /// </summary>
+        public Int32 NumberOfPartitions
         {
-            _address = address;
-            _zeromqContext = zeromqContext;
+            get { return _numberOfPartitions; }
+            set { _numberOfPartitions = value; }
         }
 
+        /// <summary>
+        /// Number of partitions per topic name
+        /// </summary>
+        public Dictionary<String, Int32> NumberOfPartitionsPerTopic
+        {
+            get { return _numberOfPartitionsPerTopic; }
+            set { _numberOfPartitionsPerTopic = value; }
+        }
+
+        /// <summary>
+        /// Constructs Producer with specified broker address
+        /// </summary>
+        public Producer(String brokerAddress)
+        {
+            _brokerAddress = Protocolize(brokerAddress);
+        }
+
+        /// <summary>
+        /// Open stream for specified topic that has one partition (#0)
+        /// </summary>
         public ProducerMessageStream OpenStream(String topic)
         {
-            return new ProducerMessageStream(_address, topic, _zeromqContext);
+            return new ProducerMessageStream(_brokerAddress, topic, _sharedContext);
+        }
+
+        /// <summary>
+        /// Open stream for specified topic that has numberOfParitions partitions.
+        /// DefaultPartitioner will be used.
+        /// </summary>
+        public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+        {
+            return OpenStream(topic, numberOfPartitions, _partitioner);
+        }
+
+        /// <summary>
+        /// Open stream for specified topic that has numberOfParitions partitions with
+        /// specified partitioner
+        /// </summary>
+        public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Insures that protocol is specified. If it doesn't - use tcp://
+        /// </summary>
+        private String Protocolize(String address)
+        {
+            if (address.StartsWith("tcp://", false, CultureInfo.InvariantCulture))
+                return address;
+
+            return "tcp://" + address;
         }
 
         public void Dispose()
         {
-            
+            // If context not shared - dispose it
+            if (_context != _sharedContext && _context != null)
+                _context.Dispose();
+
         }
     }
 }

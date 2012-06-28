@@ -31,3 +31,30 @@ using(var stream = consumer.OpenStream("sample-topic"))
         Console.WriteLine(message);
 }
 ```
+
+Producer API
+------------
+
+Producer represents logical connection to a single broker. 
+
+Constructor
+<table>
+	<tr>
+		<td>
+
+```csharp
+public Producer(String brokerAddress);
+
+```
+		
+		</td>
+	</tr>
+</table>
+
+```csharp
+public Producer(String brokerAddress);
+
+```
+
+Methods
+

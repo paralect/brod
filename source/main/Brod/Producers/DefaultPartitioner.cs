@@ -6,7 +6,7 @@ namespace Brod.Producers
     /// DefaultPartitioner uses hash code of key (if key was provided)
     /// or just random number (if key wasn't provided)
     /// 
-    /// That measn, that Producer requests with the same key goes to the same partition.
+    /// That means, that Producer requests with the same key go to the same partition.
     /// </summary>
     public class DefaultPartitioner : IPartitioner
     {

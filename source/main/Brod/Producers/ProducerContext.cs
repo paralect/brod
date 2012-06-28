@@ -1,4 +1,5 @@
-﻿using ZMQ;
+﻿
+using System;
 
 namespace Brod.Producers
 {
@@ -6,23 +7,33 @@ namespace Brod.Producers
     /// ProducerContext is thread safe and may be shared among as many application threads as necessary, 
     /// without any additional locking required on the part of the caller.
     /// </summary>
-    public class ProducerContext
+    public class ProducerContext : IDisposable
     {
-        private readonly ZMQ.Context _zeromqContext;
+        /// <summary>
+        /// ZMQ context that will be shared among many producers
+        /// </summary>
+        private readonly ZMQ.Context _zmqContext;
 
-        public Context ZeromqContext
+        /// <summary>
+        /// ZMQ context that will be shared among many producers
+        /// </summary>
+        public ZMQ.Context ZmqContext
         {
-            get { return _zeromqContext; }
+            get { return _zmqContext; }
         }
 
+        /// <summary>
+        /// Creates ProducerContext
+        /// </summary>
         public ProducerContext()
         {
-            _zeromqContext = new ZMQ.Context(1);
+            _zmqContext = new ZMQ.Context(1);
         }
 
-        public Producer CreateProducer(string brokerAddress)
+        public void Dispose()
         {
-            return new Producer("tcp://" + brokerAddress, _zeromqContext);
+            if (_zmqContext != null)
+                _zmqContext.Dispose();
         }
     }
 }

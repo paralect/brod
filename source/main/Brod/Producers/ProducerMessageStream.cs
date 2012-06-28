@@ -11,37 +11,33 @@ namespace Brod.Producers
 {
     public class ProducerMessageStream : IDisposable
     {
+        /// <summary>
+        /// Broker address
+        /// </summary>
         private readonly string _address;
+
+        /// <summary>
+        /// Topic
+        /// </summary>
         private readonly string _topic;
-        private readonly ZMQ.Context _zeromqContext;
+
+        /// <summary>
+        /// Producer context
+        /// </summary>
+        private readonly ProducerContext _context;
+
         private readonly Socket _pushSocket;
         private readonly Int32 _partition;
 
-        public ProducerMessageStream(String address, String topic, ZMQ.Context zeromqContext)
+        public ProducerMessageStream(String address, String topic, ProducerContext context)
         {
             _address = address;
             _topic = topic;
             _partition = 0;
-            _zeromqContext = zeromqContext;
+            _context = context;
 
             _pushSocket = CreateSocket(ZMQ.SocketType.PUSH);
             _pushSocket.Connect(_address, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Send message with specified encoding
-        /// </summary>
-        public void Send(String message, Encoding encoding)
-        {
-            Send(message, encoding, _partition);
-        }
-
-        /// <summary>
-        /// Send message with specified encoding to specified partition
-        /// </summary>
-        public void Send(String message, Encoding encoding, Int32 partition)
-        {
-            Send(encoding.GetBytes(message), partition);
         }
 
         /// <summary>
@@ -59,6 +55,22 @@ namespace Brod.Producers
         public void Send(String message, Int32 partition)
         {
             Send(message, Encoding.UTF8, partition);
+        }
+
+        /// <summary>
+        /// Send message with specified encoding
+        /// </summary>
+        public void Send(String message, Encoding encoding)
+        {
+            Send(message, encoding, _partition);
+        }
+
+        /// <summary>
+        /// Send message with specified encoding to specified partition
+        /// </summary>
+        public void Send(String message, Encoding encoding, Int32 partition)
+        {
+            Send(encoding.GetBytes(message), partition);
         }
 
         /// <summary>
@@ -86,7 +98,7 @@ namespace Brod.Producers
 
         private Socket CreateSocket(ZMQ.SocketType socketType)
         {
-            var zmqsocket = _zeromqContext.Socket(socketType);
+            var zmqsocket = _context.ZmqContext.Socket(socketType);
             var socket = new Socket(zmqsocket);
             return socket;
         }

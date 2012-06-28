@@ -13,8 +13,7 @@ namespace MassiveProducer
     {
         public static void Main(string[] args)
         {
-            var context = new ProducerContext();
-            var producer = context.CreateProducer("localhost:5567");
+            var producer = new Producer("localhost:5567");
             var stream = producer.OpenStream("massive-topic");
 
             var totalBytesSend = 0;
