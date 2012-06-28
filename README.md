@@ -39,13 +39,27 @@ Producer API
 
 To create `Producer` that will produce messages to a broker at `brokerAddress` call the following constructor:
 ```csharp
+/// <summary>
+/// Constructs Producer with specified broker address
+/// </summary>
 public Producer(String brokerAddress);
 ```
 
 To open message stream, use one of the following signatures:
 ```csharp
+/// <summary>
+/// Open stream for specified topic that has one partition (#0)
+/// </summary>
 public ProducerMessageStream OpenStream(String topic)
+
+/// <summary>
+/// Open stream for specified topic that has numberOfParitions partitions. DefaultPartitioner will be used.
+/// </summary>
 public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+
+/// <summary>
+/// Open stream for specified topic that has numberOfParitions partitions with specified partitioner
+/// </summary>
 public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
 ```
 
