@@ -81,14 +81,29 @@ To send single message, use one of the following signatures:
 public void Send(byte[] payload)
 
 /// <summary>
+/// Send binary message with specified key to partition, that will be selected by Partitioner of this stream
+/// </summary>
+public void Send(byte[] payload, Object key)
+
+/// <summary>
 /// Send binary message to specified partition
 /// </summary>
 public void Send(byte[] payload, Int32 partition)
 
 /// <summary>
+/// Send binary message with key to specified partition
+/// </summary>
+public void Send(byte[] payload, Object key, Int32 partition)
+
+/// <summary>
 /// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(String message)
+
+/// <summary>
+/// Send text message with key using default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+/// </summary>
+public void Send(String message, Object key)
 
 /// <summary>
 /// Send text message with default UTF-8 encoding to specified partition
