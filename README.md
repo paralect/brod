@@ -35,7 +35,7 @@ using(var stream = consumer.OpenStream("sample-topic"))
 Producer API
 ------------
 
-Producer represents logical connection to a single broker. 
+`Producer` represents logical connection to a single broker. 
 
 To create `Producer` that will produce messages to a broker at `brokerAddress` call the following constructor:
 ```csharp
@@ -49,4 +49,31 @@ public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
 public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
 ```
 
+ProducerMessageStream API
+-------------------------
+
+`ProducerMessageStream` allows to send messages.
+
+To send message, use one of the following signatures:
+```csharp
+/// <summary>
+/// Send message with default UTF-8 encoding to specified partition
+/// </summary>
+public void Send(String message, Int32 partition);
+
+/// <summary>
+/// Send message with specified encoding
+/// </summary>
+public void Send(String message, Encoding encoding)
+
+/// <summary>
+/// Send message with specified encoding to specified partition
+/// </summary>
+public void Send(String message, Encoding encoding, Int32 partition)
+
+/// <summary>
+/// Send binary message
+/// </summary>
+public void Send(byte[] payload)
+```
 
