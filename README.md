@@ -37,23 +37,11 @@ Producer API
 
 Producer represents logical connection to a single broker. 
 
-Constructor
-<table>
-	<tr>
-		<td>
+*Constructor*
 
+Constructs Producer with specified broker address
 ```csharp
 public Producer(String brokerAddress);
-
-```
-		
-		</td>
-	</tr>
-</table>
-
-```csharp
-public Producer(String brokerAddress);
-
 ```
 
 Methods
