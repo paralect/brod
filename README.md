@@ -37,12 +37,16 @@ Producer API
 
 Producer represents logical connection to a single broker. 
 
-*Constructor*
-
-Constructs Producer with specified broker address
+To create `Producer` that will produce messages to a broker at `brokerAddress` call the following constructor:
 ```csharp
 public Producer(String brokerAddress);
 ```
 
-Methods
+To open message stream, use one of the following signatures:
+```csharp
+public ProducerMessageStream OpenStream(String topic)
+public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+```
+
 
