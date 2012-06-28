@@ -61,6 +61,11 @@ public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
 /// Open stream for specified topic that has numberOfParitions partitions with specified partitioner
 /// </summary>
 public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+
+/// <summary>
+/// Open stream for specified topic and specified partition
+/// </summary>
+public ProducerMessageStream OpenPartitionStream(String topic, Int32 partition)
 ```
 
 ProducerMessageStream API
