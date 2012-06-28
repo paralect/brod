@@ -85,8 +85,7 @@ namespace Brod.Producers
         }
 
         /// <summary>
-        /// Open stream for specified topic that has numberOfParitions partitions.
-        /// DefaultPartitioner will be used.
+        /// Open stream for specified topic that has numberOfParitions partitions. DefaultPartitioner will be used.
         /// </summary>
         public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
         {

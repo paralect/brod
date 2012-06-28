@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -41,48 +42,23 @@ namespace Brod.Producers
         }
 
         /// <summary>
-        /// Send message with default UTF-8 encoding
-        /// </summary>
-        public void Send(String message)
-        {
-            Send(message, _partition);
-        }
-
-
-        /// <summary>
-        /// Send message with default UTF-8 encoding to specified partition
-        /// </summary>
-        public void Send(String message, Int32 partition)
-        {
-            Send(message, Encoding.UTF8, partition);
-        }
-
-        /// <summary>
-        /// Send message with specified encoding
-        /// </summary>
-        public void Send(String message, Encoding encoding)
-        {
-            Send(message, encoding, _partition);
-        }
-
-        /// <summary>
-        /// Send message with specified encoding to specified partition
-        /// </summary>
-        public void Send(String message, Encoding encoding, Int32 partition)
-        {
-            Send(encoding.GetBytes(message), partition);
-        }
-
-        /// <summary>
-        /// Send binary message
+        /// Send binary message to partition, that will be selected by Partitioner of this stream
         /// </summary>
         public void Send(byte[] payload)
         {
             Send(payload, _partition);
-       }
+        }
 
         /// <summary>
-        /// Send binary message to specified topic partition
+        /// Send binary messages to partition, that will be selected by Partitioner of this stream
+        /// </summary>
+        public void Send(IEnumerable<byte[]> payloads)
+        {
+            
+        }
+
+        /// <summary>
+        /// Send binary message to specified partition
         /// </summary>
         public void Send(byte[] payload, Int32 partition)
         {
@@ -95,6 +71,81 @@ namespace Brod.Producers
                 _pushSocket.Send(data);
             }
         }
+
+        /// <summary>
+        /// Send binary messages to specified partition
+        /// </summary>
+        public void Send(IEnumerable<byte[]> payloads, Int32 partition)
+        {
+            
+        }
+
+        /// <summary>
+        /// Send message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+        /// </summary>
+        public void Send(String message)
+        {
+            Send(message, _partition);
+        }
+
+        /// <summary>
+        /// Send text messages with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+        /// </summary>
+        public void Send(IEnumerable<String> messages)
+        {
+            
+        }
+
+
+        /// <summary>
+        /// Send text message with default UTF-8 encoding to specified partition
+        /// </summary>
+        public void Send(String message, Int32 partition)
+        {
+            Send(message, Encoding.UTF8, partition);
+        }
+
+        /// <summary>
+        /// Send text messages with default UTF-8 encoding to specified partition
+        /// </summary>
+        public void Send(IEnumerable<String> messages, Int32 partition)
+        {
+            
+        }
+
+        /// <summary>
+        /// Send text message with specified encoding to partition, that will be selected by Partitioner of this stream
+        /// </summary>
+        public void Send(String message, Encoding encoding)
+        {
+            Send(message, encoding, _partition);
+        }
+
+        /// <summary>
+        /// Send text messages with specified encoding to partition, that will be selected by Partitioner of this stream
+        /// </summary>
+        public void Send(IEnumerable<String> messages, Encoding encoding)
+        {
+
+        }
+
+        /// <summary>
+        /// Send message with specified encoding to specified partition
+        /// </summary>
+        public void Send(String message, Encoding encoding, Int32 partition)
+        {
+            Send(encoding.GetBytes(message), partition);
+        }
+
+        /// <summary>
+        /// Send text messages with specified encoding to specified partition
+        /// </summary>
+        public void Send(IEnumerable<String> messages, Encoding encoding, Int32 partition)
+        {
+            
+        }
+
+
 
         private Socket CreateSocket(ZMQ.SocketType socketType)
         {
