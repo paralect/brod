@@ -9,7 +9,7 @@ namespace SampleConsumer
     {
         public static void Main(string[] args)
         {
-            using (var consumer = new Consumer("localhost:5568"))
+            using (var consumer = new Consumer("localhost:5567"))
             {
                 consumer.StateStorageDirectory = @"c:\tmp\consumer-state";
 

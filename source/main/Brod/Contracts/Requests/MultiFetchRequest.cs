@@ -18,7 +18,11 @@ namespace Brod.Contracts.Requests
 
             result.FetchRequests = new List<FetchRequest>(count);
             for(int i = 0; i < count; i++)
+            {
+                var requestType = buffer.Reader.ReadInt16();
                 result.FetchRequests.Add(FetchRequest.ReadFromStream(buffer));
+            }
+                
 
             return result;
         }

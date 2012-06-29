@@ -16,8 +16,11 @@ namespace Brod.Contracts.Responses
 
             request.FetchResponses = new List<FetchResponse>(length);
             for (int i = 0; i < length; i++)
+            {
+                var requestType = stream.Reader.ReadInt16();
                 request.FetchResponses.Add(FetchResponse.ReadFromStream(stream));
-            
+            }
+
             return request;
         }
 

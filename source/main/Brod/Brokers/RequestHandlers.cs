@@ -34,6 +34,9 @@ namespace Brod.Brokers
                 case RequestType.FetchRequest:
                     return HandleLoadMessages;
 
+                case RequestType.MultiFetchRequest:
+                    return HandleMultiFetch;
+
                 case RequestType.BrokerInfoRequest:
                     return HandleBrokerInfo;
             }
@@ -79,7 +82,25 @@ namespace Brod.Brokers
             var block = _storage.ReadMessagesBlock(request.Topic, request.Partition, request.Offset, request.BlockSize);
 
             var response = new FetchResponse();
+            response.Partition = request.Partition;
             response.Data = (block.Length == 0) ? new byte[0] : block.Data;
+
+            return response;
+        }
+
+        public Response HandleMultiFetch(BinaryStream buffer)
+        {
+            var count = buffer.Reader.ReadInt32();
+
+            MultiFetchResponse response = new MultiFetchResponse();
+            response.FetchResponses = new List<FetchResponse>();
+            
+            for (int i = 0; i < count; i++)
+            {
+                var requestType = buffer.Reader.ReadInt16();
+                var result = HandleLoadMessages(buffer);
+                response.FetchResponses.Add((FetchResponse) result);
+            }
 
             return response;
         }

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Brod.Contracts.Responses;
 using Brod.Messages;
+using Brod.Network;
 using ZMQ;
 
 namespace Brod.Consumers
@@ -24,7 +25,7 @@ namespace Brod.Consumers
 
         public String Topic { get; set; }
         public List<Int32> Partitions { get; set; }
-        public ConcurrentQueue<Message> Messages { get; set; }
+        public ConcurrentQueue<Tuple<Int32, Message>> Messages { get; set; }
 
         public StreamState StreamState
         {
@@ -37,7 +38,7 @@ namespace Brod.Consumers
             _brokerAddress = brokerAddress;
             _configuration = configuration;
             _context = context;
-            Messages = new ConcurrentQueue<Message>();
+            Messages = new ConcurrentQueue<Tuple<Int32, Message>>();
         }
 
         private void Start()
@@ -49,7 +50,10 @@ namespace Brod.Consumers
             var task = Task.Factory.StartNew(() =>
             {
                 var consumer = new PartitionConsumer(_brokerAddress, _context);
-                var offset = _streamState.OffsetByPartition[0];
+
+                var offsetByPartition = new Dictionary<Int32, Int32>();
+                foreach (var pair in _streamState.OffsetByPartition)
+                    offsetByPartition.Add(pair.Key, pair.Value);
 
                 while(true)
                 {
@@ -57,13 +61,13 @@ namespace Brod.Consumers
                     if (Messages.Count > 100)
                         continue;
 
-                    var result = consumer.Load(Topic, Partitions[0], offset, 300);
+                    var result = consumer.Load(Topic, offsetByPartition, 300);
 
                     var messageCount = 0;
-                    foreach (var message in result)
+                    foreach (var tuple in result)
                     {
-                        Messages.Enqueue(message);
-                        offset += Message.CalculateOnDiskMessageLength(message.Payload.Length);
+                        Messages.Enqueue(tuple);
+                        offsetByPartition[tuple.Item1] += Message.CalculateOnDiskMessageLength(tuple.Item2.Payload.Length);
                         messageCount++;
                     }
 
@@ -82,17 +86,17 @@ namespace Brod.Consumers
 
             while(true)
             {
-                Message result;
+                Tuple<Int32, Message> result;
                 if (!Messages.TryDequeue(out result))
                 {
                     Thread.Sleep(10);
                     continue;
                 }
 
-                yield return result;
+                yield return result.Item2;
 
-                _streamState.OffsetByPartition[0] += Message.CalculateOnDiskMessageLength(result.Payload.Length);
-                _stateStorage.WriteStreamState(_streamState, 0);
+                _streamState.OffsetByPartition[result.Item1] += Message.CalculateOnDiskMessageLength(result.Item2.Payload.Length);
+                _stateStorage.WriteStreamState(_streamState, result.Item1);
             }
         }
 

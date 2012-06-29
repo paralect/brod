@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using Brod.Common;
@@ -34,20 +35,29 @@ namespace Brod.Consumers
             _reqSocket = CreateSocket(ZMQ.SocketType.REQ);
 
             // Bind to socket
-            _reqSocket.Connect(configuration.Address, CancellationToken.None);            
+            _reqSocket.Connect(Protocolize(configuration.Address), CancellationToken.None);            
         }
 
-        public IEnumerable<Message> Load(String topic, Int32 partition, Int32 offset, Int32 blockSize)
+        /// <summary>
+        /// Return Partition -> Message
+        /// </summary>
+        public IEnumerable<Tuple<Int32, Message>> Load(String topic, Dictionary<Int32, Int32> offsetByPartition, Int32 blockSize)
         {
-            var request = new FetchRequest();
-            request.Topic = topic;
-            request.Partition = partition;
-            request.Offset = offset;
-            request.BlockSize = blockSize;
+            var multifetch = new MultiFetchRequest();
+            multifetch.FetchRequests = new List<FetchRequest>(offsetByPartition.Count);
+            foreach (var pair in offsetByPartition)
+            {
+                var request = new FetchRequest();
+                request.Topic = topic;
+                request.Partition = pair.Key;
+                request.Offset = pair.Value;
+                request.BlockSize = blockSize;
+                multifetch.FetchRequests.Add(request);
+            }
 
             using (var buffer = new BinaryMemoryStream())
             {
-                request.WriteToStream(buffer);
+                multifetch.WriteToStream(buffer);
 
                 var data = buffer.ToArray();
                 _reqSocket.Send(data);
@@ -57,14 +67,29 @@ namespace Brod.Consumers
 
             using(var buffer = new BinaryMemoryStream(result))
             {
-                var response = FetchResponse.ReadFromStream(buffer);
+                var responseType = buffer.Reader.ReadInt16();
+                var response1 = MultiFetchResponse.ReadFromStream(buffer);
 
-                using (var messageReader = new MessageReader(new BinaryMemoryStream(response.Data)))
+                foreach (var fetchResponse in response1.FetchResponses)
                 {
-                    foreach (var message in messageReader.ReadAllMessages())
-                        yield return message;
+                    using (var messageReader = new MessageReader(new BinaryMemoryStream(fetchResponse.Data)))
+                    {
+                        foreach (var message in messageReader.ReadAllMessages())
+                            yield return new Tuple<int, Message>(fetchResponse.Partition, message);
+                    }                    
                 }
             }
+        }
+
+        /// <summary>
+        /// Insures that protocol is specified. If it doesn't - use tcp://
+        /// </summary>
+        private String Protocolize(String address)
+        {
+            if (address.StartsWith("tcp://", false, CultureInfo.InvariantCulture))
+                return address;
+
+            return "tcp://" + address;
         }
 
         private Socket CreateSocket(ZMQ.SocketType socketType)
