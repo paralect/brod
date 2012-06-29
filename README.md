@@ -53,19 +53,14 @@ To start producing messages, open message stream, using one of the following sig
 public ProducerMessageStream OpenStream(String topic)
 
 /// <summary>
-/// Open stream for specified topic that has numberOfParitions partitions. DefaultPartitioner will be used.
+/// Open stream for specified topic using specified partitioner
 /// </summary>
-public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
-
-/// <summary>
-/// Open stream for specified topic that has numberOfParitions partitions with specified partitioner
-/// </summary>
-public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+public ProducerMessageStream OpenStream(String topic, IPartitioner partitioner)
 
 /// <summary>
 /// Open stream for specified topic and specified partition
 /// </summary>
-public ProducerMessageStream OpenPartitionStream(String topic, Int32 partition)
+public ProducerMessageStream OpenStream(String topic, Int32 partition)
 ```
 
 ProducerMessageStream API
@@ -76,49 +71,52 @@ ProducerMessageStream API
 To send single message, use one of the following signatures:
 ```csharp
 /// <summary>
-/// Send binary message to partition, that will be selected by Partitioner of this stream
+/// Send binary message to specified topic. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(byte[] payload)
+public void Send(String topic, byte[] payload)
 
 /// <summary>
-/// Send binary message with specified key to partition, that will be selected by Partitioner of this stream
+/// Send binary message to specified topic with specified key. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(byte[] payload, Object key)
+public void Send(String topic, byte[] payload, Object key)
 
 /// <summary>
-/// Send binary message to specified partition
+/// Send binary message to specified topic with specified key, using specified partitioner.
 /// </summary>
-public void Send(byte[] payload, Int32 partition)
+public void Send(String topic, byte[] payload, Object key, IPartitioner partitioner)
+
+
 
 /// <summary>
-/// Send binary message with key to specified partition
+/// Send text message to specified topic, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(byte[] payload, Object key, Int32 partition)
+public void Send(String topic, String message)
 
 /// <summary>
-/// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+/// Send text message to specified topic with specified key, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(String message)
+public void Send(String topic, String message, Object key)
 
 /// <summary>
-/// Send text message with key using default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+/// Send text message to specified topic with specified key, using default UTF-8 encoding and specified partitioner
 /// </summary>
-public void Send(String message, Object key)
+public void Send(String topic, String message, Object key, IPartitioner partitioner);
 
 /// <summary>
-/// Send text message with default UTF-8 encoding to specified partition
+/// Send text message to specified topic, using specified encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(String message, Int32 partition);
+public void Send(String topic, String message, Encoding encoding)
 
 /// <summary>
-/// Send text message with specified encoding to partition, that will be selected by Partitioner of this stream
+/// Send text message to specified topic with specified key, using specified encoding.
 /// </summary>
-public void Send(String message, Encoding encoding)
+public void Send(String topic, String message, Encoding encoding, Object key)
 
 /// <summary>
-/// Send text message with specified encoding to specified partition
+/// Send text message to specified topic with specified key, using specified encoding and partitioner.
 /// </summary>
-public void Send(String message, Encoding encoding, Int32 partition)
+public void Send(String topic, String message, Encoding encoding, Object key, IPartitioner partitioner)
+
 ```
 
 To send many messages at once, use one of the following overloads:
