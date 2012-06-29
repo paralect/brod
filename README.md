@@ -53,19 +53,14 @@ To start producing messages, open message stream, using one of the following sig
 public ProducerMessageStream OpenStream(String topic)
 
 /// <summary>
-/// Open stream for specified topic that has numberOfParitions partitions. DefaultPartitioner will be used.
+/// Open stream for specified topic using specified partitioner
 /// </summary>
-public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
-
-/// <summary>
-/// Open stream for specified topic that has numberOfParitions partitions with specified partitioner
-/// </summary>
-public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+public ProducerMessageStream OpenStream(String topic, IPartitioner partitioner)
 
 /// <summary>
 /// Open stream for specified topic and specified partition
 /// </summary>
-public ProducerMessageStream OpenPartitionStream(String topic, Int32 partition)
+public ProducerMessageStream OpenStream(String topic, Int32 partition)
 ```
 
 ProducerMessageStream API
