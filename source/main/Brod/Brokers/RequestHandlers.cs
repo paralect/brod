@@ -78,7 +78,7 @@ namespace Brod.Brokers
 
             var block = _storage.ReadMessagesBlock(request.Topic, request.Partition, request.Offset, request.BlockSize);
 
-            var response = new AvailableMessagesResponse();
+            var response = new FetchResponse();
             response.Data = (block.Length == 0) ? new byte[0] : block.Data;
 
             return response;

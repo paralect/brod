@@ -57,7 +57,7 @@ namespace Brod.Consumers
 
             using(var buffer = new BinaryMemoryStream(result))
             {
-                var response = AvailableMessagesResponse.ReadFromStream(buffer);
+                var response = FetchResponse.ReadFromStream(buffer);
 
                 using (var messageReader = new MessageReader(new BinaryMemoryStream(response.Data)))
                 {

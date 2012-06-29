@@ -54,7 +54,7 @@ namespace Brod.Network
                     case ResponseType.BrokerInfoResponse:
                         return BrokerInfoResponse.ReadFromStream(stream);
                     case ResponseType.FetchResponse:
-                        return AvailableMessagesResponse.ReadFromStream(stream);
+                        return FetchResponse.ReadFromStream(stream);
                 }
 
                 return null;

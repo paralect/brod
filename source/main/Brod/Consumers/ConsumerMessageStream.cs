@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Brod.Contracts.Responses;
 using Brod.Messages;
 using ZMQ;
 
@@ -11,7 +12,9 @@ namespace Brod.Consumers
 {
     public class ConsumerMessageStream : IDisposable
     {
-        private readonly ConsumerConfiguration _configuration;
+        private readonly string _stateStorageDirectory;
+        private readonly string _brokerAddress;
+        private readonly BrokerInfoResponse _configuration;
         private readonly Context _context;
         private Object _lock = new object();
         private Boolean _started = false;
@@ -28,8 +31,10 @@ namespace Brod.Consumers
             get { return _streamState; }
         }
 
-        public ConsumerMessageStream(ConsumerConfiguration configuration, ZMQ.Context context)
+        public ConsumerMessageStream(String stateStorageDirectory, String brokerAddress, BrokerInfoResponse configuration, ZMQ.Context context)
         {
+            _stateStorageDirectory = stateStorageDirectory;
+            _brokerAddress = brokerAddress;
             _configuration = configuration;
             _context = context;
             Messages = new ConcurrentQueue<Message>();
@@ -38,12 +43,12 @@ namespace Brod.Consumers
         private void Start()
         {
             _started = true;
-            _stateStorage = new ConsumerStateStorage(_configuration);
+            _stateStorage = new ConsumerStateStorage(_stateStorageDirectory);
             _streamState = _stateStorage.ReadStreamState(Topic, "default-group", Partitions);
 
             var task = Task.Factory.StartNew(() =>
             {
-                var consumer = new PartitionConsumer(_configuration.Address, _context);
+                var consumer = new PartitionConsumer(_brokerAddress, _context);
                 var offset = _streamState.OffsetByPartition[0];
 
                 while(true)

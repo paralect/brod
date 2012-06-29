@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using System.Threading;
-using Brod.Common;
 using Brod.Contracts.Requests;
 using Brod.Contracts.Responses;
 using Brod.Messages;
 using Brod.Network;
-using ZMQ;
-using Socket = Brod.Network.Socket;
 
 namespace Brod.Producers
 {
@@ -63,11 +59,14 @@ namespace Brod.Producers
         public Producer(String brokerAddress)
         {
             _brokerAddress = brokerAddress;
-            _sender = new RequestSender(_brokerAddress, SocketType.REQ, _context.ZmqContext);
+            _sender = new RequestSender(_brokerAddress, ZMQ.SocketType.REQ, _context.ZmqContext);
             _infoResponse = _sender.Send(new BrokerInfoRequest()) as BrokerInfoResponse;
 
+            if (_infoResponse == null)
+                throw new Exception("Cannot create producer, because broker info request was unsuccessfull");
+
             var pullAddress = String.Format("{0}:{1}", _infoResponse.HostName, _infoResponse.PullPort);
-            _pushSender = new RequestSender(pullAddress, SocketType.PUSH, _context.ZmqContext);
+            _pushSender = new RequestSender(pullAddress, ZMQ.SocketType.PUSH, _context.ZmqContext);
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message)
         {
-            Send(topic, message, _encoding, null, _partitioner);
+            Send(topic, message, null, _partitioner, _encoding);
         }
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message, Object key)
         {
-            Send(topic, message, _encoding, key, _partitioner);
+            Send(topic, message, key, _partitioner, _encoding);
         }
 
         /// <summary>
@@ -118,7 +117,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message, Object key, IPartitioner partitioner)
         {
-            Send(topic, message, _encoding, key, partitioner);
+            Send(topic, message, key, partitioner, _encoding);
         }
 
         /// <summary>
@@ -126,26 +125,26 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message, Encoding encoding)
         {
-            Send(topic, message, encoding, null, _partitioner);
+            Send(topic, message, null, _partitioner, encoding);
         }
 
         /// <summary>
         /// Send text message to specified topic with specified key, using specified encoding.
         /// </summary>
-        public void Send(String topic, String message, Encoding encoding, Object key)
+        public void Send(String topic, String message, Object key, Encoding encoding)
         {
-            Send(topic, message, encoding, key, _partitioner);
+            Send(topic, message, key, _partitioner, encoding);
         }
 
         /// <summary>
         /// Send text message to specified topic with specified key, using specified encoding and partitioner.
         /// </summary>
-        public void Send(String topic, String message, Encoding encoding, Object key, IPartitioner partitioner)
+        public void Send(String topic, String message, Object key, IPartitioner partitioner, Encoding encoding)
         {
             Send(topic, encoding.GetBytes(message), key, partitioner);
         }
 
-        public Int32 GetNumberOfPartitionsForTopic(String topic)
+        private Int32 GetNumberOfPartitionsForTopic(String topic)
         {
             // Get number of partitions for specified topic
             Int32 partitions;

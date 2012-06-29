@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using Brod.Contracts.Responses;
 
 namespace Brod.Consumers
 {
@@ -21,11 +22,11 @@ namespace Brod.Consumers
 
     public class ConsumerStateStorage
     {
-        private readonly ConsumerConfiguration _configuration;
+        private readonly string _stateStorageDirectory;
 
-        public ConsumerStateStorage(ConsumerConfiguration configuration)
+        public ConsumerStateStorage(String stateStorageDirectory)
         {
-            _configuration = configuration;
+            _stateStorageDirectory = stateStorageDirectory;
         }
 
         public StreamState ReadStreamState(String topic, String group, List<Int32> partitions)
@@ -92,7 +93,7 @@ namespace Brod.Consumers
                 .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0');
 
-            return Path.Combine(_configuration.StateStorageDirectory, topic, group, "partition-" + partitionText);
+            return Path.Combine(_stateStorageDirectory, topic, group, "partition-" + partitionText);
         }
 
         public String GetPartitionStateFilePath(String topic, String group, Int32 partition)

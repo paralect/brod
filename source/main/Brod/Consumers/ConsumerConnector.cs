@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Brod.Contracts.Responses;
 
 namespace Brod.Consumers
 {
     public class ConsumerConnector
     {
-        private readonly ConsumerConfiguration _configuration;
+        private readonly string _stateStorageDirectory;
+        private readonly string _brokerAddress;
+        private readonly BrokerInfoResponse _configuration;
         private readonly ZMQ.Context _context;
 
-        public ConsumerConnector(ConsumerConfiguration configuration, ZMQ.Context context)
+        public ConsumerConnector(String stateStorageDirectory, String brokerAddress, BrokerInfoResponse configuration, ZMQ.Context context)
         {
+            _stateStorageDirectory = stateStorageDirectory;
+            _brokerAddress = brokerAddress;
             _configuration = configuration;
             _context = context;
         }
@@ -49,7 +54,7 @@ namespace Brod.Consumers
                 if (startingFrom + count > partitionsNumber)
                     count = partitionsNumber - startingFrom;
 
-                var messageStream = new ConsumerMessageStream(_configuration, _context);
+                var messageStream = new ConsumerMessageStream(_stateStorageDirectory, _brokerAddress, _configuration, _context);
                 messageStream.Topic = topic;
                 messageStream.Partitions = GetPartitions(i*step, count);
                 list.Add(messageStream);

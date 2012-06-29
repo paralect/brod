@@ -3,17 +3,17 @@ using Brod.Common;
 
 namespace Brod.Contracts.Responses
 {
-    public class AvailableMessagesResponse : Response
+    public class FetchResponse : Response
     {
         public byte[] Data { get; set; }
 
-        public AvailableMessagesResponse() : base(ResponseType.FetchResponse)
+        public FetchResponse() : base(ResponseType.FetchResponse)
         {
         }
 
-        public static AvailableMessagesResponse ReadFromStream(BinaryStream stream)
+        public static FetchResponse ReadFromStream(BinaryStream stream)
         {
-            var request = new AvailableMessagesResponse();
+            var request = new FetchResponse();
             var length = stream.Reader.ReadInt32();
             request.Data = stream.Reader.ReadBytes(length);
             return request;            

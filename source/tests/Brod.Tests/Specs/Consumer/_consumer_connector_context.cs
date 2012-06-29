@@ -8,7 +8,7 @@ namespace Brod.Tests.Specs.Consumer
         Establish context = () =>
         {
             configuration = new ConsumerConfiguration();
-            connector = new ConsumerConnector(configuration, new ZMQ.Context());
+            connector = new ConsumerConnector("", "", null, new ZMQ.Context());
         };
 
         public static ConsumerConfiguration configuration;

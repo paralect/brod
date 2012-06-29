@@ -61,7 +61,9 @@
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Contracts\Requests\BrokerInfoRequest.cs" />
+    <Compile Include="Contracts\Requests\MultiFetchRequest.cs" />
     <Compile Include="Contracts\Responses\BrokerInfoResponse.cs" />
+    <Compile Include="Contracts\Responses\MultiFetchResponse.cs" />
     <Compile Include="Network\RequestSender.cs" />
     <Compile Include="Network\SocketListener.cs" />
     <Compile Include="Producers\DefaultPartitioner.cs" />
@@ -82,7 +84,7 @@
     <Compile Include="Producers\Producer.cs" />
     <Compile Include="Contracts\Requests\AppendRequest.cs" />
     <Compile Include="Contracts\Requests\FetchRequest.cs" />
-    <Compile Include="Contracts\Responses\AvailableMessagesResponse.cs" />
+    <Compile Include="Contracts\Responses\FetchResponse.cs" />
     <Compile Include="Brokers\BrokerConfiguration.cs" />
     <Compile Include="Brokers\Flusher.cs" />
     <Compile Include="Common\Tasks\TaskEngine.cs" />

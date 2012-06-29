@@ -7,7 +7,7 @@ namespace Brod.Consumers
     {
         private readonly ZMQ.Context _zeromqContext;
 
-        public Context ZeromqContext
+        public Context ZmqContext
         {
             get { return _zeromqContext; }
         }
@@ -26,11 +26,6 @@ namespace Brod.Consumers
         {
             consumerConfiguration.Address = "tcp://" + consumerConfiguration.Address;
             return new PartitionConsumer(consumerConfiguration, _zeromqContext);
-        }
-
-        public Consumer CreateConsumer(String brokerAddress)
-        {
-            return new Consumer("tcp://" + brokerAddress, this);
         }
     }
 }

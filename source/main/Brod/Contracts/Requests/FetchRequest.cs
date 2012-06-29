@@ -27,7 +27,7 @@ namespace Brod.Contracts.Requests
 
         public override void WriteToStream(BinaryStream buffer)
         {
-            buffer.Writer.Write((short)RequestType.FetchRequest);
+            buffer.Writer.Write((short) RequestType);
             buffer.Writer.Write(Topic);
             buffer.Writer.Write(Partition);
             buffer.Writer.Write(Offset);

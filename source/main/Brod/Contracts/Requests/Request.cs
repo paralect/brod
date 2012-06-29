@@ -6,7 +6,8 @@ namespace Brod.Contracts.Requests
     {
         AppendRequest = 1,
         FetchRequest = 2,
-        BrokerInfoRequest = 3
+        MultiFetchRequest = 3,
+        BrokerInfoRequest = 4
     }
 
     public abstract class Request

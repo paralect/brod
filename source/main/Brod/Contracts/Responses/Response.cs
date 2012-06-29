@@ -7,7 +7,8 @@ namespace Brod.Contracts.Responses
     {
         AppendResponse = 1,
         FetchResponse = 2,
-        BrokerInfoResponse = 3
+        MultiFetchResponse = 3,
+        BrokerInfoResponse = 4
     }
 
     public abstract class Response
