@@ -13,7 +13,7 @@ namespace Brod.Contracts.Requests
             return request;
         }
 
-        public void WriteToStream(BinaryStream buffer)
+        public override void WriteToStream(BinaryStream buffer)
         {
             buffer.Writer.Write((short) RequestType);
         }

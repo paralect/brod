@@ -13,16 +13,28 @@ namespace Brod.Brokers
             get { return (SimpleElement<String>) this["storageDirectory"]; }
         }
 
-        [ConfigurationProperty("producerPort", IsRequired = false)]
-        public SimpleElement<Int32> ProducerPort
+        [ConfigurationProperty("brokerId", IsRequired = false)]
+        public SimpleElement<Int32> BrokerId
         {
-            get { return (SimpleElement<Int32>)this["producerPort"]; }
+            get { return (SimpleElement<Int32>)this["brokerId"]; }
         }
 
-        [ConfigurationProperty("consumerPort", IsRequired = false)]
-        public SimpleElement<Int32> ConsumerPort
+        [ConfigurationProperty("hostName", IsRequired = false)]
+        public SimpleElement<String> HostName
         {
-            get { return (SimpleElement<Int32>)this["consumerPort"]; }
+            get { return (SimpleElement<String>)this["hostName"]; }
+        }
+
+        [ConfigurationProperty("port", IsRequired = false)]
+        public SimpleElement<Int32> Port
+        {
+            get { return (SimpleElement<Int32>)this["port"]; }
+        }
+
+        [ConfigurationProperty("pullPort", IsRequired = false)]
+        public SimpleElement<Int32> PullPort
+        {
+            get { return (SimpleElement<Int32>)this["pullPort"]; }
         }
 
         [ConfigurationProperty("numberOfPartitions", IsRequired = false)]
@@ -32,13 +44,13 @@ namespace Brod.Brokers
         }
 
         [ConfigurationProperty("numberOfPartitionsPerTopic", IsRequired = false)]
-        [ConfigurationCollection(typeof(AcmeInstanceCollection),
+        [ConfigurationCollection(typeof(TopicCollection),
             AddItemName = "add",
             ClearItemsName = "clear",
             RemoveItemName = "remove")]
-        public AcmeInstanceCollection NumberOfPartitionsPerTopic
+        public TopicCollection NumberOfPartitionsPerTopic
         {
-            get { return (AcmeInstanceCollection)this["numberOfPartitionsPerTopic"]; }
+            get { return (TopicCollection)this["numberOfPartitionsPerTopic"]; }
         }
 
         public static BrokerConfigurationSection FromXml(XElement element)
@@ -60,18 +72,18 @@ namespace Brod.Brokers
         }
     }
 
-    public class AcmeInstanceCollection : ConfigurationElementCollection
+    public class TopicCollection : ConfigurationElementCollection
     {
         protected override ConfigurationElement CreateNewElement()
         {
-            return new AcmeInstanceElement();
+            return new TopicElement();
         }
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((AcmeInstanceElement)element).Topic;
+            return ((TopicElement)element).Topic;
         }
     }
-    public class AcmeInstanceElement : ConfigurationElement
+    public class TopicElement : ConfigurationElement
     {
         [ConfigurationProperty("topic", IsKey = true, IsRequired = true)]
         public string Topic

@@ -7,6 +7,21 @@ namespace Brod.Contracts.Responses
     public class BrokerInfoResponse : Response
     {
         /// <summary>
+        /// Broker hostname
+        /// </summary>
+        public String HostName { get; set; }
+
+        /// <summary>
+        /// The id of the broker
+        /// </summary>
+        public Int32 BrokerId { get; set; }
+
+        /// <summary>
+        /// Port, that accepts only oneway (unidirectional) requests.
+        /// </summary>
+        public Int32 PullPort { get; set; }
+
+        /// <summary>
         /// Default number of partitions for topics that doesn't registered in NumberOfPartitionsPerTopic.
         /// </summary>
         public Int32 NumberOfPartitions { get; set; }
@@ -16,15 +31,17 @@ namespace Brod.Contracts.Responses
         /// </summary>
         public Dictionary<String, Int32> NumberOfPartitionsPerTopic { get; set; }
 
-        public BrokerInfoResponse()
+        public BrokerInfoResponse() : base(ResponseType.BrokerInfoResponse)
         {
             NumberOfPartitionsPerTopic = new Dictionary<string, int>();
-            NumberOfPartitions = 1;
         }
 
         public static BrokerInfoResponse ReadFromStream(BinaryStream stream)
         {
             var request = new BrokerInfoResponse();
+            request.HostName = stream.Reader.ReadString();
+            request.BrokerId = stream.Reader.ReadInt32();
+            request.PullPort = stream.Reader.ReadInt32();
             request.NumberOfPartitions = stream.Reader.ReadInt32();
 
             // Reading dictionary of <String, Int32>
@@ -41,6 +58,11 @@ namespace Brod.Contracts.Responses
 
         public override void WriteToStream(BinaryStream stream)
         {
+            stream.Writer.Write((short)ResponseType);
+
+            stream.Writer.Write(HostName);
+            stream.Writer.Write(BrokerId);
+            stream.Writer.Write(PullPort);
             stream.Writer.Write(NumberOfPartitions);
 
             // Writing dictionary of <String, Int32>

@@ -14,7 +14,6 @@ namespace MassiveProducer
         public static void Main(string[] args)
         {
             var producer = new Producer("localhost:5567");
-            var stream = producer.OpenStream("massive-topic");
 
             var totalBytesSend = 0;
             const int messageSize = 1024;
@@ -39,11 +38,11 @@ namespace MassiveProducer
                     Console.WriteLine("{0:n0} messages sent", i);
 
                 var data = new byte[messageSize];
-                stream.Send(data);
+                producer.Send("massive-topic", data);
                 totalBytesSend += Message.CalculateOnDiskMessageLength(data.Length);
             }
 
-            stream.Send("end!//");
+            producer.Send("massive-topic", "end!//");
 
             watch.Stop();
             Console.WriteLine("Done in {0:n0} msec. {1:n0} bytes sent.", watch.ElapsedMilliseconds, totalBytesSend);

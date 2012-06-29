@@ -90,6 +90,9 @@ namespace Brod.Brokers
             var request = BrokerInfoRequest.ReadFromStream(stream);
 
             var response = new BrokerInfoResponse();
+            response.HostName = _configuration.HostName;
+            response.BrokerId = _configuration.BrokerId;
+            response.PullPort = _configuration.PullPort;
             response.NumberOfPartitions = _configuration.NumberOfPartitions;
             response.NumberOfPartitionsPerTopic = _configuration.NumberOfPartitionsPerTopic;
 

@@ -22,8 +22,8 @@ namespace Brod.Brokers
                 var handlers = new RequestHandlers(_configuration, store);
 
                 var engine = new TaskEngine(
-                    new SocketListener(ZMQ.SocketType.PULL, _configuration.ProducerPort, handlers.MapHandlers),
-                    new SocketListener(ZMQ.SocketType.REP, _configuration.ConsumerPort, handlers.MapHandlers),
+                    new SocketListener(ZMQ.SocketType.REP, _configuration.Port, handlers.MapHandlers),
+                    new SocketListener(ZMQ.SocketType.PULL, _configuration.PullPort, handlers.MapHandlers),
                     new Flusher(_configuration, store));
 
                 using (var token = new CancellationTokenSource())

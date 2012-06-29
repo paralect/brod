@@ -62,11 +62,11 @@
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
     <Compile Include="Contracts\Requests\BrokerInfoRequest.cs" />
     <Compile Include="Contracts\Responses\BrokerInfoResponse.cs" />
+    <Compile Include="Network\RequestSender.cs" />
     <Compile Include="Network\SocketListener.cs" />
     <Compile Include="Producers\DefaultPartitioner.cs" />
     <Compile Include="Producers\IPartitioner.cs" />
     <Compile Include="Producers\ProducerContext.cs" />
-    <Compile Include="Producers\ProducerMessageStream.cs" />
     <Compile Include="Brokers\RequestHandlers.cs" />
     <Compile Include="Contracts\Requests\Request.cs" />
     <Compile Include="Contracts\Responses\Response.cs" />

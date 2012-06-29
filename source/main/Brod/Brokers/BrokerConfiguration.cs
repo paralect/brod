@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 
 namespace Brod.Brokers
 {
@@ -16,25 +17,32 @@ namespace Brod.Brokers
         public String StorageDirectory { get; set; }
 
         /// <summary>
+        /// The id of the broker. This must be set to a unique integer for each broker.
+        /// </summary>
+        public Int32 BrokerId { get; set; }
+
+        /// <summary>
+        /// Hostname the broker will advertise to consumers
+        /// </summary>
+        public String HostName { get; set; }
+
+        /// <summary>
         /// Port that accepts request from producers (Async)
         /// Default is 5567
         /// </summary>
-        public Int32 ProducerPort { get; set; }
-        public const Int32 DefaultProducerPort = 5567;
+        public Int32 Port { get; set; }
 
         /// <summary>
         /// Port that accepts requests from consumers (Sync request-reply)
         /// Default is 5568
         /// </summary>
-        public Int32 ConsumerPort { get; set; }
-        public const Int32 DefaultConsumerPort = 5568;
+        public Int32 PullPort { get; set; }
 
         /// <summary>
         /// Default number of partitions for topics that doesn't registered in NumberOfPartitionsPerTopic.
         /// Default is 1
         /// </summary>
         public Int32 NumberOfPartitions { get; set; }
-        public const Int32 DefaultNumberOfPartitions = 1;
 
         /// <summary>
         /// Number of partitions per topic name
@@ -48,13 +56,19 @@ namespace Brod.Brokers
         {
             StorageDirectory = Path.Combine(Path.GetTempPath(), "brod");
 
-            ProducerPort = DefaultProducerPort;
-            ConsumerPort = DefaultConsumerPort;
+            BrokerId = 0;
+            HostName = Dns.GetHostName();
 
-            NumberOfPartitions = DefaultNumberOfPartitions;
-            NumberOfPartitionsPerTopic = new Dictionary<string, int>();
+            Port = 5567;
+            PullPort = 5568;
+
+            NumberOfPartitions = 1;
+            NumberOfPartitionsPerTopic = new Dictionary<String, Int32>();
         }
 
+        /// <summary>
+        /// Read configuration from BrokerConfigurationSection
+        /// </summary>
         public static BrokerConfiguration FromConfigurationSection(BrokerConfigurationSection section)
         {
             var config = new BrokerConfiguration();
@@ -62,11 +76,17 @@ namespace Brod.Brokers
             if (!String.IsNullOrWhiteSpace(section.StorageDirectory.Value))
                 config.StorageDirectory = section.StorageDirectory.Value;
 
-            if (section.ConsumerPort.Value != 0)
-                config.ConsumerPort = section.ConsumerPort.Value;
+            if (section.BrokerId.Value != 0)
+                config.BrokerId = section.BrokerId.Value;
 
-            if (section.ProducerPort.Value != 0)
-                config.ProducerPort = section.ProducerPort.Value;
+            if (!String.IsNullOrWhiteSpace(section.HostName.Value))
+                config.HostName = section.HostName.Value;
+
+            if (section.Port.Value != 0)
+                config.Port = section.Port.Value;            
+
+            if (section.PullPort.Value != 0)
+                config.PullPort = section.PullPort.Value;
 
             if (section.NumberOfPartitions.Value != 0)
                 config.NumberOfPartitions = section.NumberOfPartitions.Value;
@@ -75,7 +95,7 @@ namespace Brod.Brokers
             {
                 foreach (var element in section.NumberOfPartitionsPerTopic)
                 {
-                    var item = (AcmeInstanceElement)element;
+                    var item = (TopicElement)element;
                     config.NumberOfPartitionsPerTopic.Add(item.Topic, item.Partitions);
                 }
             }

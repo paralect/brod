@@ -1,4 +1,6 @@
-﻿namespace Brod.Contracts.Requests
+﻿using Brod.Common;
+
+namespace Brod.Contracts.Requests
 {
     public enum RequestType : short
     {
@@ -7,13 +9,15 @@
         BrokerInfoRequest = 3
     }
 
-    public class Request
+    public abstract class Request
     {
         public RequestType RequestType { get; set; }
 
-        public Request(RequestType requestType)
+        protected Request(RequestType requestType)
         {
             RequestType = requestType;
         }
+
+        public abstract void WriteToStream(BinaryStream buffer);
     }
 }

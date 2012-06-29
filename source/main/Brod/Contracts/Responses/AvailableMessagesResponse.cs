@@ -7,6 +7,10 @@ namespace Brod.Contracts.Responses
     {
         public byte[] Data { get; set; }
 
+        public AvailableMessagesResponse() : base(ResponseType.FetchResponse)
+        {
+        }
+
         public static AvailableMessagesResponse ReadFromStream(BinaryStream stream)
         {
             var request = new AvailableMessagesResponse();
@@ -17,6 +21,7 @@ namespace Brod.Contracts.Responses
 
         public override void WriteToStream(BinaryStream stream)
         {
+            stream.Writer.Write((short) ResponseType);
             stream.Writer.Write(Data.Length);
             stream.Writer.Write(Data);
         }

@@ -20,4 +20,26 @@ namespace Brod.Producers
             return Math.Abs(key.GetHashCode()) % numberOfPartitions;
         }
     }
+
+    /// <summary>
+    /// Interprets key as partition number
+    /// </summary>
+    public class DirectPartitioner : IPartitioner
+    {
+        public int SelectPartition(object key, int numberOfPartitions)
+        {
+            if (key == null)
+                throw new Exception("DirectPartitioner cannot interpret null keys. Use Int32 key.");
+
+            if (!(key is Int32))
+                throw new Exception("DirectPartitioner supports only Int32 keys.");
+
+            var partitionNumber = (Int32) key;
+
+            if (partitionNumber < 0 || partitionNumber >= numberOfPartitions)
+                throw new Exception("DirectPartitioner failed to select partition, because specified partition was outside of valid range.");
+
+            return partitionNumber;
+        }
+    }
 }

@@ -13,7 +13,6 @@ namespace Brod.Tests.Tests
         public void DoIt()
         {
             var producer = new Producer("localhost:5567");
-            var stream = producer.OpenStream("test");
 
             var totalBytesSent = 0;
             const int messageSize = 200;
@@ -26,11 +25,11 @@ namespace Brod.Tests.Tests
                     Console.WriteLine("{0})", i);
 
                 var data = new byte[messageSize];
-                stream.Send(data);
+                producer.Send("test", data);
                 totalBytesSent += Message.CalculateOnDiskMessageLength(data.Length);
             }
 
-            stream.Send("end!//");
+            producer.Send("test", "end!//");
 
             watch.Stop();
             Console.WriteLine("Done in {0} msec. {1} bytes sent.", watch.ElapsedMilliseconds, totalBytesSent);
