@@ -45,29 +45,6 @@ To create `Producer` that will produce messages to a broker at `brokerAddress` c
 public Producer(String brokerAddress);
 ```
 
-To start producing messages, open message stream, using one of the following signatures:
-```csharp
-/// <summary>
-/// Open stream for specified topic that has one partition (#0)
-/// </summary>
-public ProducerMessageStream OpenStream(String topic)
-
-/// <summary>
-/// Open stream for specified topic using specified partitioner
-/// </summary>
-public ProducerMessageStream OpenStream(String topic, IPartitioner partitioner)
-
-/// <summary>
-/// Open stream for specified topic and specified partition
-/// </summary>
-public ProducerMessageStream OpenStream(String topic, Int32 partition)
-```
-
-ProducerMessageStream API
--------------------------
-
-`ProducerMessageStream` allows to send messages.
-
 To send single message, use one of the following signatures:
 ```csharp
 /// <summary>
@@ -84,8 +61,6 @@ public void Send(String topic, byte[] payload, Object key)
 /// Send binary message to specified topic with specified key, using specified partitioner.
 /// </summary>
 public void Send(String topic, byte[] payload, Object key, IPartitioner partitioner)
-
-
 
 /// <summary>
 /// Send text message to specified topic, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
@@ -110,47 +85,13 @@ public void Send(String topic, String message, Encoding encoding)
 /// <summary>
 /// Send text message to specified topic with specified key, using specified encoding.
 /// </summary>
-public void Send(String topic, String message, Encoding encoding, Object key)
+public void Send(String topic, String message, Object key, Encoding encoding)
 
 /// <summary>
 /// Send text message to specified topic with specified key, using specified encoding and partitioner.
 /// </summary>
-public void Send(String topic, String message, Encoding encoding, Object key, IPartitioner partitioner)
+public void Send(String topic, String message, Object key, IPartitioner partitioner, Encoding encoding)
 
-```
-
-To send many messages at once, use one of the following overloads:
-
-```csharp
-/// <summary>
-/// Send binary messages to partition, that will be selected by Partitioner of this stream
-/// </summary>
-public void Send(IEnumerable<byte[]> payloads)
-
-/// <summary>
-/// Send binary messages to specified partition
-/// </summary>
-public void Send(IEnumerable<byte[]> payloads, Int32 partition)
-
-/// <summary>
-/// Send text messages with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
-/// </summary>
-public void Send(IEnumerable<String> messages)
-
-/// <summary>
-/// Send text messages with default UTF-8 encoding to specified partition
-/// </summary>
-public void Send(IEnumerable<String> messages, Int32 partition)
-
-/// <summary>
-/// Send text messages with specified encoding to partition, that will be selected by Partitioner of this stream
-/// </summary>
-public void Send(IEnumerable<String> messages, Encoding encoding)
-
-/// <summary>
-/// Send text messages with specified encoding to specified partition
-/// </summary>
-public void Send(IEnumerable<String> messages, Encoding encoding, Int32 partition)
 ```
 
 Consumer API
