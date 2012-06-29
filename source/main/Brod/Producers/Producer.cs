@@ -34,23 +34,12 @@ namespace Brod.Producers
         private readonly RequestSender _sender;
         private readonly RequestSender _pushSender;
         private Encoding _encoding = Encoding.UTF8;
+        private BrokerInfoResponse _infoResponse;
 
         /// <summary>
         /// Partitioner routes producer requests to selected partition
         /// </summary>
         private IPartitioner _partitioner = new DefaultPartitioner();
-
-        /// <summary>
-        /// Default number of partitions for topics that doesn't registered in NumberOfPartitionsPerTopic.
-        /// </summary>
-        private Int32 _numberOfPartitions = 1;
-
-        /// <summary>
-        /// Number of partitions per topic name
-        /// </summary>
-        private Dictionary<String, Int32> _numberOfPartitionsPerTopic = new Dictionary<string, int>();
-
-        private BrokerInfoResponse _infoResponse;
 
         /// <summary>
         /// Partitioner routes producer requests to selected partition.
@@ -62,23 +51,10 @@ namespace Brod.Producers
             set { _partitioner = value; }
         }
 
-        /// <summary>
-        /// Default number of partitions for topics
-        /// Default is 1
-        /// </summary>
-        public Int32 NumberOfPartitions
+        public Encoding Encoding
         {
-            get { return _numberOfPartitions; }
-            set { _numberOfPartitions = value; }
-        }
-
-        /// <summary>
-        /// Number of partitions per topic name
-        /// </summary>
-        public Dictionary<String, Int32> NumberOfPartitionsPerTopic
-        {
-            get { return _numberOfPartitionsPerTopic; }
-            set { _numberOfPartitionsPerTopic = value; }
+            get { return _encoding; }
+            set { _encoding = value; }
         }
 
         /// <summary>
@@ -126,7 +102,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message)
         {
-            Send(topic, message, null, _partitioner);
+            Send(topic, message, _encoding, null, _partitioner);
         }
 
         /// <summary>
@@ -134,7 +110,7 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message, Object key)
         {
-            Send(topic, message, key, _partitioner);
+            Send(topic, message, _encoding, key, _partitioner);
         }
 
         /// <summary>
@@ -142,7 +118,31 @@ namespace Brod.Producers
         /// </summary>
         public void Send(String topic, String message, Object key, IPartitioner partitioner)
         {
-            Send(topic, _encoding.GetBytes(message), key, partitioner);
+            Send(topic, message, _encoding, key, partitioner);
+        }
+
+        /// <summary>
+        /// Send text message to specified topic, using specified encoding. Partition will be selected by Partitioner of this producer.
+        /// </summary>
+        public void Send(String topic, String message, Encoding encoding)
+        {
+            Send(topic, message, encoding, null, _partitioner);
+        }
+
+        /// <summary>
+        /// Send text message to specified topic with specified key, using specified encoding.
+        /// </summary>
+        public void Send(String topic, String message, Encoding encoding, Object key)
+        {
+            Send(topic, message, encoding, key, _partitioner);
+        }
+
+        /// <summary>
+        /// Send text message to specified topic with specified key, using specified encoding and partitioner.
+        /// </summary>
+        public void Send(String topic, String message, Encoding encoding, Object key, IPartitioner partitioner)
+        {
+            Send(topic, encoding.GetBytes(message), key, partitioner);
         }
 
         public Int32 GetNumberOfPartitionsForTopic(String topic)
@@ -163,6 +163,9 @@ namespace Brod.Producers
 
             if (_sender != null)
                 _sender.Dispose();
+
+            if (_pushSender != null)
+                _pushSender.Dispose();
         }
     }
 }
