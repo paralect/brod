@@ -81,9 +81,9 @@ public void Send(String topic, byte[] payload)
 public void Send(String topic, byte[] payload, Object key)
 
 /// <summary>
-/// Send binary message to specified topic and partition
+/// Send binary message to specified topic with specified key, using specified partitioner.
 /// </summary>
-public void Send(String topic, byte[] payload, Int32 partition)
+public void Send(String topic, byte[] payload, Object key, IPartitioner partitioner)
 
 /// <summary>
 /// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
