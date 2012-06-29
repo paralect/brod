@@ -85,30 +85,38 @@ public void Send(String topic, byte[] payload, Object key)
 /// </summary>
 public void Send(String topic, byte[] payload, Object key, IPartitioner partitioner)
 
-/// <summary>
-/// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
-/// </summary>
-public void Send(String message)
+
 
 /// <summary>
-/// Send text message with key using default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+/// Send text message to specified topic, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(String message, Object key)
+public void Send(String topic, String message)
 
 /// <summary>
-/// Send text message with default UTF-8 encoding to specified partition
+/// Send text message to specified topic with specified key, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(String message, Int32 partition);
+public void Send(String topic, String message, Object key)
 
 /// <summary>
-/// Send text message with specified encoding to partition, that will be selected by Partitioner of this stream
+/// Send text message to specified topic with specified key, using default UTF-8 encoding and specified partitioner
 /// </summary>
-public void Send(String message, Encoding encoding)
+public void Send(String topic, String message, Object key, IPartitioner partitioner);
 
 /// <summary>
-/// Send text message with specified encoding to specified partition
+/// Send text message to specified topic, using specified encoding. Partition will be selected by Partitioner of this producer.
 /// </summary>
-public void Send(String message, Encoding encoding, Int32 partition)
+public void Send(String topic, String message, Encoding encoding)
+
+/// <summary>
+/// Send text message to specified topic with specified key, using specified encoding.
+/// </summary>
+public void Send(String topic, String message, Encoding encoding, Object key)
+
+/// <summary>
+/// Send text message to specified topic with specified key, using specified encoding and partitioner.
+/// </summary>
+public void Send(String topic, String message, Encoding encoding, Object key, IPartitioner partitioner)
+
 ```
 
 To send many messages at once, use one of the following overloads:
