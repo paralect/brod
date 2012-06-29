@@ -4,6 +4,7 @@
     {
         AppendRequest = 1,
         FetchRequest = 2,
+        BrokerInfoRequest = 3
     }
 
     public class Request

@@ -60,6 +60,8 @@
     <Compile Include="Consumers\ConsumerMessageStream.cs" />
     <Compile Include="Consumers\PartitionConsumer.cs" />
     <Compile Include="Consumers\ConsumerConfiguration.cs" />
+    <Compile Include="Contracts\Requests\BrokerInfoRequest.cs" />
+    <Compile Include="Contracts\Responses\BrokerInfoResponse.cs" />
     <Compile Include="Network\SocketListener.cs" />
     <Compile Include="Producers\DefaultPartitioner.cs" />
     <Compile Include="Producers\IPartitioner.cs" />

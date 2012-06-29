@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Brod.Common;
@@ -32,6 +33,9 @@ namespace Brod.Brokers
 
                 case RequestType.FetchRequest:
                     return HandleLoadMessages;
+
+                case RequestType.BrokerInfoRequest:
+                    return HandleBrokerInfo;
             }
 
             return null;
@@ -76,6 +80,18 @@ namespace Brod.Brokers
 
             var response = new AvailableMessagesResponse();
             response.Data = (block.Length == 0) ? new byte[0] : block.Data;
+
+            return response;
+        }
+
+        public Response HandleBrokerInfo(BinaryStream stream)
+        {
+            // Not used for now
+            var request = BrokerInfoRequest.ReadFromStream(stream);
+
+            var response = new BrokerInfoResponse();
+            response.NumberOfPartitions = _configuration.NumberOfPartitions;
+            response.NumberOfPartitionsPerTopic = _configuration.NumberOfPartitionsPerTopic;
 
             return response;
         }

@@ -59,6 +59,9 @@ namespace Brod.Consumers
             _configuration.Address = "tcp://" + brokerAddress;
         }
 
+        /// <summary>
+        /// Open stream for specified topic, that has one partition (#0)
+        /// </summary>
         public ConsumerMessageStream OpenStream(String topic)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
@@ -66,7 +69,25 @@ namespace Brod.Consumers
             return streams[0];
         }
 
-        public List<ConsumerMessageStream> OpenStream(String topic, Int32 numberOfStreams)
+        /// <summary>
+        /// Open stream for specified topic, that has numberOfPartitions partitions
+        /// </summary>
+        public ConsumerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Open numberOfStreams streams for specified topic, that has numberofPartitions partitions.
+        /// Paritions will be assigned to each stream in such a way, that each stream will consume
+        /// roughly the same number of partitions.
+        /// </summary>
+        public List<ConsumerMessageStream> OpenStreams(String topic, Int32 numberOfPartitions, Int32 numberOfStreams)
+        {
+            return null;
+        }
+
+        public List<ConsumerMessageStream> OpenStreams(String topic, Int32 numberOfStreams)
         {
             var connector = new ConsumerConnector(_configuration, _context.ZeromqContext);
             var streams = connector.CreateMessageStreams(topic, numberOfStreams);
