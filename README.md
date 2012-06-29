@@ -33,7 +33,7 @@ using(var stream = consumer.OpenStream("sample-topic"))
 ```
 
 Producer API
-------------
+============
 
 `Producer` represents logical connection to a single broker. 
 
@@ -45,7 +45,7 @@ To create `Producer` that will produce messages to a broker at `brokerAddress` c
 public Producer(String brokerAddress);
 ```
 
-To open message stream, use one of the following signatures:
+To start producing messages, open message stream, using one of the following signatures:
 ```csharp
 /// <summary>
 /// Open stream for specified topic that has one partition (#0)
@@ -61,6 +61,11 @@ public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
 /// Open stream for specified topic that has numberOfParitions partitions with specified partitioner
 /// </summary>
 public ProducerMessageStream OpenStream(String topic, Int32 numberOfPartitions, IPartitioner partitioner)
+
+/// <summary>
+/// Open stream for specified topic and specified partition
+/// </summary>
+public ProducerMessageStream OpenPartitionStream(String topic, Int32 partition)
 ```
 
 ProducerMessageStream API
@@ -76,14 +81,29 @@ To send single message, use one of the following signatures:
 public void Send(byte[] payload)
 
 /// <summary>
+/// Send binary message with specified key to partition, that will be selected by Partitioner of this stream
+/// </summary>
+public void Send(byte[] payload, Object key)
+
+/// <summary>
 /// Send binary message to specified partition
 /// </summary>
 public void Send(byte[] payload, Int32 partition)
 
 /// <summary>
+/// Send binary message with key to specified partition
+/// </summary>
+public void Send(byte[] payload, Object key, Int32 partition)
+
+/// <summary>
 /// Send text message with default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
 /// </summary>
 public void Send(String message)
+
+/// <summary>
+/// Send text message with key using default UTF-8 encoding to partition, that will be selected by Partitioner of this stream
+/// </summary>
+public void Send(String message, Object key)
 
 /// <summary>
 /// Send text message with default UTF-8 encoding to specified partition
@@ -133,4 +153,39 @@ public void Send(IEnumerable<String> messages, Encoding encoding)
 /// Send text messages with specified encoding to specified partition
 /// </summary>
 public void Send(IEnumerable<String> messages, Encoding encoding, Int32 partition)
+```
+
+Consumer API
+============
+
+`Consumer` represents logical connection to a single broker. 
+
+To create `Consumer` that will consume messages from the broker at `brokerAddress`, call the following constructor:
+```csharp
+public Consumer(String brokerAddress)
+```
+
+To start consuming messages, open message stream using one of the following signatures:
+```csharp
+/// <summary>
+/// Open stream for specified topic, that has one partition (#0)
+/// </summary>
+public ConsumerMessageStream OpenStream(String topic)
+
+/// <summary>
+/// Open stream for specified topic, that has numberOfPartitions partitions
+/// </summary>
+public ConsumerMessageStream OpenStream(String topic, Int32 numberOfPartitions)
+```
+
+You can create more than one stream for single topic. In this way you can use several threads to consume messages from
+this topic. Of course, number of topic partitions should be many more, than number of streams. 
+
+```csharp
+/// <summary>
+/// Open numberOfStreams streams for specified topic, that has numberofPartitions partitions.
+/// Paritions will be assigned to each stream in such a way, that each stream will consume
+/// roughly the same number of partitions.
+/// </summary>
+public List<ConsumerMessageStream> OpenStreams(String topic, Int32 numberOfPartitions, Int32 numberOfStreams)
 ```
