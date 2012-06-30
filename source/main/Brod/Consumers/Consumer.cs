@@ -49,9 +49,8 @@ namespace Brod.Consumers
         }
 
         /// <summary>
-        /// Open numberOfStreams streams for specified topic, that has numberofPartitions partitions.
-        /// Paritions will be assigned to each stream in such a way, that each stream will consume
-        /// roughly the same number of partitions.
+        /// Open numberOfStreams streams for specified topic. Paritions will be assigned to each 
+        /// stream in such a way, that each stream will consume roughly the same number of partitions.
         /// </summary>
         public List<ConsumerMessageStream> OpenStreams(String topic, Int32 numberOfStreams)
         {

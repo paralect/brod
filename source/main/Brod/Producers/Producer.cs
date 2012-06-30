@@ -47,6 +47,9 @@ namespace Brod.Producers
             set { _partitioner = value; }
         }
 
+        /// <summary>
+        /// Encoding that will be used when sending text messages. Default is UTF-8.
+        /// </summary>
         public Encoding Encoding
         {
             get { return _encoding; }

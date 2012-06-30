@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using Brod.Producers;
 
 namespace SampleProducer
