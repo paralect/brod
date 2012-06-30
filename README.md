@@ -22,17 +22,17 @@ Main Brod components are:
 Installation
 ------------
 
-Brod require .NET 4.0. 
+Brod require .NET Framework 4.0 or higher. Mono support is planned for future releases.
 
-1) Clone project from https://github.com/paralect/brod.git and put it to some %BROD% directory
-2) Run %BROD%/Build.bat which will output to %BROD%/target directory
+  1. Clone project from `https://github.com/paralect/brod.git`
+  2. Run `./Build.bat` which will output to `./target` directory
 
-In %BROD%/target you'll find:
+In `./target` you'll find:
 
-  * Brod.exe - Brod broker
-  * SampleProducer.exe - Sample console project, that allows you interractively produce messages.
-  * SampleConsumer.exe - Sample console project, that allows you to see messages, produced by SampleProducer
-  * MassiveProducer.exe - Sample console project, that produce 100.000 messages, 1kb each.
+  * `Brod.exe` - Brod broker
+  * `SampleProducer.exe` - Sample console project, that allows you interractively produce messages.
+  * `SampleConsumer.exe` - Sample console project, that allows you to see messages, produced by `SampleProducer`
+  * `MassiveProducer.exe` - Sample console project, that produce 100.000 messages, 1kb each.
 
 Usage
 -----
