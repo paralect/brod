@@ -19,6 +19,21 @@ Main Brod components are:
   * [Producers](/paralect/brod/wiki/Producers) - set of nodes, that produce messages
   * [Consumers](/paralect/brod/wiki/Consumers) - set of nodes, that consume messages
 
+Installation
+------------
+
+Brod require .NET 4.0. 
+
+1) Clone project from https://github.com/paralect/brod.git and put it to some %BROD% directory
+2) Run %BROD%/Build.bat which will output to %BROD%/target directory
+
+In %BROD%/target you'll find:
+
+  * Brod.exe - Brod broker
+  * SampleProducer.exe - Sample console project, that allows you interractively produce messages.
+  * SampleConsumer.exe - Sample console project, that allows you to see messages, produced by SampleProducer
+  * MassiveProducer.exe - Sample console project, that produce 100.000 messages, 1kb each.
+
 Usage
 -----
 
