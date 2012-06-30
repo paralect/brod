@@ -35,6 +35,7 @@ namespace Brod.Network
         {
             using (var memoryStream = new BinaryMemoryStream())
             {
+                memoryStream.Writer.Write((short) request.RequestType);
                 request.WriteToStream(memoryStream);
                 var data = memoryStream.ToArray();
                 _socket.Send(data);
@@ -55,6 +56,8 @@ namespace Brod.Network
                         return BrokerInfoResponse.ReadFromStream(stream);
                     case ResponseType.FetchResponse:
                         return FetchResponse.ReadFromStream(stream);
+                    case ResponseType.MultiFetchResponse:
+                        return MultiFetchResponse.ReadFromStream(stream);
                 }
 
                 return null;

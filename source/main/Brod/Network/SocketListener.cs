@@ -52,6 +52,7 @@ namespace Brod.Network
                     {
                         using (var buffer = new BinaryMemoryStream())
                         {
+                            buffer.Writer.Write((short) response.ResponseType);
                             response.WriteToStream(buffer);
                             socket.Send(buffer.ToArray());
                         }

@@ -7,7 +7,10 @@ namespace Brod.Contracts.Responses
     {
         public List<FetchResponse> FetchResponses { get; set; }
 
-        public MultiFetchResponse(): base(ResponseType.MultiFetchResponse) { }
+        public MultiFetchResponse(): base(ResponseType.MultiFetchResponse)
+        {
+            FetchResponses = new List<FetchResponse>();
+        }
 
         public static MultiFetchResponse ReadFromStream(BinaryStream stream)
         {
@@ -17,7 +20,6 @@ namespace Brod.Contracts.Responses
             request.FetchResponses = new List<FetchResponse>(length);
             for (int i = 0; i < length; i++)
             {
-                var requestType = stream.Reader.ReadInt16();
                 request.FetchResponses.Add(FetchResponse.ReadFromStream(stream));
             }
 
@@ -26,8 +28,6 @@ namespace Brod.Contracts.Responses
 
         public override void WriteToStream(BinaryStream stream)
         {
-            stream.Writer.Write((short)ResponseType);
-            
             stream.Writer.Write(FetchResponses.Count);
             foreach (var fetchResponse in FetchResponses)
                 fetchResponse.WriteToStream(stream);

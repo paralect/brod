@@ -97,7 +97,6 @@ namespace Brod.Brokers
             
             for (int i = 0; i < count; i++)
             {
-                var requestType = buffer.Reader.ReadInt16();
                 var result = HandleLoadMessages(buffer);
                 response.FetchResponses.Add((FetchResponse) result);
             }

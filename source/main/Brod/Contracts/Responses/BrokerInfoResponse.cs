@@ -58,8 +58,6 @@ namespace Brod.Contracts.Responses
 
         public override void WriteToStream(BinaryStream stream)
         {
-            stream.Writer.Write((short)ResponseType);
-
             stream.Writer.Write(HostName);
             stream.Writer.Write(BrokerId);
             stream.Writer.Write(PullPort);

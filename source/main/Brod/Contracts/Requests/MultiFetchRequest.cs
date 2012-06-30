@@ -29,8 +29,6 @@ namespace Brod.Contracts.Requests
 
         public override void WriteToStream(BinaryStream buffer)
         {
-            buffer.Writer.Write((short) RequestType);
-
             buffer.Writer.Write(FetchRequests.Count);
             foreach (var fetchRequest in FetchRequests)
                 fetchRequest.WriteToStream(buffer);

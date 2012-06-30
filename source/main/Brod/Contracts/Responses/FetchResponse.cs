@@ -24,7 +24,6 @@ namespace Brod.Contracts.Responses
 
         public override void WriteToStream(BinaryStream stream)
         {
-            stream.Writer.Write((short) ResponseType);
             stream.Writer.Write(Partition);
             stream.Writer.Write(Data.Length);
             stream.Writer.Write(Data);

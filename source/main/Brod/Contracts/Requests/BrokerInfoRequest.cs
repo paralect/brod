@@ -9,13 +9,11 @@ namespace Brod.Contracts.Requests
 
         public static BrokerInfoRequest ReadFromStream(BinaryStream buffer)
         {
-            var request = new BrokerInfoRequest();
-            return request;
+            return new BrokerInfoRequest();
         }
 
         public override void WriteToStream(BinaryStream buffer)
         {
-            buffer.Writer.Write((short) RequestType);
         }
     }
 }

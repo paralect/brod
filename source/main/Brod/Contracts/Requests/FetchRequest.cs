@@ -17,17 +17,19 @@ namespace Brod.Contracts.Requests
 
         public static FetchRequest ReadFromStream(BinaryStream buffer)
         {
-            var request = new FetchRequest();
-            request.Topic = buffer.Reader.ReadString();
-            request.Partition = buffer.Reader.ReadInt32();
-            request.Offset = buffer.Reader.ReadInt32();
-            request.BlockSize = buffer.Reader.ReadInt32();
+            var request = new FetchRequest
+            {
+                Topic = buffer.Reader.ReadString(),
+                Partition = buffer.Reader.ReadInt32(),
+                Offset = buffer.Reader.ReadInt32(),
+                BlockSize = buffer.Reader.ReadInt32()
+            };
+
             return request;            
         }
 
         public override void WriteToStream(BinaryStream buffer)
         {
-            buffer.Writer.Write((short) RequestType);
             buffer.Writer.Write(Topic);
             buffer.Writer.Write(Partition);
             buffer.Writer.Write(Offset);
