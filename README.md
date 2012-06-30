@@ -15,7 +15,7 @@ server acting as a _broker_. Some number of _consumers_ subscribe to a topic, an
 delivered to all consumers.
 
 Brod cluster consists of:
-  * [Brokers|Broker] - set of nodes that store published messages
+  * [Brokers](Broker) - set of nodes that store published messages
   * Producers - set of nodes, that produce messages
   * Consumers - set of nodes, that consume messages
   * Coordination Services - set of nodes, that responsible for coordination
