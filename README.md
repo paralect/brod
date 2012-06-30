@@ -43,68 +43,6 @@ using(var stream = consumer.OpenStream("sample-topic"))
 }
 ```
 
-Producer API
-============
-
-`Producer` represents logical connection to a single broker. 
-
-To create `Producer` that will produce messages to a broker at `brokerAddress` call the following constructor:
-```csharp
-/// <summary>
-/// Constructs Producer with specified broker address
-/// </summary>
-public Producer(String brokerAddress);
-```
-
-To send single message, use one of the following signatures:
-```csharp
-/// <summary>
-/// Send binary message to specified topic. Partition will be selected by Partitioner of this producer.
-/// </summary>
-public void Send(String topic, byte[] payload)
-
-/// <summary>
-/// Send binary message to specified topic with specified key. Partition will be selected by Partitioner of this producer.
-/// </summary>
-public void Send(String topic, byte[] payload, Object key)
-
-/// <summary>
-/// Send binary message to specified topic with specified key, using specified partitioner.
-/// </summary>
-public void Send(String topic, byte[] payload, Object key, IPartitioner partitioner)
-
-/// <summary>
-/// Send text message to specified topic, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
-/// </summary>
-public void Send(String topic, String message)
-
-/// <summary>
-/// Send text message to specified topic with specified key, using default UTF-8 encoding. Partition will be selected by Partitioner of this producer.
-/// </summary>
-public void Send(String topic, String message, Object key)
-
-/// <summary>
-/// Send text message to specified topic with specified key, using default UTF-8 encoding and specified partitioner
-/// </summary>
-public void Send(String topic, String message, Object key, IPartitioner partitioner);
-
-/// <summary>
-/// Send text message to specified topic, using specified encoding. Partition will be selected by Partitioner of this producer.
-/// </summary>
-public void Send(String topic, String message, Encoding encoding)
-
-/// <summary>
-/// Send text message to specified topic with specified key, using specified encoding.
-/// </summary>
-public void Send(String topic, String message, Object key, Encoding encoding)
-
-/// <summary>
-/// Send text message to specified topic with specified key, using specified encoding and partitioner.
-/// </summary>
-public void Send(String topic, String message, Object key, IPartitioner partitioner, Encoding encoding)
-
-```
-
 Consumer API
 ============
 
