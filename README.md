@@ -14,11 +14,10 @@ Messages are published to a _topic_ by a _producer_. Each message will be send t
 server acting as a _broker_. Some number of _consumers_ subscribe to a topic, and each published message is 
 delivered to all consumers.
 
-Brod cluster consists of:
-  * [Brokers](Brokers) - set of nodes that store published messages
-  * Producers - set of nodes, that produce messages
-  * Consumers - set of nodes, that consume messages
-  * Coordination Services - set of nodes, that responsible for coordination
+Main Brod components are:
+  * [Brokers](/paralect/brod/wiki/Brokers) - set of nodes that store published messages
+  * [Producers](/paralect/brod/wiki/Producers) - set of nodes, that produce messages
+  * [Consumers](/paralect/brod/wiki/Consumers) - set of nodes, that consume messages
 
 Usage
 -----
