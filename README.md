@@ -24,6 +24,8 @@ Installation
 
 Brod require .NET Framework 4.0 or higher. Mono support is planned for future releases.
 
+In order to build project, perform the following steps:
+
   1. Clone project from `https://github.com/paralect/brod.git`
   2. Run `./Build.bat` which will output to `./target` directory
 
