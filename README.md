@@ -15,9 +15,9 @@ server acting as a _broker_. Some number of _consumers_ subscribe to a topic, an
 delivered to all consumers.
 
 Main Brod components are:
-  * [Brokers](//paralect/brod/wiki/Brokers) - set of nodes that store published messages
-  * [Producers](/paralect/brod/wiki/Producers) - set of nodes, that produce messages
-  * [Consumers](/paralect/brod/wiki/Consumers) - set of nodes, that consume messages
+  * [Brokers](paralect/brod/wiki/Brokers) - set of nodes that store published messages
+  * [Producers](paralect/brod/wiki/Producers) - set of nodes, that produce messages
+  * [Consumers](paralect/brod/wiki/Consumers) - set of nodes, that consume messages
 
 Installation
 ------------
